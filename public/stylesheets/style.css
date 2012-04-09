@@ -41,6 +41,16 @@ a {
   font-size: 100px;
   padding: 10px 0 0 30px;
 }
+.bigbutton {
+  font-size: 24px;
+  margin: 10px;
+  padding: 20px;
+  background-color: #eef2e3;
+  border-radius: 5px;
+  width: 40%;
+  border: dotted;
+  cursor: pointer;
+}
 #loginbar {
   float: right;
   padding: 20px;
@@ -52,7 +62,15 @@ a {
   background: #fff;
   box-shadow: 1px 3px 3px #333;
   border-radius: 5px;
+  overflow: auto;
 }
+.leftfloat {
+  float: left;
+}
+.rightfloat {
+  float: right;
+}
+.clearfloat,
 .button {
   text-align: center;
   background-color: #525252;

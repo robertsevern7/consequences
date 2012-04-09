@@ -14,38 +14,44 @@ window.fbAsyncInit = function() {
     d.getElementsByTagName('head')[0].appendChild(js);
 }(document));
 
-function showAccountInfo() {
-    FB.api({
-        method: 'fql.query',
-        query: 'SELECT name FROM user WHERE uid='+FB.getUserID()
-    },
-    function(response) {
+function FacebookWrapper() {
+    FacebookWrapper.prototype.startLoginListener = function() {
+        FB.getLoginStatus(function(response) {
+            onStatus(response);
+            FB.Event.subscribe('auth.statusChange', onStatus);
+        });
+    }
+    
+    function showAccountInfo() {
+        FB.api({
+            method: 'fql.query',
+            query: 'SELECT name FROM user WHERE uid='+FB.getUserID()
+        },
+        function(response) {
+            document.getElementById('loginbar').innerHTML = (
+                '<div>' +  response[0].name + '</div>' +
+                '<div class="button" button onclick="FB.logout()"  style="cursor: pointer;"> Logout</div>'
+            );
+        });
+    }
+
+    function showLoginButton() {
         document.getElementById('loginbar').innerHTML = (
-            '<div>' +  response[0].name + '</div>' +
-            '<div class="button" button onclick="FB.logout()"  style="cursor: pointer;"> Logout</div>'
+            '<img onclick="FB.login()" style="cursor: pointer;"' +
+                'src="https://s-static.ak.fbcdn.net/rsrc.php/zB6N8/hash/4li2k73z.gif">'
         );
     }
-  );
-}
 
-function showLoginButton() {
-    document.getElementById('loginbar').innerHTML = (
-        '<img onclick="FB.login()" style="cursor: pointer;"' +
-            'src="https://s-static.ak.fbcdn.net/rsrc.php/zB6N8/hash/4li2k73z.gif">'
-    );
-}
-
-function onStatus(response) {
-    if (response.status === 'connected') {
-        showAccountInfo();
-    } else {
-        showLoginButton();
+    function onStatus(response) {
+        var loggedIn = response.status === 'connected';
+        if (loggedIn) {
+            showAccountInfo();
+            $('.loggedon').show();
+        } else {
+            showLoginButton();
+            $('.loggedon').hide();
+        }
+        
+        
     }
-}
-
-window.onload = function() {
-    FB.getLoginStatus(function(response) {
-        onStatus(response);
-        FB.Event.subscribe('auth.statusChange', onStatus);
-    });
 }

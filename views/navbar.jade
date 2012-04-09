@@ -1,5 +1,5 @@
-mixin tab(text, link)
-    .tab
+mixin tab(text, link, extraclass)
+    .tab(class=extraclass)
         a.tabcontent.nohighlight(href="#{link}") #{text}
 
 #navbar
@@ -9,6 +9,6 @@ mixin tab(text, link)
     table.tabtable
         tr
             td
-                mixin tab('Create a Story', '/create')
+                mixin tab('Create a Story', '/create', 'loggedon')
             td
-                mixin tab('See my stories', '/view')
+                mixin tab('See my stories', '/view', 'loggedon')
