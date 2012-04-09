@@ -17,8 +17,11 @@ script(src='/javascripts/create.js')
                 span(class='option') ):
                 div(id='createslider', class='optioninput')
             .optionholder
-                .option Opening Paragraph:
-                textarea(class='optioninput', rows='5')
+                div
+                    span(class='option') Opening Paragraph: (
+                    span(id='charwarning')
+                    span )
+                textarea(id='openingparagraph', class='optioninput', rows='5')
             div &nbsp
             .createbutton Create the Story!
         .loggedout

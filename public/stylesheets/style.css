@@ -129,3 +129,6 @@ a {
   width: 60%;
   resize: none;
 }
+.gonebad {
+  color: #f00;
+}
