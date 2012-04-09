@@ -21,7 +21,8 @@ function showAccountInfo() {
     },
     function(response) {
         document.getElementById('loginbar').innerHTML = (
-            '<div onclick="FB.logout()"  style="cursor: pointer;">' +  response[0].name + '</div>'
+            '<div>' +  response[0].name + '</div>' +
+            '<div class="button" button onclick="FB.logout()"  style="cursor: pointer;"> Logout</div>'
         );
     }
   );

@@ -53,6 +53,13 @@ a {
   box-shadow: 1px 3px 3px #333;
   border-radius: 5px;
 }
+.button {
+  text-align: center;
+  background-color: #525252;
+  margin: 5px;
+  padding: 3px;
+  border-radius: 5px;
+}
 #logo {
   text-align: center;
 }
