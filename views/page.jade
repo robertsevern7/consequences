@@ -1,8 +1,7 @@
-#container
-    #logo
-        a(href='/')
-            img(src='/images/logo.png')
-    #display
+#fb-root
+.wrapper
+    include navbar
+    #container
         p!= content
-        
-    include footer
+    .push
+include footer
