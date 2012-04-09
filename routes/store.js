@@ -34,8 +34,8 @@ exports.item = function(req, res) {
 exports.page = function(req, res) {
     var name = req.query.name;
     var contents = {
-        about: 'Ninja Store sells the coolest ninja stuff in the world. Anyone shopping here is cool.',
-        contact: 'You can contact us at <address><strong>Ninja Store</strong>,<br>1, World Ninja Headquarters,<br>Ninja Avenue,<br>NIN80B7-JP,<br>Nihongo.</address>'
+        about: 'Consequences is an online version of the classic children\'s game',
+        contact: 'You can contact me at robertsevern@gmail.com'
     };
     res.render('page', { title: 'Ninja Store - ' + name, username: req.session.username, content:contents[name] });
 };
