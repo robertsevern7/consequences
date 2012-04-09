@@ -9,8 +9,12 @@ mixin tab(text, link, extraclass)
     table.tabtable
         tr
             td
+                mixin tab('Home', '/', '')
+            td
                 mixin tab('Create a Story', '/create', 'loggedon')
             td
                 mixin tab('See Other Stories', '/viewrandom', '')
             td
                 mixin tab('See my stories', '/view', 'loggedon')
+            td
+                mixin tab('How To', '/howto', '')

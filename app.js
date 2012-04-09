@@ -25,6 +25,7 @@ app.configure('production', function(){
 
 app.get('/', store.home);
 app.post('/', store.home_post_handler);
+app.get('/howto', store.howto);
 app.get('/items', store.items);
 app.get('/item/:id', store.item);
 app.get('/page', store.page);

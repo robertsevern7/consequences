@@ -1,5 +1,5 @@
 exports.home = function(req, res) {
-    if (typeof req.session.username == 'undefined') res.render('home', { title: 'Ninja Store'});
+    if (typeof req.session.username == 'undefined') res.render('home', { title: 'Consequences'});
     else res.redirect('/items');
 };
 
@@ -8,6 +8,10 @@ exports.home_post_handler = function(req, res) {
   req.session.username = username;
   res.redirect('/');
 };
+
+exports.howto = function(req, res) {
+    res.render('howto', { title: 'Consequences - How To'})
+}
 
 var items = {
     SKN:{name:'Shuriken', price:100},
@@ -19,7 +23,7 @@ var items = {
 
 exports.items = function(req, res) {
     if (typeof req.session.username == 'undefined') res.redirect('/');
-    else res.render('items', { title: 'Ninja Store - Items', username: req.session.username, items:items });
+    else res.render('items', { title: 'Consequences - Items', username: req.session.username, items:items });
 };
 
 exports.item = function(req, res) {
@@ -27,7 +31,7 @@ exports.item = function(req, res) {
     else {
         var name = items[req.params.id].name;
         var price = items[req.params.id].price;
-        res.render('item', { title: 'Ninja Store - ' + name, username: req.session.username, name:name, price:price });
+        res.render('item', { title: 'Consequences - ' + name, username: req.session.username, name:name, price:price });
     }
 };
 
