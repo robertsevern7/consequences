@@ -37,6 +37,16 @@ function CreatePanel() {
     
     function checkTitlePresent() {
         that._titlePresent = $('#createtitle')[0].value.length;
+        var titlewarning = $('#titlewarning');
+        
+        if (that._titlePresent) {
+            titlewarning.removeClass('gonebad');
+            titlewarning.hide();
+        } else {
+            titlewarning.addClass('gonebad');
+            titlewarning.show();
+        }
+        
         validateCreateButton();
     }
     

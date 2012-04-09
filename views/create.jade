@@ -6,7 +6,10 @@ script(src='/javascripts/create.js')
         div &nbsp
         .loggedon
             .optionholder
-                .option Title:
+                div
+                   span(class='option') Title
+                   span(id='titlewarning') &nbsp(This is required)
+                   span :
                 input(id='createtitle', type='text', class='optioninput')
             .optionholder
                 .option Characters:
