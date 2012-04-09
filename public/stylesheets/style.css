@@ -1,6 +1,7 @@
 html,
 body {
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-family: 'Imprima', sans-serif;
   background: #d8dcce;
   color: #321e1e;
   height: 100%;
@@ -41,8 +42,8 @@ a {
 }
 #container {
   margin: 20px auto;
-  width: 450px;
-  padding: 40px;
+  width: 80%;
+  padding: 20px;
   background: #fff;
   box-shadow: 1px 3px 3px #333;
   border-radius: 5px;
