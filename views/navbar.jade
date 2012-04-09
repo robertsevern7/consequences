@@ -1,4 +1,14 @@
+mixin tab(text, link)
+    .tab
+        a.tabcontent.nohighlight(href="#{link}") #{text}
+
 #navbar
     .title
         a.nohighlight(href="/") Consequences
     #loginbar
+    table.tabtable
+        tr
+            td
+                mixin tab('Create a Story', '/create')
+            td
+                mixin tab('See my stories', '/view')
