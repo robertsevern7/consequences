@@ -1,4 +1,9 @@
 $(document).ready(function() {
+     new CreatePanel();   
+})
+
+function CreatePanel() {
+    that = this;
     function setSliderValueText(event, ui) {
         $("#slidervalue").text(ui.value)
     }    
@@ -20,13 +25,38 @@ $(document).ready(function() {
         if (remaining >= 0) {
             charWarning.removeClass('gonebad');
             charWarning.text(remaining + ' characters remaining');
+            that._remainingCharsValid = true;
+            validateCreateButton();
         } else {
             charWarning.addClass('gonebad');
             charWarning.text((-remaining) + ' characters too many');
+            that._remainingCharsValid = false;
+            validateCreateButton();
         }
     }
     
-    checkRemainingCharacters()
+    function checkTitlePresent() {
+        that._titlePresent = $('#createtitle')[0].value.length;
+        validateCreateButton();
+    }
+    
+    function validateCreateButton() {
+        var createButton = $('#createbutton')
+        console.log(that._remainingCharsValid + ', ' +  that._titlePresent)
+        if (that._remainingCharsValid && that._titlePresent) {
+            createButton.removeClass('disabled');
+            return true;
+        }
+        
+        createButton.addClass('disabled');
+        return false;
+    }
+    
+    checkTitlePresent();
+    checkRemainingCharacters();
     $("#openingparagraph").blur(checkRemainingCharacters);
     $("#openingparagraph").keyup(checkRemainingCharacters);
-})
+    
+    $("#createtitle").blur(checkTitlePresent);
+    $("#createtitle").keyup(checkTitlePresent);
+}

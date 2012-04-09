@@ -54,14 +54,16 @@ a {
   border: dotted;
   cursor: pointer;
 }
-.createbutton {
-  background-color: #f00;
+#createbutton {
   padding: 5px;
   border-radius: 5px;
   width: 100px;
   background-color: #eef2e3;
   border: dotted;
   cursor: pointer;
+}
+.disabled {
+  text-decoration: line-through;
 }
 .pointer {
   cursor: pointer;
@@ -86,7 +88,6 @@ a {
 .rightfloat {
   float: right;
 }
-.clearfloat,
 .button {
   text-align: center;
   background-color: #525252;

@@ -7,7 +7,7 @@ script(src='/javascripts/create.js')
         .loggedon
             .optionholder
                 .option Title:
-                input(type='text', class='optioninput')
+                input(id='createtitle', type='text', class='optioninput')
             .optionholder
                 .option Characters:
                 input(type='text', class='optioninput')
@@ -23,7 +23,7 @@ script(src='/javascripts/create.js')
                     span )
                 textarea(id='openingparagraph', class='optioninput', rows='5')
             div &nbsp
-            .createbutton Create the Story!
+            #createbutton Create the Story!
         .loggedout
             div Please login via Facebook to create a story
     .push
