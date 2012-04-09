@@ -47,11 +47,11 @@ function FacebookWrapper() {
         if (loggedIn) {
             showAccountInfo();
             $('.loggedon').show();
+            $('.loggedout').hide();
         } else {
             showLoginButton();
             $('.loggedon').hide();
-        }
-        
-        
+            $('.loggedout').show();
+        }  
     }
 }
