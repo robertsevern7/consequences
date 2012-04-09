@@ -1,0 +1,25 @@
+script(src='/javascripts/create.js')
+.wrapper
+    include navbar
+    #container
+        h2 Create a New Story!
+        div &nbsp
+        .loggedon
+            .optionholder
+                .option Title:
+                input(type='text', class='optioninput')
+            .optionholder
+                .option Characters:
+                input(type='text', class='optioninput')
+            .optionholder
+                span(class='option') Story Sections (
+                span(class='option', id='slidervalue') 5
+                span(class='option') ):
+                div(id='createslider', class='optioninput')
+            .optionholder
+                .option Opening Paragraph:
+                textarea(class='optioninput', rows='5')
+        .loggedout
+            div Please login via Facebook to create a story
+    .push
+include footer

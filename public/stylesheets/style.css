@@ -108,3 +108,15 @@ a {
 .loggedout {
   display: none;
 }
+.optionholder {
+  padding: 2px;
+}
+.option {
+  font-weight: strong;
+}
+.optioninput {
+  margin-top: 4px;
+  margin-left: 20px;
+  width: 60%;
+  resize: none;
+}

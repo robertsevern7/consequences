@@ -13,6 +13,10 @@ exports.howto = function(req, res) {
     res.render('howto', { title: 'Consequences - How To'})
 }
 
+exports.create = function(req, res) {
+    res.render('create', { title: 'Consequences - Create'})
+}
+
 var items = {
     SKN:{name:'Shuriken', price:100},
     ASK:{name:'Ashiko', price:690},
