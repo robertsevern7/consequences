@@ -1,7 +1,10 @@
 .wrapper
     include navbar
     #container Welcome to Consequences. Build a story, just give it a title and share it on Facebook to get your friends to finish it.
-        .biggertext.loggedout Just login via Facebook to create your own!
+        .biggertext.loggedout 
+           span Just 
+           span(class='pointer', onclick="FB.login()") login
+           span &nbspvia Facebook to create your own!
         .bigbutton.leftfloat.loggedon(onclick="location.href='/create'") Get Started!
         .bigbutton.rightfloat(onclick="location.href='/viewrandom'") See Other Stories!
     .push

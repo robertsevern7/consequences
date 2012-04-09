@@ -52,6 +52,6 @@ function FacebookWrapper() {
             showLoginButton();
             $('.loggedon').hide();
             $('.loggedout').show();
-        }  
+        } 
     }
 }
