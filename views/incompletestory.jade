@@ -1,5 +1,4 @@
 script(src='/javascripts/storyrenderer.js')
-img(id='hoverwindow')
 .wrapper
     include navbar
     #container 
@@ -17,6 +16,8 @@ img(id='hoverwindow')
                     td
                         div(class='storysection') #{section.content}
                     td
-                        span(class='useridentifier', userId='#{section.contributor}')
+                        div(class='useridentifier', userId='#{section.contributor}')
+                    td
+                        img(class='userimage', userId='#{section.contributor}')
     .push
 include footer

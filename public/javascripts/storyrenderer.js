@@ -26,17 +26,15 @@ function StoryRenderer() {
                 var userInfo = that.userInfoMap[userId];
                 if (userInfo) {
                     userElement.text('By ' + userInfo.name);
-                    userElement.hover(function(eventInfo) {                        
-                        var hoverwindow = $('#hoverwindow');
-                        hoverwindow.show();
-                        hoverwindow.css({
-                            top: eventInfo.clientY + 'px',
-                            left: eventInfo.clientX + 'px'    
-                        })
-                        hoverwindow.attr("src", userInfo.pic_square);
-                    }, function() {
-                        $('#hoverwindow').hide();
-                    });
+                }
+            });
+            
+            $.each($('.userimage'), function() {
+                var imageElement = $(this);
+                var userId = imageElement.attr('userId');
+                var userInfo = that.userInfoMap[userId];
+                if (userInfo) {
+                    imageElement.attr("src", userInfo.pic_square);
                 }
             });
         });
