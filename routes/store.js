@@ -30,7 +30,7 @@ exports.create_post_handler = function(req, res) {
     var savedId = 1;
     res.send({
         user: req.body.user,
-        savedId:savedId
+        savedId: savedId
     });
 }
 
