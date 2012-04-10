@@ -32,7 +32,6 @@ exports.create_post_handler = function(req, res) {
         user: req.body.user,
         savedId:savedId
     });
-    //res.redirect('/stories/' + req.body.user + '/' + savedId);
 }
 
 exports.story = function(req, res) {
@@ -45,8 +44,7 @@ exports.story = function(req, res) {
         res.render('completedstory', story);
     } else {
         console.log('I  got here')
-        //res.render('incompletestory', story);
-        res.render('home', { title: 'Consequences'});
+        res.render('incompletestory', story);
     }
 }
 
