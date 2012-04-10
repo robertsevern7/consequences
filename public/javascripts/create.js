@@ -27,11 +27,13 @@ function CreatePanel() {
             charWarning.text(remaining + ' characters remaining');
             that._remainingCharsValid = true;
             validateCreateButton();
+            return true;
         } else {
             charWarning.addClass('gonebad');
             charWarning.text((-remaining) + ' characters too many');
             that._remainingCharsValid = false;
             validateCreateButton();
+            return false;
         }
     }
     
@@ -48,11 +50,11 @@ function CreatePanel() {
         }
         
         validateCreateButton();
+        return that._titlePresent;
     }
     
     function validateCreateButton() {
-        var createButton = $('#createbutton')
-        console.log(that._remainingCharsValid + ', ' +  that._titlePresent)
+        var createButton = $('#createbutton');
         if (that._remainingCharsValid && that._titlePresent) {
             createButton.removeClass('disabled');
             return true;
@@ -69,4 +71,18 @@ function CreatePanel() {
     
     $("#createtitle").blur(checkTitlePresent);
     $("#createtitle").keyup(checkTitlePresent);
+    
+    $('#createbutton').click(function() {
+        if (checkRemainingCharacters() && checkTitlePresent()) {
+            $.post('/create', {
+                title: $("#createtitle")[0].value,
+                characters: $("#createcharacters")[0].value,
+                storySections: $("#createslider").slider("option", "value"),
+                content: $("#openingparagraph")[0].value,
+                user: FB.getUserID()
+            }, function(response) {
+                window.location = '/stories/' + response.user + '/' + response.savedId;
+            })
+        }        
+    })
 }
