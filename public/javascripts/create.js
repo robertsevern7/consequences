@@ -16,27 +16,6 @@ function CreatePanel() {
         slide: setSliderValueText
     });
     
-    function checkRemainingCharacters() {
-        var totalChars = (this.value || $("#openingparagraph")[0].value).length;
-        var MAX_CHARS = 280;
-        var remaining = MAX_CHARS - totalChars;
-        
-        var charWarning = $("#charwarning");
-        if (remaining >= 0) {
-            charWarning.removeClass('gonebad');
-            charWarning.text(remaining + ' characters remaining');
-            that._remainingCharsValid = true;
-            validateCreateButton();
-            return true;
-        } else {
-            charWarning.addClass('gonebad');
-            charWarning.text((-remaining) + ' characters too many');
-            that._remainingCharsValid = false;
-            validateCreateButton();
-            return false;
-        }
-    }
-    
     function checkTitlePresent() {
         that._titlePresent = $('#createtitle')[0].value.length;
         var titlewarning = $('#titlewarning');
@@ -53,9 +32,12 @@ function CreatePanel() {
         return that._titlePresent;
     }
     
+    var entryBox = new EntryBox();
+    entryBox.bind('validate', validateCreateButton);
+    
     function validateCreateButton() {
         var createButton = $('#createbutton');
-        if (that._remainingCharsValid && that._titlePresent) {
+        if (entryBox.isValid() && that._titlePresent) {
             createButton.removeClass('disabled');
             return true;
         }
@@ -65,20 +47,18 @@ function CreatePanel() {
     }
     
     checkTitlePresent();
-    checkRemainingCharacters();
-    $("#openingparagraph").blur(checkRemainingCharacters);
-    $("#openingparagraph").keyup(checkRemainingCharacters);
+    entryBox.checkRemainingCharacters();
     
     $("#createtitle").blur(checkTitlePresent);
     $("#createtitle").keyup(checkTitlePresent);
     
-    $('#createbutton').click(function() {
-        if (checkRemainingCharacters() && checkTitlePresent()) {
+    $('#contributebutton').click(function() {
+        if (entryBox.checkRemainingCharacters() && checkTitlePresent()) {
             $.post('/create', {
                 title: $("#createtitle")[0].value,
                 characters: $("#createcharacters")[0].value,
                 storySections: $("#createslider").slider("option", "value"),
-                content: $("#openingparagraph")[0].value,
+                content: entryBox.getValue(),
                 user: FB.getUserID()
             }, function(response) {
                 window.location = '/stories/' + response.user + '/' + response.savedId;

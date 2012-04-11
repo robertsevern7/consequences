@@ -1,0 +1,31 @@
+script(src='/javascripts/storyrenderer.js')
+script(src='/javascripts/EntryBox.js')
+script(src='/javascripts/contribute.js')
+#storyId(storyId='#{storyId}')
+.wrapper
+    include navbar
+    #container 
+        h2 #{title}
+        div &nbsp
+        div 
+            Starring: #{characters}
+            span(class='useridentifier', userId='#{owner}')
+        div &nbsp
+        div Continue from this...
+            table
+                td
+                    div(class='storysection') #{snippet.content}
+                td
+                    div(class='useridentifier', userId='#{snippet.contributor}')
+                td
+                    img(class='userimage', userId='#{snippet.contributor}')
+        .optionholder
+            div
+                span(class='option') Your Contribution: (
+                span(id='charwarning')
+                span )
+            textarea(id='contribution', class='optioninput', rows='5')
+        div &nbsp
+        #contributebutton Contribute to this Story!
+    .push
+include footer

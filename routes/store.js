@@ -34,16 +34,49 @@ exports.create_post_handler = function(req, res) {
     });
 }
 
+exports.contribute_post_handler = function(req, res) {
+    //TODO save the story
+    var storySectionToSave = {
+        user: req.body.user,
+        storyId: req.body.storyId,
+        content: req.body.content
+    };
+    
+    console.dir(storySectionToSave)
+    
+    var savedId = 1;
+    res.send({
+        user: req.body.user,
+        savedId: savedId
+    });
+}
+
 exports.story = function(req, res) {
     var storyOwner = req.params.user;
     var storyId = req.params.storyId;
     
     var story = userStories[0];
     
+    var contributed = true;
+    //TODO get the current user
+    
     if (story.completed) {
         res.render('completedstory', story);
+    } else if (contributed) {
+        var lastSection = story.sections[story.sections.length - 1];
+        var lastContent = lastSection.content;
+        var storyInfo = {
+            storyId: story.storyId,
+            owner: story.owner,
+            title: story.title,
+            characters: story.characters,
+            snippet: {
+                content: '...' + lastContent.substring(Math.max(lastContent.length - 50, 0), lastContent.length),
+                contributor: lastSection.contributor
+            }
+        };
+        res.render('storycontribute', storyInfo);
     } else {
-        console.log('I  got here')
         res.render('incompletestory', story);
     }
 }

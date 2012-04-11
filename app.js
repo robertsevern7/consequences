@@ -28,6 +28,7 @@ app.post('/', store.home_post_handler);
 app.get('/howto', store.howto);
 app.get('/create', store.create);
 app.post('/create', store.create_post_handler);
+app.post('/contribute', store.contribute_post_handler);
 app.get('/stories/:user/:storyId', store.story);
 app.get('/items', store.items);
 app.get('/item/:id', store.item);

@@ -1,3 +1,4 @@
+script(src='/javascripts/EntryBox.js')
 script(src='/javascripts/create.js')
 .wrapper
     include navbar
@@ -24,9 +25,9 @@ script(src='/javascripts/create.js')
                     span(class='option') Opening Paragraph: (
                     span(id='charwarning')
                     span )
-                textarea(id='openingparagraph', class='optioninput', rows='5')
+                textarea(id='contribution', class='optioninput', rows='5')
             div &nbsp
-            #createbutton Create the Story!
+            #contributebutton Create the Story!
         .loggedout
             div Please login via Facebook to create a story
     .push
