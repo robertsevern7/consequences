@@ -19,5 +19,10 @@ script(src='/javascripts/storyrenderer.js')
                         div(class='useridentifier', userId='#{section.contributor}')
                     td
                         img(class='userimage', userId='#{section.contributor}')
+        div &nbsp
+        - if (completed) 
+            div This story is finished - Share it with your friends!
+        - else 
+            div This story isn't finished, help finish it by sharing it with your friends!
     .push
 include footer

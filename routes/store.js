@@ -61,8 +61,8 @@ exports.story = function(req, res) {
     //TODO get the current user
     
     if (story.completed) {
-        res.render('completedstory', story);
-    } else if (contributed) {
+        res.render('storyrenderer', story);
+    } else if (!contributed) {
         var lastSection = story.sections[story.sections.length - 1];
         var lastContent = lastSection.content;
         var storyInfo = {
@@ -77,7 +77,7 @@ exports.story = function(req, res) {
         };
         res.render('storycontribute', storyInfo);
     } else {
-        res.render('incompletestory', story);
+        res.render('storyrenderer', story);
     }
 }
 
