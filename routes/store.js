@@ -144,28 +144,6 @@ var userStories = [
     }
 ]
 
-var items = {
-    SKN:{name:'Shuriken', price:100},
-    ASK:{name:'Ashiko', price:690},
-    CGI:{name:'Chigiriki', price:250},
-    NGT:{name:'Naginata', price:900},
-    KTN:{name:'Katana', price:1000}
-};
-
-exports.items = function(req, res) {
-    if (typeof req.session.username == 'undefined') res.redirect('/');
-    else res.render('items', { title: 'Consequences - Items', username: req.session.username, items:items });
-};
-
-exports.item = function(req, res) {
-    if (typeof req.session.username == 'undefined') res.redirect('/');
-    else {
-        var name = items[req.params.id].name;
-        var price = items[req.params.id].price;
-        res.render('item', { title: 'Consequences - ' + name, username: req.session.username, name:name, price:price });
-    }
-};
-
 exports.page = function(req, res) {
     var name = req.query.name;
     var contents = {
@@ -174,3 +152,36 @@ exports.page = function(req, res) {
     };
     res.render('page', { title: 'Ninja Store - ' + name, username: req.session.username, content:contents[name] });
 };
+
+exports.authenticate = function(req, res) {
+    if (req.body.accessToken) {
+        ///TODO split this bit out into its own facebook graph api and add the authentication to the session
+        var HTTPS = require("https");
+        
+        var request = HTTPS.request({
+            'method': 'GET',
+            'host': 'graph.facebook.com',
+            'port': 443,
+            'path': 'https://graph.facebook.com/me/?access_token='+req.body.accessToken
+        }, function (res) {
+            var data = '';
+            res.setEncoding('utf8');
+            res.on('data', function (chunk) {
+                data += chunk;
+            });
+            res.on('end', function () {
+                try {
+                    var result = JSON.parse(data);
+                    console.dir(result)
+                    //callback(result.error || null, result.data || result);
+                } catch (err) {
+                    callback(res.statusCode !== 200, data || null);
+                }
+            });
+        });
+        request.end();
+       
+    }
+    
+    res.send();
+}

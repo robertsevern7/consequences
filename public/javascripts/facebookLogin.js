@@ -14,6 +14,20 @@ window.fbAsyncInit = function() {
     d.getElementsByTagName('head')[0].appendChild(js);
 }(document));
 
+Facebook = {
+    login: function() {
+        FB.login(function(response) {
+            if (!response.authResponse) {
+                return;
+            }
+            console.dir(response);
+            $.post('/authenticate', {
+                accessToken: response.authResponse.accessToken
+            })
+        });
+    }
+}
+
 function FacebookWrapper() {
     FacebookWrapper.prototype.startLoginListener = function() {
         FB.getLoginStatus(function(response) {
@@ -37,7 +51,7 @@ function FacebookWrapper() {
 
     function showLoginButton() {
         document.getElementById('loginbar').innerHTML = (
-            '<img onclick="FB.login()" style="cursor: pointer;"' +
+            '<img onclick="Facebook.login()" style="cursor: pointer;"' +
                 'src="https://s-static.ak.fbcdn.net/rsrc.php/zB6N8/hash/4li2k73z.gif">'
         );
     }
