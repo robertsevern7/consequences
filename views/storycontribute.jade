@@ -26,6 +26,9 @@ script(src='/javascripts/contribute.js')
                 span )
             textarea(id='contribution', class='optioninput', rows='5')
         div &nbsp
-        #contributebutton Contribute to this Story!
+        .loggedon
+            #contributebutton Contribute to this Story!
+        .loggedout
+            .gonebad Looks like you're logged out! Please log in via Facebook to contribute
     .push
 include footer

@@ -14,25 +14,17 @@ window.fbAsyncInit = function() {
     d.getElementsByTagName('head')[0].appendChild(js);
 }(document));
 
-Facebook = {
-    login: function() {
-        FB.login(function(response) {
-            if (!response.authResponse) {
-                return;
-            }
-            console.dir(response);
-            $.post('/authenticate', {
-                accessToken: response.authResponse.accessToken
-            })
-        });
-    }
-}
-
 function FacebookWrapper() {
     FacebookWrapper.prototype.startLoginListener = function() {
         FB.getLoginStatus(function(response) {
             onStatus(response);
             FB.Event.subscribe('auth.statusChange', onStatus);
+        });
+    }
+    
+    FacebookWrapper.prototype.checkStatus = function() {
+        FB.getLoginStatus(function(response) {
+            onStatus(response);
         });
     }
     
@@ -42,16 +34,18 @@ function FacebookWrapper() {
             query: 'SELECT name FROM user WHERE uid='+FB.getUserID()
         },
         function(response) {
-            document.getElementById('loginbar').innerHTML = (
-                '<div>' +  response[0].name + '</div>' +
-                '<div class="button" button onclick="FB.logout()"  style="cursor: pointer;"> Logout</div>'
-            );
+            if (response[0]) {
+                document.getElementById('loginbar').innerHTML = (
+                    '<div>' +  response[0].name + '</div>' +
+                    '<div class="button" button onclick="FB.logout()"  style="cursor: pointer;"> Logout</div>'
+                );
+            }
         });
     }
 
     function showLoginButton() {
         document.getElementById('loginbar').innerHTML = (
-            '<img onclick="Facebook.login()" style="cursor: pointer;"' +
+            '<img onclick="FB.login()" style="cursor: pointer;"' +
                 'src="https://s-static.ak.fbcdn.net/rsrc.php/zB6N8/hash/4li2k73z.gif">'
         );
     }

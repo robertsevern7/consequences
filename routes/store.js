@@ -1,3 +1,5 @@
+var facebookAuthenticate = require('facebookAuthenticate')
+
 exports.home = function(req, res) {
     if (typeof req.session.username == 'undefined') res.render('home', { title: 'Consequences'});
     else res.redirect('/items');
@@ -18,37 +20,59 @@ exports.create = function(req, res) {
 }
 
 exports.create_post_handler = function(req, res) {
-    //TODO save the story
-    var storySectionToSave = {
-        user: req.body.user,
-        title: req.body.title,
-        characters: req.body.characters,
-        storySections: req.body.storySections,
-        content: req.body.content
-    };
+    var createPost = function(success) {
+        if (!success) {
+            res.send({
+                success: false
+            });
+        } else {
+            //TODO save the story
+            var storySectionToSave = {
+                user: req.body.user,
+                title: req.body.title,
+                characters: req.body.characters,
+                storySections: req.body.storySections,
+                content: req.body.content
+            };
+            
+            var savedId = 1;
+            res.send({
+                success: true,
+                user: req.body.user,
+                savedId: savedId
+            });
+        }
+    }
     
-    var savedId = 1;
-    res.send({
-        user: req.body.user,
-        savedId: savedId
-    });
+    exports.authenticate(req, res, createPost)
 }
 
 exports.contribute_post_handler = function(req, res) {
-    //TODO save the story
-    var storySectionToSave = {
-        user: req.body.user,
-        storyId: req.body.storyId,
-        content: req.body.content
-    };
+    var contributeToPost = function(success) {
+        if (!success) {
+            res.send({
+                success: false
+            });
+        } else {
+            //TODO save the story
+            var storySectionToSave = {
+                user: req.body.user,
+                storyId: req.body.storyId,
+                content: req.body.content
+            };
+            
+            console.dir(storySectionToSave)
+            
+            var savedId = 1;
+            res.send({
+                success: true,
+                user: req.body.user,
+                savedId: savedId
+            });
+        }
+    }
     
-    console.dir(storySectionToSave)
-    
-    var savedId = 1;
-    res.send({
-        user: req.body.user,
-        savedId: savedId
-    });
+    exports.authenticate(req, res, contributeToPost);
 }
 
 exports.story = function(req, res) {
@@ -57,7 +81,7 @@ exports.story = function(req, res) {
     
     var story = userStories[0];
     
-    var contributed = true;
+    var contributed = false;
     //TODO get the current user
     
     if (story.completed) {
@@ -150,38 +174,17 @@ exports.page = function(req, res) {
         about: 'Consequences is an online version of the classic children\'s game',
         contact: 'You can contact me at robertsevern@gmail.com'
     };
-    res.render('page', { title: 'Ninja Store - ' + name, username: req.session.username, content:contents[name] });
+    res.render('page', { title: 'Consequences - ' + name, content:contents[name] });
 };
 
-exports.authenticate = function(req, res) {
-    if (req.body.accessToken) {
-        ///TODO split this bit out into its own facebook graph api and add the authentication to the session
-        var HTTPS = require("https");
-        
-        var request = HTTPS.request({
-            'method': 'GET',
-            'host': 'graph.facebook.com',
-            'port': 443,
-            'path': 'https://graph.facebook.com/me/?access_token='+req.body.accessToken
-        }, function (res) {
-            var data = '';
-            res.setEncoding('utf8');
-            res.on('data', function (chunk) {
-                data += chunk;
-            });
-            res.on('end', function () {
-                try {
-                    var result = JSON.parse(data);
-                    console.dir(result)
-                    //callback(result.error || null, result.data || result);
-                } catch (err) {
-                    callback(res.statusCode !== 200, data || null);
-                }
-            });
-        });
-        request.end();
-       
-    }
-    
-    res.send();
+exports.authenticate = function(req, res, callback) {
+    facebookAuthenticate.authenticate(req, res, function(fail, response) {
+        if (fail) {
+            callback(false);
+        } else {
+            var authenticatedUser = response.id;
+            var attemptedUser = req.body.user;
+            callback(authenticatedUser === attemptedUser);
+        }
+    })
 }

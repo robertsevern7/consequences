@@ -14,13 +14,24 @@ $(document).ready(function() {
     }
     
     $('#contributebutton').click(function() {
+        var authResponse = FB.getAuthResponse()
         if (entryBox.checkRemainingCharacters()) {
+            if (!authResponse || !authResponse.accessToken) {
+                document.facebookWrapper.checkStatus();
+                return;
+            }
+        
             $.post('/contribute', {
+                accessToken: authResponse.accessToken,
+                user: authResponse.userID,
                 storyId: $('#storyId').attr('storyId'),
-                content: entryBox.getValue(),
-                user: FB.getUserID()
+                content: entryBox.getValue()
             }, function(response) {
-                window.location = '/stories/' + response.user + '/' + response.savedId;
+                if (response.success) {
+                    window.location = '/stories/' + response.user + '/' + response.savedId;
+                } else {
+                    document.facebookWrapper.checkStatus();
+                }
             })
         }        
     })

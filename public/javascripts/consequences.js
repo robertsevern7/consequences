@@ -17,6 +17,6 @@ $(document).ready(function(){
 });
 
 $(document).live("facebook:ready", function(){
-    var facebookWrapper = new FacebookWrapper();
-    facebookWrapper.startLoginListener();
+    document.facebookWrapper = new FacebookWrapper();
+    document.facebookWrapper.startLoginListener();
 });
