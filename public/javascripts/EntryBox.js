@@ -12,9 +12,10 @@ function EntryBox() {
         if (remaining >= 0) {
             charWarning.removeClass('gonebad');
             charWarning.text(remaining + ' characters remaining');
-            that._remainingCharsValid = true;
+            that._remainingCharsValid = (totalChars > 0);
             that.entryJQ.trigger('validate');
-            return true;
+            
+            return that._remainingCharsValid;
         } else {
             charWarning.addClass('gonebad');
             charWarning.text((-remaining) + ' characters too many');

@@ -36,7 +36,7 @@ function CreatePanel() {
     entryBox.bind('validate', validateCreateButton);
     
     function validateCreateButton() {
-        var createButton = $('#createbutton');
+        var createButton = $('#contributebutton');
         if (entryBox.isValid() && that._titlePresent) {
             createButton.removeClass('disabled');
             return true;
