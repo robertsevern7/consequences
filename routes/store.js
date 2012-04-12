@@ -75,6 +75,11 @@ exports.contribute_post_handler = function(req, res) {
     exports.authenticate(req, res, contributeToPost);
 }
 
+exports.userStories = function(req, res) {
+    var user = req.params.user;
+    var page = req.params.page;
+}
+
 exports.story = function(req, res) {
     var storyOwner = req.params.user;
     var storyId = req.params.storyId;
@@ -84,7 +89,9 @@ exports.story = function(req, res) {
     var contributed = false;
     //TODO get the current user
     
-    if (story.completed) {
+    if (!story) {
+        res.render('nostory', {title: 'Consequences - Missing Story'});
+    } else if (story.completed) {
         res.render('storyrenderer', story);
     } else if (!contributed) {
         var lastSection = story.sections[story.sections.length - 1];
