@@ -1,6 +1,24 @@
+mixin storyholder(story)
+    .storyholder
+        div #{story}.title
+
+script(src='/javascripts/storyrenderer.js')
 .wrapper
     include navbar
     #container 
-        div Render me.
+        h2 The Stories
+        if user
+            div(class='useridentifier', userId='#{user}')
+            img(class='userimage', userId='#{user}')
+        div &nbsp
+        each story in stories
+            .storyholder
+                div
+                    .storytitle= story.title
+                    if !user
+                        div(class='useridentifier', userId='#{story.owner}')
+                        img(class='userimage', userId='#{story.owner}')
+                div &nbsp
+                .storycontent= story.sections[0].content + '...'
     .push
 include footer

@@ -142,3 +142,13 @@ a {
   background-color: #f2f2f2;
   padding: 5px;
 }
+.storyholder {
+  border-radius: 5px;
+  padding: 5px;
+  margin: 3px;
+  border: dotted;
+  cursor: pointer;
+}
+.storytitle {
+  font-weight: bold;
+}
