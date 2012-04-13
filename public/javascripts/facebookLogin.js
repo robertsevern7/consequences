@@ -56,10 +56,17 @@ function FacebookWrapper() {
             showAccountInfo();
             $('.loggedon').show();
             $('.loggedout').hide();
+            setupClickHandlers();
         } else {
             showLoginButton();
             $('.loggedon').hide();
             $('.loggedout').show();
         } 
+    }
+    
+    function setupClickHandlers() {
+        $('#myStoriesTab').click(function() {
+            window.location = '/userstories/' + response.authResponse.userID + '/0/popularity';
+        })
     }
 }

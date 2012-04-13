@@ -29,6 +29,7 @@ app.get('/howto', store.howto);
 app.get('/create', store.create);
 app.post('/create', store.create_post_handler);
 app.post('/contribute', store.contribute_post_handler);
+app.get('/userstories/:user/:page/:sortOrder', store.userStories);
 app.get('/stories/:user/:storyId', store.story);
 app.get('/page', store.page);
 app.post('/authenticate', store.authenticate);

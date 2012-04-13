@@ -2,6 +2,11 @@ mixin tab(text, link, extraclass)
     .tab(class=extraclass)
         a.nohighlight(href="#{link}") #{text}
 
+mixin nonATab(text, id, extraclass)
+    .pointertab
+        .tab(id=id, class=extraclass)
+            .nohighlight #{text}
+
 #navbar
     .title
         a.nohighlight(href="/") Consequences
@@ -15,6 +20,6 @@ mixin tab(text, link, extraclass)
             td
                 mixin tab('See Other Stories', '/viewrandom', '')
             td
-                mixin tab('See my stories', '/view', 'loggedon')
+                mixin nonATab('See My Stories', 'myStoriesTab', 'loggedon')
             td
                 mixin tab('How To', '/howto', '')

@@ -78,6 +78,16 @@ exports.contribute_post_handler = function(req, res) {
 exports.userStories = function(req, res) {
     var user = req.params.user;
     var page = req.params.page;
+    var sortOrder = req.params.sortOrder; //Title alphabetical or popularity
+    console.log('Get stories for user ' + user)
+    console.log('Page ' + page)
+    console.log('Sort Order ' + sortOrder)
+    //TODO get the stories, only return the first section though
+    res.render('storiesrenderer', {
+        title: 'Consequences - User Stories',
+        user: user,
+        stories: userStories
+    });
 }
 
 exports.story = function(req, res) {
@@ -120,6 +130,7 @@ var userStories = [
         characters: 'Ringo and Macca',
         storySections: 6,
         completed: false,
+        numlikes: 40,
         sections: [
             {
                 sectionId: 1,
@@ -145,6 +156,43 @@ var userStories = [
         characters: 'Hunky Jesus',
         storySections: 5,
         completed: true,
+        numlikes: 50,
+        sections: [
+            {
+                sectionId: 1,
+                contributor: 36916554,
+                content: 'There once was a slightly longer story'
+            },
+            {
+                sectionId: 2,
+                contributor: 36916558,
+                content: 'whose content was even less important than it\'s purpose, which was to test the functionality.'
+            },
+            {
+                sectionId: 3,
+                contributor: 36916551,
+                content: 'This story is going to be finished'
+            },
+            {
+                sectionId: 4,
+                contributor: 36916553,
+                content: 'Repeat until finished'
+            },
+            {
+                sectionId: 5,
+                contributor: 36916559,
+                content: 'Repeat until finished 2'
+            }
+        ]
+    },
+    {
+        storyId: 3,
+        owner: 36916554,
+        title: 'Third Best Story Ever',
+        characters: 'Hunky Jesus',
+        storySections: 5,
+        completed: true,
+        numlikes: 60,
         sections: [
             {
                 sectionId: 1,

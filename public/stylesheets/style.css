@@ -65,6 +65,9 @@ a {
 .disabled {
   text-decoration: line-through;
 }
+.pointertab {
+  cursor: pointer;
+}
 .pointer {
   cursor: pointer;
   text-decoration: underline;
