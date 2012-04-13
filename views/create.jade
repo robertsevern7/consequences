@@ -1,0 +1,34 @@
+script(src='/javascripts/EntryBox.js')
+script(src='/javascripts/create.js')
+.wrapper
+    include navbar
+    #container
+        h2 Create a New Story!
+        div &nbsp
+        .optionholder
+            div
+                span(class='option') Title
+                span(id='titlewarning') &nbsp(This is required)
+                span :
+            input(id='createtitle', type='text', class='optioninput')
+        .optionholder
+            .option Characters:
+            input(id='createcharacters', type='text', class='optioninput')
+        .optionholder
+            span(class='option') Story Sections (
+            span(class='option', id='slidervalue') 5
+            span(class='option') ):
+            div(id='createslider', class='optioninput')
+        .optionholder
+            div
+                span(class='option') Opening Paragraph: (
+                span(id='charwarning')
+                span )
+            textarea(id='contribution', class='optioninput', rows='5')
+        div &nbsp
+        .loggedon
+            #contributebutton Create the Story!
+        .loggedout
+            .gonebad Looks like you're logged out! Please log back via Facebook to create this story
+    .push
+include footer

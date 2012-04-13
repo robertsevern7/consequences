@@ -1,0 +1,28 @@
+script(src='/javascripts/storyrenderer.js')
+.wrapper
+    include navbar
+    #container 
+        h2 #{title}
+        div &nbsp
+        div 
+            Starring: #{characters}
+            span(class='useridentifier', userId='#{owner}')
+        div &nbsp
+        
+        table(style="width:90%")
+            -for (var id in sections)
+                tr
+                    - var section = sections[id]
+                    td
+                        div(class='storysection') #{section.content}
+                    td
+                        div(class='useridentifier', userId='#{section.contributor}')
+                    td
+                        img(class='userimage', userId='#{section.contributor}')
+        div &nbsp
+        - if (completed) 
+            div This story is finished - Share it with your friends!
+        - else 
+            div This story isn't finished, help finish it by sharing it with your friends!
+    .push
+include footer

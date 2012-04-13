@@ -1,0 +1,25 @@
+mixin tab(text, link, extraclass)
+    .tab(class=extraclass)
+        a.nohighlight(href="#{link}") #{text}
+
+mixin nonATab(text, id, extraclass)
+    .pointertab
+        .tab(id=id, class=extraclass)
+            .nohighlight #{text}
+
+#navbar
+    .title
+        a.nohighlight(href="/") Consequences
+    #loginbar
+    table.tabtable
+        tr
+            td
+                mixin tab('Home', '/', '')
+            td
+                mixin tab('Create a Story', '/create')
+            td
+                mixin tab('See Other Stories', '/viewrandom', '')
+            td
+                mixin nonATab('See My Stories', 'myStoriesTab', 'loggedon')
+            td
+                mixin tab('How To', '/howto', '')
