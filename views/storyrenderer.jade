@@ -1,3 +1,4 @@
+include mixins/storymixins
 script(src='/javascripts/storyrenderer.js')
 .wrapper
     include navbar
@@ -24,5 +25,7 @@ script(src='/javascripts/storyrenderer.js')
             div This story is finished - Share it with your friends!
         - else 
             div This story isn't finished, help finish it by sharing it with your friends!
+        div &nbsp
+        mixin likestemplate(numlikes, storyId)
     .push
 include footer
