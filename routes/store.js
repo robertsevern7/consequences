@@ -1,4 +1,5 @@
 var facebookAuthenticate = require('facebookAuthenticate')
+var sql = require('mysql_connector')
 
 exports.home = function(req, res) {
     if (typeof req.session.username == 'undefined') res.render('home', { title: 'Consequences'});
@@ -26,21 +27,55 @@ exports.create_post_handler = function(req, res) {
                 success: false
             });
         } else {
-            //TODO save the story
-            var storySectionToSave = {
-                user: req.body.user,
+            var story = {
+                user: 1,//req.body.user,
                 title: req.body.title,
                 characters: req.body.characters,
                 storySections: req.body.storySections,
                 content: req.body.content
             };
             
-            var savedId = 1;
-            res.send({
-                success: true,
-                user: req.body.user,
-                savedId: savedId
-            });
+            sql.makeQuery('INSERT INTO consequences.story(title, owner_id, max_sections) VALUES("' + story.title + '", "' + story.user + '", ' + story.storySections + ')', function(err) {
+                if (err) {
+                    console.log(err);
+                    res.send({
+                        success: false,
+                        user: story.user
+                    });
+                    return;
+                }
+                
+                sql.makeQuery('SELECT MAX(id) as lastId FROM consequences.story WHERE story.owner_id =' +story.user, function(err2, results, fields) {
+                    if (err2) {
+                        console.log(err2);
+                        res.send({
+                            success: false,
+                            user: story.user
+                        });
+                        return;
+                    }
+                    console.dir(results)
+                    console.dir(story.user)
+                    console.dir(story.content)
+                    console.log('INSERT INTO consequences.section(user_id, story_id, content) VALUES(' + story.user + ', ' + results[0].lastId + ', "' + story.content + '")')
+                    sql.makeQuery('INSERT INTO consequences.section(user_id, story_id, content) VALUES(' + story.user + ', ' + results[0].lastId + ', "' + story.content + '")', function(err3) {                    
+                        if (err3) {
+                            console.log(err3);
+                            res.send({
+                                success: false,
+                                user: story.user
+                            });
+                            return;
+                        }
+                        
+                        res.send({
+                            success: true,
+                            user: story.user,
+                            savedId: results.story
+                        });
+                    });
+                });
+            })
         }
     }
     
@@ -73,6 +108,12 @@ exports.contribute_post_handler = function(req, res) {
     }
     
     exports.authenticate(req, res, contributeToPost);
+}
+
+exports.like_post_handler = function(req, res) {
+    //TODO like the story
+    console.log('liking ' + req.body.storyId)
+    res.send();
 }
 
 exports.userStories = function(req, res) {

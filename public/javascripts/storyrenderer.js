@@ -4,6 +4,19 @@ $(document).live("facebook:ready", function() {
 function StoryRenderer() {
     that = this;
     
+    function likeHandler() {
+        $('.like').mouseenter(function() {
+            $(this).addClass('likehover');
+        }).mouseleave(function() {
+            $(this).removeClass('likehover');
+        }).click(function() {
+            $(this).css('background-color', '#64e886');
+            $.post('/like', {
+                storyId: $(this).attr('storyId')
+            })
+        });;
+    }
+    
     function getContributors() {
         var contributors = [];
         $.each($('.useridentifier'), function() {
@@ -40,5 +53,6 @@ function StoryRenderer() {
         });
     }
     
+    likeHandler();
     getContributors();
 }

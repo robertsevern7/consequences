@@ -15,12 +15,10 @@ create table if not exists consequences.user(
 
 create table if not exists consequences.story  (
     id integer unsigned AUTO_INCREMENT PRIMARY KEY,
-    story_id integer unsigned not null,
 	title text not null,
 	owner_id integer unsigned not null,
 	max_sections integer not null default 5,
-	num_likes integer not null  default 0,
-	UNIQUE(story_id)
+	num_likes integer not null  default 0
 );
 
 alter table consequences.story add foreign key (owner_id) references consequences.user(id);
