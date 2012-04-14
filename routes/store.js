@@ -120,12 +120,17 @@ exports.userStories = function(req, res) {
     var user = req.params.user;
     var page = req.params.page;
     var sortOrder = req.params.sortOrder; //Title alphabetical or popularity
+    
+    //TODO need to calculate the totalpages
+    var totalPages = 3;
     console.log('Get stories for user ' + user)
     console.log('Page ' + page)
     console.log('Sort Order ' + sortOrder)
     //TODO get the stories, only return the first section though
     res.render('storiesrenderer', {
         title: 'Consequences - User Stories',
+        page: page,
+        totalPages: totalPages,
         user: user,
         stories: userStories
     });
@@ -137,7 +142,7 @@ exports.story = function(req, res) {
     
     var story = userStories[0];
     
-    var contributed = false;
+    var contributed = true;
     //TODO get the current user
     
     if (!story) {
