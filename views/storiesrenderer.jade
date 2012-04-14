@@ -1,11 +1,4 @@
-mixin storyholder(story)
-    .storyholder
-        div #{story}.title
-        
-mixin likestemplate(numlikes, storyId)
-    span(class='like', storyId=storyId) Like?
-    span #{numlikes} people like this story
-
+include mixins/storymixins
 script(src='/javascripts/storyrenderer.js')
 .wrapper
     include navbar
