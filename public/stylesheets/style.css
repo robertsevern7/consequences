@@ -91,6 +91,9 @@ a {
 .rightfloat {
   float: right;
 }
+.clearfloats {
+  clear: both;
+}
 .button {
   text-align: center;
   background-color: #525252;
@@ -143,6 +146,7 @@ a {
   padding: 5px;
 }
 .storyholder {
+  background-color: #fafafa;
   border-radius: 5px;
   padding: 5px;
   margin: 5px;
@@ -150,5 +154,29 @@ a {
   cursor: pointer;
 }
 .storytitle {
+  font-weight: bold;
+}
+.storycomplete {
+  font-weight: bold;
+  background-color: #aaf2aa;
+  border-radius: 3px;
+  padding: 3px;
+  margin: 3px;
+}
+.storyincomplete {
+  font-weight: bold;
+  background-color: #ffbfbf;
+  border-radius: 3px;
+  padding: 3px;
+  margin: 3px;
+}
+.like {
+  background-color: #8694fa;
+  border-radius: 3px;
+  padding: 3px;
+  margin: 3px;
+  cursor: pointer;
+}
+.likehover {
   font-weight: bold;
 }
