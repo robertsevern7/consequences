@@ -16,7 +16,7 @@ script(src='/javascripts/storyrenderer.js')
             img(class='userimage', userId='#{user}')
         div &nbsp
         each story in stories
-            .storyholder
+            .storyholder(user='#{story.owner}', storyId='#{story.storyId}')
                 span(class='storytitle leftfloat')= story.title
                 .rightfloat
                     if story.completed
