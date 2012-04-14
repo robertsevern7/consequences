@@ -18,6 +18,14 @@ function StoryRenderer() {
         });
     }
     
+    function hoverButtonHandler() {
+        $('.hoverbutton').mouseenter(function() {
+            $(this).addClass('hovering');
+        }).mouseleave(function() {
+            $(this).removeClass('hovering');
+        })
+    }
+    
     function storySummaryHandler() {
         $('.storyholder').click(function(event) {
             event.stopPropagation();
@@ -63,5 +71,6 @@ function StoryRenderer() {
     
     likeHandler();
     storySummaryHandler();
+    hoverButtonHandler();
     getContributors();
 }

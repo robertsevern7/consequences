@@ -24,5 +24,17 @@ script(src='/javascripts/storyrenderer.js')
                 .storycontent= story.sections[0].content + '...'
                 div &nbsp
                 mixin likestemplate(story.numlikes, story.storyId);
+        div &nbsp
+        table(class="centerhorizontal")
+            tr
+                td
+                    div(class='firstButton hoverbutton')
+                td
+                    div(class='prevButton hoverbutton')
+                td
+                    div(class='nextButton hoverbutton')
+                td
+                    div(class='lastButton hoverbutton')
+        .centerhorizontal Page #{page} of #{totalPages}
     .push
 include footer
