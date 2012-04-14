@@ -9,12 +9,20 @@ function StoryRenderer() {
             $(this).addClass('likehover');
         }).mouseleave(function() {
             $(this).removeClass('likehover');
-        }).click(function() {
+        }).click(function(event) {
+            event.stopPropagation();
             $(this).css('background-color', '#64e886');
             $.post('/like', {
                 storyId: $(this).attr('storyId')
             })
-        });;
+        });
+    }
+    
+    function storySummaryHandler() {
+        $('.storyholder').click(function(event) {
+            event.stopPropagation();
+            window.location = '/stories/' + $(this).attr('user') + '/' + $(this).attr('storyId');
+        });
     }
     
     function getContributors() {
@@ -54,5 +62,6 @@ function StoryRenderer() {
     }
     
     likeHandler();
+    storySummaryHandler();
     getContributors();
 }
