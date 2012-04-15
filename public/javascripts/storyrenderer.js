@@ -26,6 +26,43 @@ function StoryRenderer() {
         })
     }
     
+    function pagingHandler() {
+        function goToPage(element, page) {
+            var user = element.attr('userId');
+            var sortOrder = element.attr('sortOrder');
+           
+            if (user) {
+                window.location = '/userstories/' + user + '/' + page + '/' +sortOrder;
+            } else {
+                alert('need to implement')
+            }
+        }
+    
+        $('.firstButton').click(function() {
+            goToPage($(this), 1);
+        })
+        
+        $('.prevButton').click(function() {
+            var currentPage = $(this).attr('currentPage') - 0;
+            var goToP = Math.max(1, currentPage - 1);
+            goToPage($(this), goToP);
+        })
+        
+        $('.nextButton').click(function() {
+            var currentPage = $(this).attr('currentPage') - 0;
+            var totalPages = $(this).attr('totalPages') - 0;
+            var goToP = Math.min(totalPages, currentPage + 1);
+            
+            goToPage($(this), goToP);
+        })
+        
+        $('.lastButton').click(function() {
+            var currentPage = $(this).attr('currentPage');
+            var totalPages = $(this).attr('totalPages');          
+            goToPage($(this), totalPages);
+        })
+    }
+    
     function storySummaryHandler() {
         $('.storyholder').click(function(event) {
             event.stopPropagation();
@@ -71,6 +108,7 @@ function StoryRenderer() {
     
     likeHandler();
     storySummaryHandler();
+    pagingHandler();
     hoverButtonHandler();
     getContributors();
 }

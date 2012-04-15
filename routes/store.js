@@ -129,6 +129,7 @@ exports.userStories = function(req, res) {
     //TODO get the stories, only return the first section though
     res.render('storiesrenderer', {
         title: 'Consequences - User Stories',
+        sortOrder: sortOrder,
         page: page,
         totalPages: totalPages,
         user: user,
