@@ -28,13 +28,13 @@ script(src='/javascripts/storyrenderer.js')
         table(class="centerhorizontal")
             tr
                 td
-                    div(class='firstButton hoverbutton')
+                    div(class='firstButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', sortOrder='#{sortOrder}', userId='#{user}')
                 td
-                    div(class='prevButton hoverbutton')
+                    div(class='prevButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', sortOrder='#{sortOrder}', userId='#{user}')
                 td
-                    div(class='nextButton hoverbutton')
+                    div(class='nextButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', sortOrder='#{sortOrder}', userId='#{user}')
                 td
-                    div(class='lastButton hoverbutton')
+                    div(class='lastButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', sortOrder='#{sortOrder}', userId='#{user}')
         .centerhorizontal Page #{page} of #{totalPages}
     .push
 include footer
