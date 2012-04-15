@@ -29,6 +29,7 @@ script(src='/javascripts/storyrenderer.js')
                         span(class='storycomplete') Complete
                     if !story.completed
                         span(class='storyincomplete') Incomplete
+                .clearfloats
                 if !user
                     div(class='useridentifier', userId='#{story.owner}')
                     img(class='userimage', userId='#{story.owner}')
@@ -40,14 +41,14 @@ script(src='/javascripts/storyrenderer.js')
         div &nbsp
         table(class="centerhorizontal")
             tr
+                td                    
+                    div(class='firstButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', sortOrder='#{sortOrder}', currentDirection='#{sortDirection}', userId='#{user}')
                 td
-                    div(class='firstButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', sortOrder='#{sortOrder}', userId='#{user}')
+                    div(class='prevButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', sortOrder='#{sortOrder}', currentDirection='#{sortDirection}', userId='#{user}')
                 td
-                    div(class='prevButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', sortOrder='#{sortOrder}', userId='#{user}')
+                    div(class='nextButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', sortOrder='#{sortOrder}', currentDirection='#{sortDirection}', userId='#{user}')
                 td
-                    div(class='nextButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', sortOrder='#{sortOrder}', userId='#{user}')
-                td
-                    div(class='lastButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', sortOrder='#{sortOrder}', userId='#{user}')
+                    div(class='lastButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', sortOrder='#{sortOrder}', currentDirection='#{sortDirection}', userId='#{user}')
         .centerhorizontal Page #{page} of #{totalPages}
     .push
 include footer

@@ -68,5 +68,9 @@ function FacebookWrapper() {
         $('#myStoriesTab').click(function() {
             window.location = '/userstories/' + response.authResponse.userID + '/1/popularity/DESC';
         })
+        
+        $('#otherStoriesTab').click(function() {
+            window.location = '/allstories/1/popularity/DESC';
+        })
     }
 }
