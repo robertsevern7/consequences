@@ -131,6 +131,7 @@ exports.userStories = function(req, res) {
     res.render('storiesrenderer', {
         title: 'Consequences - User Stories',
         sortOrder: sortOrder,
+        sortDirection: sortDir,
         page: page,
         totalPages: totalPages,
         user: user,

@@ -6,6 +6,6 @@ mixin likestemplate(numlikes, storyId)
     span(class='like', storyId=storyId) Like?
     span #{numlikes} people like this story
     
-mixin sortoption(displayName, value, direction, currentSort)
-    span(class='sortbutton', sort='#{value}', direction='#{direction}', currentSort='#{currentSort}') #{displayName}
+mixin sortoption(displayName, value, direction, currentDirection, currentSort, user)
+    span(class='sortbutton', sort='#{value}', direction='#{direction}', currentDirection='#{currentDirection}', currentSort='#{currentSort}', user='#{user}') #{displayName}
     

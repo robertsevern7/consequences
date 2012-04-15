@@ -5,9 +5,9 @@ script(src='/javascripts/storyrenderer.js')
     #container 
         h2(class='leftfloat') The Stories
         span(class='rightfloat')
-            mixin sortoption('Popularity', 'popularity', 'DESC', sortOrder)
-            mixin sortoption('Date', 'date', 'DESC', sortOrder)
-            mixin sortoption('Alphabetical', 'alphabetical', 'ASC', sortOrder)
+            mixin sortoption('Popularity', 'popularity', 'DESC', sortDirection, sortOrder, user)
+            mixin sortoption('Date', 'date', 'DESC', sortDirection, sortOrder, user)
+            mixin sortoption('Alphabetical', 'alphabetical', 'ASC', sortDirection, sortOrder, user)
         .clearfloats
         if user
             div(class='useridentifier', userId='#{user}')

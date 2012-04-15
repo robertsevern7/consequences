@@ -34,11 +34,31 @@ function StoryRenderer() {
             }
         });
         
-        $('.sortbutton').click(function() {            
+        $('.sortbutton').click(function() {   
+            var switchSortDirection = $(this).hasClass('selected');
+            var defaultSortDirection = $(this).attr('direction');
+            var currentSortDirection = $(this).attr('currentDirection');
+            var sortOrder = $(this).attr('sort');
+            var sortDirection = defaultSortDirection;
+            
+            if (switchSortDirection) {            
+                if (currentSortDirection === 'DESC') {
+                    sortDirection = 'ASC';
+                } else {
+                    sortDirection = 'DESC';
+                }
+            }
+            
+            var user = $(this).attr('user');
+        
             $('.sortbutton').removeClass('selected');
             $(this).addClass('selected');
             
-            //TODO go to url of page loaded with new sortOrder
+            if (user) {
+                 window.location = '/userstories/' + user + '/1/' + sortOrder + '/' + sortDirection;
+            } else {
+                //TODO go to url of page loaded with new sortOrder
+            }
         });
     }
     
