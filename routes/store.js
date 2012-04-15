@@ -119,7 +119,8 @@ exports.like_post_handler = function(req, res) {
 exports.userStories = function(req, res) {
     var user = req.params.user;
     var page = req.params.page;
-    var sortOrder = req.params.sortOrder; //Title alphabetical or popularity
+    var sortOrder = req.params.sortOrder; //Title alphabetical or popularity or date
+    var sortDir = req.params.sortDir; //ASC or DESC
     
     //TODO need to calculate the totalpages
     var totalPages = 3;

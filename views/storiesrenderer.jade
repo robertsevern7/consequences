@@ -3,7 +3,12 @@ script(src='/javascripts/storyrenderer.js')
 .wrapper
     include navbar
     #container 
-        h2 The Stories
+        h2(class='leftfloat') The Stories
+        span(class='rightfloat')
+            mixin sortoption('Popularity', 'popularity', 'DESC', sortOrder)
+            mixin sortoption('Date', 'date', 'DESC', sortOrder)
+            mixin sortoption('Alphabetical', 'alphabetical', 'ASC', sortOrder)
+        .clearfloats
         if user
             div(class='useridentifier', userId='#{user}')
             img(class='userimage', userId='#{user}')

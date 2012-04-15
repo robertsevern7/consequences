@@ -209,3 +209,13 @@ a {
   background-color: #d7d7d7;
   border-radius: 2px;
 }
+.sortbutton {
+  cursor: pointer;
+  border-radius: 2px;
+  padding: 2px;
+  margin: 2px;
+  margin: 2px;
+}
+.sortbutton.selected {
+  background-color: #d7d7d7;
+}

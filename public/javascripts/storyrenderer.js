@@ -26,6 +26,22 @@ function StoryRenderer() {
         })
     }
     
+    function sortingHandler() {
+        $('.sortbutton').each(function() {
+            var sortDiv = $(this);
+            if (sortDiv.attr('currentSort') === sortDiv.attr('sort')) {
+                sortDiv.addClass('selected');
+            }
+        });
+        
+        $('.sortbutton').click(function() {            
+            $('.sortbutton').removeClass('selected');
+            $(this).addClass('selected');
+            
+            //TODO go to url of page loaded with new sortOrder
+        });
+    }
+    
     function pagingHandler() {
         function goToPage(element, page) {
             var user = element.attr('userId');
@@ -108,6 +124,7 @@ function StoryRenderer() {
     
     likeHandler();
     storySummaryHandler();
+    sortingHandler();
     pagingHandler();
     hoverButtonHandler();
     getContributors();
