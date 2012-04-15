@@ -139,6 +139,27 @@ exports.userStories = function(req, res) {
     });
 }
 
+exports.allStories = function(req, res) {
+    var page = req.params.page;
+    var sortOrder = req.params.sortOrder; //Title alphabetical or popularity or date
+    var sortDir = req.params.sortDir; //ASC or DESC
+    
+    //TODO need to calculate the totalpages
+    var totalPages = 3;
+    console.log('Page ' + page)
+    console.log('Sort Order ' + sortOrder)
+    //TODO get the stories, only return the first section though
+    res.render('storiesrenderer', {
+        title: 'Consequences - Stories',
+        sortOrder: sortOrder,
+        sortDirection: sortDir,
+        page: page,
+        totalPages: totalPages,
+        user: '',
+        stories: userStories
+    });
+}
+
 exports.story = function(req, res) {
     var storyOwner = req.params.user;
     var storyId = req.params.storyId;

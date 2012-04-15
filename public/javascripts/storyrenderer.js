@@ -55,9 +55,9 @@ function StoryRenderer() {
             $(this).addClass('selected');
             
             if (user) {
-                 window.location = '/userstories/' + user + '/1/' + sortOrder + '/' + sortDirection;
+                window.location = '/userstories/' + user + '/1/' + sortOrder + '/' + sortDirection;
             } else {
-                //TODO go to url of page loaded with new sortOrder
+                window.location = '/allstories/1/' + sortOrder + '/' + sortDirection;
             }
         });
     }
@@ -66,11 +66,12 @@ function StoryRenderer() {
         function goToPage(element, page) {
             var user = element.attr('userId');
             var sortOrder = element.attr('sortOrder');
+            var sortDirection = element.attr('currentDirection');
            
             if (user) {
-                window.location = '/userstories/' + user + '/' + page + '/' +sortOrder;
+                window.location = '/userstories/' + user + '/' + page + '/' +sortOrder + '/' + sortDirection;
             } else {
-                alert('need to implement')
+                window.location = '/allstories/' + page + '/' + sortOrder + '/' + sortDirection;
             }
         }
     
