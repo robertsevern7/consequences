@@ -219,3 +219,13 @@ a {
 .sortbutton.selected {
   background-color: #d7d7d7;
 }
+.orderindicatorup {
+  background-image: url("../images/up.png");
+  width: 16px;
+  height: 16px;
+}
+.orderindicatordown {
+  background-image: url("../images/down.png");
+  width: 16px;
+  height: 16px;
+}
