@@ -34,6 +34,24 @@ function StoryRenderer() {
             }
         });
         
+        function switchOrder(sortDirection, element) {
+            var sortOrder = element.attr('currentSort');
+            var user = element.attr('user');
+            if (user) {
+                window.location = '/userstories/' + user + '/1/' + sortOrder + '/' + sortDirection;
+            } else {
+                window.location = '/allstories/1/' + sortOrder + '/' + sortDirection;
+            }
+        }
+        
+        $('.orderindicatorup').click(function() {
+            switchOrder('DESC', $(this));           
+        });
+        
+        $('.orderindicatordown').click(function() {
+            switchOrder('ASC', $(this));           
+        });
+        
         $('.sortbutton').click(function() {   
             var switchSortDirection = $(this).hasClass('selected');
             var defaultSortDirection = $(this).attr('direction');

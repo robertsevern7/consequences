@@ -8,10 +8,10 @@ script(src='/javascripts/storyrenderer.js')
             table
                 tr
                     td
-                        if sortDirection === 'ASC'
-                            .orderindicatorup
+                        if sortDirection === 'ASC'                            
+                            div(class='orderindicatorup', currentSort='#{sortOrder}', user='#{user}')
                         else
-                            .orderindicatordown
+                            div(class='orderindicatordown', currentSort='#{sortOrder}', user='#{user}')
                     td
                         mixin sortoption('Popularity', 'popularity', 'DESC', sortDirection, sortOrder, user)
                         mixin sortoption('Date', 'date', 'DESC', sortDirection, sortOrder, user)
