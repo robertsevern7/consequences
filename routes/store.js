@@ -185,9 +185,20 @@ exports.friendsRetrieval = function(req, res) {
         storyCount: 8
     }]
     console.log('Replying to getfriends')
-    res.send({
-        friends: friends
-    });
+    
+    facebookAuthenticate.getFriends(req, res, function(fail, response) {
+        if (fail) {
+            res.send({
+                friends: []
+            });
+        } else {
+            //TODO intersect the facebook friends with our database of users
+            
+            res.send({
+                friends: response
+            });
+        }
+    })
 }
 
 exports.topUserStories = function(req, res) {

@@ -17,8 +17,9 @@ function FriendsRenderer() {
                     if (response.friends.length) {
                         for (var i = 0, len=response.friends.length; i < len; ++i) {
                             var friend = response.friends[i];
-                            var userHtml = '<div class="useridentifier" userId=' + htmlEncode(friend.userId) + '/>' +
-                                           '<img class="userimage pointer" userId="' + htmlEncode(friend.userId) + '"/>'
+                            var userHtml = '<div class="useridentifier noby" userId=' + htmlEncode(friend.id) + '/>' +
+                                           '<img class="userimage pointer" userId="' + htmlEncode(friend.id) + '"/>' +
+                                           '<div>&nbsp</div>'
                             
                             $('#friends').append(userHtml);
                         }

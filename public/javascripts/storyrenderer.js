@@ -146,7 +146,8 @@ function StoryRenderer() {
                 var userId = userElement.attr('userId');
                 var userInfo = that.userInfoMap[userId];
                 if (userInfo) {
-                    userElement.text('By ' + userInfo.name);
+                    var prefix = userElement.hasClass('noby') ? '' : 'By ';
+                    userElement.text(prefix + userInfo.name);
                     userElement.attr('userName', userInfo.name);
                 }
             });
