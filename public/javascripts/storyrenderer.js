@@ -4,7 +4,7 @@ $(document).live("facebook:ready", function() {
 function StoryRenderer() {
     that = this;
     
-    function likeHandler() {
+    StoryRenderer.prototype.likeHandler = function() {
         $('.like').mouseenter(function() {
             $(this).addClass('likehover');
         }).mouseleave(function() {
@@ -147,6 +147,7 @@ function StoryRenderer() {
                 var userInfo = that.userInfoMap[userId];
                 if (userInfo) {
                     userElement.text('By ' + userInfo.name);
+                    userElement.attr('userName', userInfo.name);
                 }
             });
             
@@ -156,12 +157,13 @@ function StoryRenderer() {
                 var userInfo = that.userInfoMap[userId];
                 if (userInfo) {
                     imageElement.attr("src", userInfo.pic_square);
+                    imageElement.attr('userName', userInfo.name);
                 }
             });
         });
     }
     
-    likeHandler();
+    this.likeHandler();
     this.storySummaryHandler();
     sortingHandler();
     pagingHandler();

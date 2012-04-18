@@ -9,7 +9,7 @@ script(src='/javascripts/friendsrenderer.js')
         .loggedon
             table(width="100%")
                 tr
-                    td(width="200px")
+                    td(style="vertical-align:text-top", width="200px")
                         .friends
                             each friend in friends
                                 div(class='useridentifier', userId='#{friend.userId}')

@@ -6,21 +6,23 @@ function FriendsRenderer() {
     
     function handlePhotoClick() {
         $('.userimage').click(function() {
+            var userName = $(this).attr('userName')
             $.post('/topuserstories', {
                 userId: $(this).attr('userId')
             }, function(response) {
                 $('#storywindow').empty();
                 
                 if (response.stories.length) {
+                    $('#storywindow').append('<h3>' + htmlEncode(userName) + '\'s Stories<h3>');
                     for (var i = 0, len=response.stories.length; i < len; ++i) {
                         var story = response.stories[i];
                         var title = story.title;
                         var completeText = story.completed ? 'Complete' : 'Incomplete';
                         var completeClass = story.completed ? 'storycomplete' : 'storyincomplete';
-                        var storyHtml = '<div class="storyholder" user=' + htmlEncode(story.owner) + ' storyId=' + htmlEncode(story.storyId) +
+                        var storyHtml = '<div class="storyholder" user=' + htmlEncode(story.owner) + ' storyId=' + htmlEncode(story.storyId) + '>' +
                                             '<span class="storytitle leftfloat">' + htmlEncode(story.title) + '</span>' +
                                             '<div class="rightfloat">' +
-                                                '<span class="' + completeClass + '">' + completeText +
+                                                '<span class="' + completeClass + '">' + completeText + '</span>' +
                                             '</div>' +
                                             '<div class="clearfloats"/>' +
                                             '<div>&nbsp</div>' +
@@ -31,6 +33,7 @@ function FriendsRenderer() {
                                         '</div>'
                         $('#storywindow').append(storyHtml);
                         document.storyRenderer.storySummaryHandler();
+                        document.storyRenderer.likeHandler();
                     }                    
                     
                     var seeMore = '<div class="rightfloat">' +
