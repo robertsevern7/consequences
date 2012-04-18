@@ -66,7 +66,11 @@ function FacebookWrapper() {
     
     function setupClickHandlers() {
         $('#myStoriesTab').click(function() {
-            window.location = '/userstories/' + response.authResponse.userID + '/1/popularity/DESC';
+            if (response.authResponse) {
+                window.location = '/userstories/' + response.authResponse.userID + '/1/popularity/DESC';
+            } else {
+                this.checkStatus();
+            }            
         })
         
         $('#friendsStoriesTab').click(function() {
