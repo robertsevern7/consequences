@@ -160,6 +160,69 @@ exports.allStories = function(req, res) {
     });
 }
 
+exports.friendsStories = function(req, res) {
+    var user = req.params.user;
+    var page = req.params.page;
+    var sortDir = req.params.sortDir; //ASC or DESC
+    
+    //TODO need to calculate the totalpages
+   
+    res.render('friendsrenderer', {
+        title: 'Consequences - Friends\' Stories',
+        friends: [{
+            userId: 36916554,
+            storyCount: 3,
+            topStory: {
+                storyId: 1,
+                title: 'Best Story Ever',                
+                numlikes: 40,
+                firstSection: 'Story one'
+            }
+        }, { 
+            userId: 36916555, 
+            storyCount: 5
+        }, {
+            userId: 36916556,
+            storyCount: 6
+        }, {
+            userId: 36916557, 
+            storyCount: 7
+        }, {
+            userId: 36916558,
+            storyCount: 8
+        }]
+    });
+}
+
+exports.topUserStories = function(req, res) {
+    var stories = [{
+        storyId: 1,
+        owner: 36916554,
+        title: 'Best Story Ever',
+        completed: true,
+        numlikes: 40,
+        firstSection: 'There once was a very short story'
+    },{
+        storyId: 2,
+        owner: 36916554,
+        title: '<script>alert(\'Injected!\');</script>',
+        completed: true,
+        numlikes: 30,
+        firstSection: 'Story 2'
+    },{
+        storyId: 3,
+        owner: 36916554,
+        title: 'Story 3',
+        completed: false,
+        numlikes: 20,
+        firstSection: 'Story 3'
+    }]
+    
+    res.send({
+        stories: stories
+    });
+}
+
 exports.story = function(req, res) {
     var storyOwner = req.params.user;
     var storyId = req.params.storyId;
@@ -196,7 +259,7 @@ var userStories = [
     {
         storyId: 1,
         owner: 36916554,
-        title: 'Best Story Ever',
+        title: '<script>alert(\'Injected!\');</script>',
         characters: 'Ringo and Macca',
         storySections: 6,
         completed: false,

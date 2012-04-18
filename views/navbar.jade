@@ -18,8 +18,10 @@ mixin nonATab(text, id, extraclass)
             td
                 mixin tab('Create a Story', '/create')
             td
-                mixin nonATab('See Other Stories', 'otherStoriesTab', '')
-            td
                 mixin nonATab('See My Stories', 'myStoriesTab', 'loggedon')
+            td
+                mixin nonATab('See Friends\' Stories', 'friendsStoriesTab', 'loggedon')
+            td
+                mixin nonATab('See Other Stories', 'otherStoriesTab', '')
             td
                 mixin tab('How To', '/howto', '')

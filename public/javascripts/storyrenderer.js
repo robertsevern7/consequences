@@ -1,5 +1,5 @@
 $(document).live("facebook:ready", function() {
-    new StoryRenderer();
+    document.storyRenderer = new StoryRenderer();
 });
 function StoryRenderer() {
     that = this;
@@ -118,7 +118,7 @@ function StoryRenderer() {
         })
     }
     
-    function storySummaryHandler() {
+    StoryRenderer.prototype.storySummaryHandler = function() {
         $('.storyholder').click(function(event) {
             event.stopPropagation();
             window.location = '/stories/' + $(this).attr('user') + '/' + $(this).attr('storyId');
@@ -162,7 +162,7 @@ function StoryRenderer() {
     }
     
     likeHandler();
-    storySummaryHandler();
+    this.storySummaryHandler();
     sortingHandler();
     pagingHandler();
     hoverButtonHandler();

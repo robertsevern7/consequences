@@ -158,6 +158,12 @@ a {
   border: dotted;
   cursor: pointer;
 }
+#storywindow {
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px;
+  border: solid;
+}
 .storytitle {
   font-weight: bold;
 }
