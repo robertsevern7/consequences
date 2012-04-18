@@ -1,0 +1,23 @@
+include mixins/storymixins
+script(src='/javascripts/storyrenderer.js')
+script(src='/javascripts/friendsrenderer.js')
+.wrapper
+    include navbar
+    #container 
+        h2 Your Friends
+        div &nbsp
+        .loggedon
+            table(width="100%")
+                tr
+                    td(width="200px")
+                        .friends
+                            each friend in friends
+                                div(class='useridentifier', userId='#{friend.userId}')
+                                img(class='userimage pointer', userId='#{friend.userId}')
+                    td(style="vertical-align:text-top")
+                        #storywindow
+                            div Select a friend to see their stories            
+        .loggedout            
+            .gonebad Please log in via Facebook to see your friends' stories
+    .push
+include footer
