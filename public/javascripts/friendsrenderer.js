@@ -4,6 +4,37 @@ $(document).live("facebook:ready", function() {
 function FriendsRenderer() {
     that = this;
     
+    function loadFriends() {
+        FB.getLoginStatus(function(response) {
+            if (response.status === 'connected') {                
+                var accessToken = response.authResponse.accessToken;
+                
+                $.post('/getfriends', {
+                    accessToken: accessToken
+                }, function(response) {
+                    $('#friends').empty();
+                    
+                    if (response.friends.length) {
+                        for (var i = 0, len=response.friends.length; i < len; ++i) {
+                            var friend = response.friends[i];
+                            var userHtml = '<div class="useridentifier" userId=' + htmlEncode(friend.userId) + '/>' +
+                                           '<img class="userimage pointer" userId="' + htmlEncode(friend.userId) + '"/>'
+                            
+                            $('#friends').append(userHtml);
+                        }
+                        
+                        handlePhotoClick();
+                        document.storyRenderer.getContributors();
+                    } else {
+                        $('#friends').append('None of your friends have stories here, tell them about Consequences!');
+                    }
+                })
+            } else {
+                document.facebookWrapper.checkStatus();
+            }
+        });
+    }
+    
     function handlePhotoClick() {
         $('.userimage').click(function() {
             var userName = $(this).attr('userName')
@@ -52,5 +83,5 @@ function FriendsRenderer() {
         return value ? $('<div/>').text(value).html() : '';        
     }
     
-    handlePhotoClick();
+    loadFriends();
 }

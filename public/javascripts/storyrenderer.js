@@ -125,7 +125,7 @@ function StoryRenderer() {
         });
     }
     
-    function getContributors() {
+    StoryRenderer.prototype.getContributors = function() {
         var contributors = [];
         $.each($('.useridentifier'), function() {
             contributors.push($(this).attr('userId'));
@@ -168,5 +168,5 @@ function StoryRenderer() {
     sortingHandler();
     pagingHandler();
     hoverButtonHandler();
-    getContributors();
+    this.getContributors();
 }

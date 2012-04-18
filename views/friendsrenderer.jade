@@ -10,10 +10,8 @@ script(src='/javascripts/friendsrenderer.js')
             table(width="100%")
                 tr
                     td(style="vertical-align:text-top", width="200px")
-                        .friends
-                            each friend in friends
-                                div(class='useridentifier', userId='#{friend.userId}')
-                                img(class='userimage pointer', userId='#{friend.userId}')
+                        #friends
+                            div Just loading your friends...
                     td(style="vertical-align:text-top")
                         #storywindow
                             div Select a friend to see their stories            
