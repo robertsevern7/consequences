@@ -160,37 +160,33 @@ exports.allStories = function(req, res) {
     });
 }
 
-exports.friendsStories = function(req, res) {
-    var user = req.params.user;
-    var page = req.params.page;
-    var sortDir = req.params.sortDir; //ASC or DESC
-    
-    //TODO need to calculate the totalpages
-   
+exports.friendsStories = function(req, res) {   
     res.render('friendsrenderer', {
-        title: 'Consequences - Friends\' Stories',
-        friends: [{
-            userId: 36916554,
-            storyCount: 3,
-            topStory: {
-                storyId: 1,
-                title: 'Best Story Ever',                
-                numlikes: 40,
-                firstSection: 'Story one'
-            }
-        }, { 
-            userId: 36916555, 
-            storyCount: 5
-        }, {
-            userId: 36916556,
-            storyCount: 6
-        }, {
-            userId: 36916557, 
-            storyCount: 7
-        }, {
-            userId: 36916558,
-            storyCount: 8
-        }]
+        title: 'Consequences - Friends\' Stories'        
+    });
+}
+
+exports.friendsRetrieval = function(req, res) {
+    console.log('Entered friendsRetrieval');
+    var friends = [{
+        userId: 36916554,
+        storyCount: 3
+    }, { 
+        userId: 36916555, 
+        storyCount: 5
+    }, {
+        userId: 36916556,
+        storyCount: 6
+    }, {
+        userId: 36916557, 
+        storyCount: 7
+    }, {
+        userId: 36916558,
+        storyCount: 8
+    }]
+    console.log('Replying to getfriends')
+    res.send({
+        friends: friends
     });
 }
 

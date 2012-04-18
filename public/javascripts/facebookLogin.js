@@ -70,7 +70,7 @@ function FacebookWrapper() {
         })
         
         $('#friendsStoriesTab').click(function() {
-            window.location = '/friendsstories/' + response.authResponse.userID + '/1/DESC';
+            window.location = '/friendsstories';
         })
         
         $('#otherStoriesTab').click(function() {
