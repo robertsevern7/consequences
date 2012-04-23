@@ -219,10 +219,10 @@ exports.story = function(req, res) {
     var renderStory = function(story) {
         if (story.completed) {
             res.render('storyrenderer', story);
-        } else if (!contributed) {
-            var sections = story.getSections();
-            var lastSection = [sections.length - 1];
-            var lastContent = lastSection.content;
+        } else if (!story.contributed) {
+            var sections = story.sections;            
+            var lastSection = sections[sections.length - 1];
+            var lastContent = lastSection.content;                        
             var storyInfo = {
                 storyId: story.id,
                 owner: story.user.userId,
@@ -248,12 +248,6 @@ exports.story = function(req, res) {
     }
     
     sql.getFullStory(storyId, renderStory, missingStory);
-    var story = userStories[0];
-    
-    var contributed = true;
-    //TODO get the current user
-    
-    
 }
 
 var userStories = [
