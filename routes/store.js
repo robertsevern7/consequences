@@ -1,5 +1,4 @@
 var facebookAuthenticate = require('facebookAuthenticate')
-//var sql = require('mysql_connector')
 var sql = require('sequelize_connector')
 
 exports.home = function(req, res) {
@@ -213,32 +212,48 @@ exports.story = function(req, res) {
     var storyOwner = req.params.user;
     var storyId = req.params.storyId;
     
+    var missingStory = function() {
+        res.render('nostory', {title: 'Consequences - Missing Story'});
+    }
+    
+    var renderStory = function(story) {
+        if (story.completed) {
+            res.render('storyrenderer', story);
+        } else if (!contributed) {
+            var sections = story.getSections();
+            var lastSection = [sections.length - 1];
+            var lastContent = lastSection.content;
+            var storyInfo = {
+                storyId: story.id,
+                owner: story.user.userId,
+                title: story.title,
+                characters: story.characters,
+                snippet: {
+                    content: '...' + lastContent.substring(Math.max(lastContent.length - 50, 0), lastContent.length),
+                    contributor: lastSection.contributor
+                }
+            };
+            res.render('storycontribute', storyInfo);
+        } else {
+            res.render('storyrenderer', {
+                owner: story.user.userId,
+                title: story.title,
+                characters: story.characters,
+                completed: !!story.completed,
+                numlikes: story.num_likes,
+                storyId: story.id,
+                sections: story.sections
+            });            
+        }
+    }
+    
+    sql.getFullStory(storyId, renderStory, missingStory);
     var story = userStories[0];
     
     var contributed = true;
     //TODO get the current user
     
-    if (!story) {
-        res.render('nostory', {title: 'Consequences - Missing Story'});
-    } else if (story.completed) {
-        res.render('storyrenderer', story);
-    } else if (!contributed) {
-        var lastSection = story.sections[story.sections.length - 1];
-        var lastContent = lastSection.content;
-        var storyInfo = {
-            storyId: story.storyId,
-            owner: story.owner,
-            title: story.title,
-            characters: story.characters,
-            snippet: {
-                content: '...' + lastContent.substring(Math.max(lastContent.length - 50, 0), lastContent.length),
-                contributor: lastSection.contributor
-            }
-        };
-        res.render('storycontribute', storyInfo);
-    } else {
-        res.render('storyrenderer', story);
-    }
+    
 }
 
 var userStories = [
