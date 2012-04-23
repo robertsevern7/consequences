@@ -31,8 +31,7 @@ exports.create_post_handler = function(req, res) {
             var story = {
                 title: req.body.title,
                 characters: req.body.characters,
-                max_sections: req.body.storySections//,
-                //content: req.body.content
+                max_sections: req.body.storySections
             };
             
             function failureHandler() {
@@ -51,7 +50,7 @@ exports.create_post_handler = function(req, res) {
             }
             
             function saveStory(user) {                
-                sql.createStory(story, user, sendSuccessResponse, failureHandler);
+                sql.createStory(story, user, req.body.content, sendSuccessResponse, failureHandler);
             }
             
             //No other logins that facebook at the moment

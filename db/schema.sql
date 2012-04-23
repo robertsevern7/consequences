@@ -27,7 +27,7 @@ create table if not exists consequences.section (
     id integer unsigned AUTO_INCREMENT PRIMARY KEY,
 	user_id integer unsigned not null,
 	story_id integer unsigned not null,
-	content text default null,
+	content text not null,
 	UNIQUE (user_id, story_id)
 );  
 
