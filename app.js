@@ -39,6 +39,7 @@ app.get('/stories/:storyId', store.story);
 app.get('/page', store.page);
 app.post('/topuserstories', store.topUserStories);
 app.post('/logon', store.logon);
+app.post('/logout', store.logout);
 
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
