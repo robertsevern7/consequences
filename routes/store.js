@@ -201,6 +201,7 @@ exports.topUserStories = function(req, res) {
 
 exports.story = function(req, res) {
     var storyId = req.params.storyId;
+    var hasContributed = false;
     
     var missingStory = function() {
         res.render('nostory', {title: 'Consequences - Missing Story'});
@@ -209,7 +210,7 @@ exports.story = function(req, res) {
     var renderStory = function(story) {
         if (story.completed) {
             res.render('storyrenderer', story);
-        } else if (!story.contributed) {
+        } else if (!hasContributed) {
             var sections = story.sections;            
             var lastSection = sections[sections.length - 1];
             var lastContent = lastSection.content;                        
@@ -237,7 +238,12 @@ exports.story = function(req, res) {
         }
     }
     
-    sql.getFullStory(storyId, renderStory, missingStory);
+    sql.hasContributed(storyId, req.session.user, function(contributed) {
+        console.log('Contributed: ' + contributed);
+        hasContributed = contributed;
+        sql.getFullStory(storyId, renderStory, missingStory); 
+    }, missingStory);
+    
 }
 
 var userStories = [
@@ -350,12 +356,18 @@ exports.page = function(req, res) {
     res.render('page', { title: 'Consequences - ' + name, content:contents[name] });
 };
 
+exports.logout = function(req, res) {
+    delete req.session.user;
+    res.send()
+}
+
 exports.logon = function(req, res) {
     if (req.session.user) {
         console.log('Already logged');
         res.send({
             success: true                    
         })
+        return;
     }
     
     console.log('Logon called');

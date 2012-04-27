@@ -67,9 +67,12 @@ function FacebookWrapper() {
                 }
             })
         } else {
-            showLoginButton();
-            $('.loggedon').hide();
-            $('.loggedout').show();
+            $.post('/logout', {}, function(response) {            
+                showLoginButton();
+                $('.loggedon').hide();
+                $('.loggedout').show();                
+            })
+            
         } 
     }
     
