@@ -13,6 +13,7 @@ app.configure(function(){
   app.use(require('stylus').middleware({ src: __dirname + '/public' }));
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
+  app.use(express.session({secret: 'youaintneverguessingthisbitches'}));
 });
 
 app.configure('development', function(){
@@ -37,6 +38,7 @@ app.get('/allstories/:page/:sortOrder/:sortDir', store.allStories);
 app.get('/stories/:user/:storyId', store.story);
 app.get('/page', store.page);
 app.post('/topuserstories', store.topUserStories);
+app.post('/logon', store.logon);
 
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);

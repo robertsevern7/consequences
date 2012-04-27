@@ -360,6 +360,22 @@ exports.page = function(req, res) {
     res.render('page', { title: 'Consequences - ' + name, content:contents[name] });
 };
 
+exports.logon = function(req, res) {
+    console.log('Logon called');
+    exports.authenticate(req, res, function(success) {
+        console.log(success)
+        if (success) {
+            sql.createUser(req.body.user, 'FACEBOOK', function(user) {                                
+                req.session.user = user.id;
+                console.log(user.id);
+                res.send({
+                    success: true                    
+                })
+            });
+        }
+    })
+}
+
 exports.authenticate = function(req, res, callback) {
     facebookAuthenticate.authenticate(req, res, function(fail, response) {
         if (fail) {
