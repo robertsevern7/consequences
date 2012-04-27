@@ -35,7 +35,7 @@ app.get('/userstories/:page/:sortOrder/:sortDir', store.userStories);
 app.get('/friendsstories', store.friendsStories);
 app.post('/getfriends', store.friendsRetrieval);
 app.get('/allstories/:page/:sortOrder/:sortDir', store.allStories);
-app.get('/stories/:user/:storyId', store.story);
+app.get('/stories/:storyId', store.story);
 app.get('/page', store.page);
 app.post('/topuserstories', store.topUserStories);
 app.post('/logon', store.logon);

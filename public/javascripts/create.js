@@ -59,16 +59,14 @@ function CreatePanel() {
                 return;
             }
             
-            $.post('/create', {
-                accessToken: authResponse.accessToken,
-                user: authResponse.userID,
+            $.post('/create', {                
                 title: $("#createtitle")[0].value,
                 characters: $("#createcharacters")[0].value,
                 storySections: $("#createslider").slider("option", "value"),
                 content: entryBox.getValue()
             }, function(response) {
                 if (response.success) {
-                    window.location = '/stories/' + response.user + '/' + response.savedId;
+                    window.location = '/stories/' + response.savedId;
                 } else {
                     document.facebookWrapper.checkStatus();
                 }

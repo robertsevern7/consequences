@@ -21,71 +21,62 @@ exports.create = function(req, res) {
 }
 
 exports.create_post_handler = function(req, res) {
-    var createPost = function(success) {
-        if (!success) {
+    if (!req.session.user) {
+        console.log('Not logged in, can\'t save story');
+        res.send({
+            success: false
+        });
+    } else {
+        var story = {
+            title: req.body.title,
+            characters: req.body.characters,
+            max_sections: req.body.storySections
+        };
+        
+        function failureHandler() {
+            console.log('calling the failure handler');
             res.send({
-                success: false
+                success: false,
+                user: story.user
             });
-        } else {
-            var story = {
-                title: req.body.title,
-                characters: req.body.characters,
-                max_sections: req.body.storySections
-            };
-            
-            function failureHandler() {
-                res.send({
-                    success: false,
-                    user: story.user
-                });
-            }
-            
-            function sendSuccessResponse(userId, storyId) {
-                res.send({
-                    success: true,
-                    user: userId,
-                    savedId: storyId
-                });
-            }
-            
-            function saveStory(user) {                
-                sql.createStory(story, user, req.body.content, sendSuccessResponse, failureHandler);
-            }
-            
-            //No other logins that facebook at the moment
-            sql.createUser(req.body.user, 'FACEBOOK', saveStory, failureHandler);
         }
+        
+        function sendSuccessResponse(userId, storyId) {
+            console.log('Saved it');
+            res.send({
+                success: true,
+                user: userId,
+                savedId: storyId
+            });
+        }
+        sql.getUser(req.session.user, function(user) {
+            sql.createStory(story, user, req.body.content, sendSuccessResponse, failureHandler);
+        }, failureHandler);        
     }
-    
-    exports.authenticate(req, res, createPost)
 }
 
 exports.contribute_post_handler = function(req, res) {
-    var contributeToPost = function(success) {
-        if (!success) {
-            res.send({
-                success: false
-            });
-        } else {
-            //TODO save the story
-            var storySectionToSave = {
-                user: req.body.user,
-                storyId: req.body.storyId,
-                content: req.body.content
-            };
-            
-            console.dir(storySectionToSave)
-            
-            var savedId = 1;
-            res.send({
-                success: true,
-                user: req.body.user,
-                savedId: savedId
-            });
-        }
+    if (!req.session.user) {
+        res.send({
+            success: false
+        });
+    } else {
+        //TODO save the story
+        var storySectionToSave = {
+            user: req.session.user,
+            storyId: req.body.storyId,
+            content: req.body.content
+        };
+        
+        console.dir(storySectionToSave)
+        
+        var savedId = 1;
+        res.send({
+            success: true,
+            user: req.session.user,
+            savedId: savedId
+        });
     }
-    
-    exports.authenticate(req, res, contributeToPost);
 }
 
 exports.like_post_handler = function(req, res) {
@@ -209,7 +200,6 @@ exports.topUserStories = function(req, res) {
 }
 
 exports.story = function(req, res) {
-    var storyOwner = req.params.user;
     var storyId = req.params.storyId;
     
     var missingStory = function() {
@@ -361,6 +351,13 @@ exports.page = function(req, res) {
 };
 
 exports.logon = function(req, res) {
+    if (req.session.user) {
+        console.log('Already logged');
+        res.send({
+            success: true                    
+        })
+    }
+    
     console.log('Logon called');
     exports.authenticate(req, res, function(success) {
         console.log(success)
@@ -372,7 +369,15 @@ exports.logon = function(req, res) {
                     success: true                    
                 })
             });
+        } else {
+            res.send({
+                success: false                    
+            })
         }
+    }, function() {
+        res.send({
+            success: false
+        })
     })
 }
 
