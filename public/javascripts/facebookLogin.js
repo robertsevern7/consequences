@@ -37,7 +37,7 @@ function FacebookWrapper() {
             if (response[0]) {
                 document.getElementById('loginbar').innerHTML = (
                     '<div>' +  response[0].name + '</div>' +
-                    '<div class="button" button onclick="FB.logout()"  style="cursor: pointer;"> Logout</div>'
+                    '<div class="button" button onclick="FB.logout(document.facebookWrapper.checkStatus)"  style="cursor: pointer;"> Logout</div>'
                 );
             }
         });
@@ -52,11 +52,20 @@ function FacebookWrapper() {
 
     function onStatus(response) {
         var loggedIn = response.status === 'connected';
+        
         if (loggedIn) {
-            showAccountInfo();
-            $('.loggedon').show();
-            $('.loggedout').hide();
-            setupClickHandlers();
+            $.post('/logon', {
+                user: response.authResponse.userID,
+                carrier: 'FACEBOOK',
+                accessToken: response.authResponse.accessToken
+            }, function(response) {
+                if (response.success) {
+                    setupClickHandlers();
+                    showAccountInfo();
+                    $('.loggedon').show();
+                    $('.loggedout').hide();
+                }
+            })
         } else {
             showLoginButton();
             $('.loggedon').hide();
@@ -66,11 +75,7 @@ function FacebookWrapper() {
     
     function setupClickHandlers() {
         $('#myStoriesTab').click(function() {
-            if (response.authResponse) {
-                window.location = '/userstories/' + response.authResponse.userID + '/1/popularity/DESC';
-            } else {
-                this.checkStatus();
-            }            
+            window.location = '/userstories/1/popularity/DESC';            
         })
         
         $('#friendsStoriesTab').click(function() {

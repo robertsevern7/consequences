@@ -31,7 +31,7 @@ app.get('/create', store.create);
 app.post('/create', store.create_post_handler);
 app.post('/contribute', store.contribute_post_handler);
 app.post('/like', store.like_post_handler);
-app.get('/userstories/:user/:page/:sortOrder/:sortDir', store.userStories);
+app.get('/userstories/:page/:sortOrder/:sortDir', store.userStories);
 app.get('/friendsstories', store.friendsStories);
 app.post('/getfriends', store.friendsRetrieval);
 app.get('/allstories/:page/:sortOrder/:sortDir', store.allStories);
