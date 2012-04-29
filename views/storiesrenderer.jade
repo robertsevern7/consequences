@@ -21,34 +21,37 @@ script(src='/javascripts/storyrenderer.js')
             div(class='useridentifier', userId='#{user}')
             img(class='userimage', userId='#{user}')
         div &nbsp
-        each story in stories
-            .storyholder(user='#{story.owner}', storyId='#{story.storyId}')
-                span(class='storytitle leftfloat')= story.title
-                .rightfloat
-                    if story.completed
-                        span(class='storycomplete') Complete
-                    if !story.completed
-                        span(class='storyincomplete') Incomplete
-                .clearfloats
-                if !user
-                    div(class='useridentifier', userId='#{story.owner}')
-                    img(class='userimage', userId='#{story.owner}')
-                .clearfloats
-                div &nbsp
-                .storycontent= story.sections[0].content + '...'
-                div &nbsp
-                mixin likestemplate(story.numlikes, story.storyId)
-        div &nbsp
-        table(class="centerhorizontal")
-            tr
-                td                    
-                    div(class='firstButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', sortOrder='#{sortOrder}', currentDirection='#{sortDirection}', userId='#{user}')
-                td
-                    div(class='prevButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', sortOrder='#{sortOrder}', currentDirection='#{sortDirection}', userId='#{user}')
-                td
-                    div(class='nextButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', sortOrder='#{sortOrder}', currentDirection='#{sortDirection}', userId='#{user}')
-                td
-                    div(class='lastButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', sortOrder='#{sortOrder}', currentDirection='#{sortDirection}', userId='#{user}')
-        .centerhorizontal Page #{page} of #{totalPages}
+        if totalPages
+            each story in stories
+                .storyholder(user='#{story.owner}', storyId='#{story.storyId}')
+                    span(class='storytitle leftfloat')= story.title
+                    .rightfloat
+                        if story.completed
+                            span(class='storycomplete') Complete
+                        if !story.completed
+                            span(class='storyincomplete') Incomplete
+                    .clearfloats
+                    if !user
+                        div(class='useridentifier', userId='#{story.owner}')
+                        img(class='userimage', userId='#{story.owner}')
+                    .clearfloats
+                    div &nbsp
+                    .storycontent= story.sections[0].content + '...'
+                    div &nbsp
+                    mixin likestemplate(story.numlikes, story.storyId)
+            div &nbsp
+            table(class="centerhorizontal")
+                tr
+                    td                    
+                        div(class='firstButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', sortOrder='#{sortOrder}', currentDirection='#{sortDirection}', userId='#{user}')
+                    td
+                        div(class='prevButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', sortOrder='#{sortOrder}', currentDirection='#{sortDirection}', userId='#{user}')
+                    td
+                        div(class='nextButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', sortOrder='#{sortOrder}', currentDirection='#{sortDirection}', userId='#{user}')
+                    td
+                        div(class='lastButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', sortOrder='#{sortOrder}', currentDirection='#{sortDirection}', userId='#{user}')
+            .centerhorizontal Page #{page} of #{totalPages}
+        else
+            div Sorry, there are no stories here. Create one!
     .push
 include footer

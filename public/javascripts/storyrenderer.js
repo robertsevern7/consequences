@@ -38,7 +38,7 @@ function StoryRenderer() {
             var sortOrder = element.attr('currentSort');
             var user = element.attr('user');
             if (user) {
-                window.location = '/userstories/' + user + '/1/' + sortOrder + '/' + sortDirection;
+                window.location = '/userstories/1/' + sortOrder + '/' + sortDirection;
             } else {
                 window.location = '/allstories/1/' + sortOrder + '/' + sortDirection;
             }
@@ -73,7 +73,7 @@ function StoryRenderer() {
             $(this).addClass('selected');
             
             if (user) {
-                window.location = '/userstories/' + user + '/1/' + sortOrder + '/' + sortDirection;
+                window.location = '/userstories/1/' + sortOrder + '/' + sortDirection;
             } else {
                 window.location = '/allstories/1/' + sortOrder + '/' + sortDirection;
             }
@@ -87,7 +87,7 @@ function StoryRenderer() {
             var sortDirection = element.attr('currentDirection');
            
             if (user) {
-                window.location = '/userstories/' + user + '/' + page + '/' +sortOrder + '/' + sortDirection;
+                window.location = '/userstories/' + page + '/' +sortOrder + '/' + sortDirection;
             } else {
                 window.location = '/allstories/' + page + '/' + sortOrder + '/' + sortDirection;
             }
