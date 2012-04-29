@@ -89,8 +89,8 @@ exports.like_post_handler = function(req, res) {
 exports.userStories = function(req, res) {
     var user = req.session.user;
     var page = req.params.page;
-    var sortOrder = req.params.sortOrder; //Title alphabetical or popularity or date
-    var sortDir = req.params.sortDir; //ASC or DESC
+    var sortOrder = req.params.sortOrder;
+    var sortDir = req.params.sortDir;
     var totalPages = 0;
         
     function renderStories(stories) {
@@ -108,34 +108,36 @@ exports.userStories = function(req, res) {
     function getStoryPage(totalStories) {       
         totalPages = totalStories && Math.ceil(totalStories/PAGE_SIZE);
         console.log('Get stories for user ' + user)
-        console.log('Page ' + page)
-        console.log('Sort Order ' + sortOrder)
-        //TODO get the first section
-        sql.getUserStories(user, page, PAGE_SIZE, sortOrder, sortDir, renderStories);        
+        sql.getStories(user, page, PAGE_SIZE, sortOrder, sortDir, renderStories);        
     }    
     
-    var totalStories = sql.getStoryCount(user, getStoryPage);
+    sql.getUserStoryCount(user, getStoryPage);
 }
 
 exports.allStories = function(req, res) {
     var page = req.params.page;
-    var sortOrder = req.params.sortOrder; //Title alphabetical or popularity or date
-    var sortDir = req.params.sortDir; //ASC or DESC
+    var sortOrder = req.params.sortOrder;
+    var sortDir = req.params.sortDir;
     
-    //TODO need to calculate the totalpages
-    var totalPages = 3;
-    console.log('Page ' + page)
-    console.log('Sort Order ' + sortOrder)
-    //TODO get the stories, only return the first section though
-    res.render('storiesrenderer', {
-        title: 'Consequences - Stories',
-        sortOrder: sortOrder,
-        sortDirection: sortDir,
-        page: page,
-        totalPages: totalPages,
-        user: '',
-        stories: userStories
-    });
+    function renderStories(stories) {
+        res.render('storiesrenderer', {
+            title: 'Consequences - Stories',
+            sortOrder: sortOrder,
+            sortDirection: sortDir,
+            page: page,
+            totalPages: totalPages,
+            user: '',
+            stories: stories
+        });
+    }
+        
+    function getStoryPage(totalStories) {       
+        totalPages = totalStories && Math.ceil(totalStories/PAGE_SIZE);
+        console.log('Get all stories page')
+        sql.getStories('', page, PAGE_SIZE, sortOrder, sortDir, renderStories);
+    }    
+    
+    sql.getAllStoryCount(getStoryPage);
 }
 
 exports.friendsStories = function(req, res) {   
