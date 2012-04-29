@@ -173,7 +173,7 @@ exports.friendsRetrieval = function(req, res) {
             }
             
             function returnFriends(friendsFromDB) {            
-                var friendResponse = [];
+                var friendsResponse = [];
                 for (var l = 0, len = friendsFromDB.length; l < len; ++l) {
                     var friend = friendsFromDB[l];
                     friendsResponse.push({
@@ -182,7 +182,7 @@ exports.friendsRetrieval = function(req, res) {
                     });
                 }
                 res.send({
-                    friends: friendResponse
+                    friends: friendsResponse
                 });
             }
             sql.getFriends(friendIds, returnFriends, noFriends);              
