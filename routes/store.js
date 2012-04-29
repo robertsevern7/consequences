@@ -94,27 +94,36 @@ exports.userStories = function(req, res) {
     var sortDir = req.params.sortDir;
     var totalPages = 0;
         
-    function renderStories(stories) {
+    function renderStories(dbUser) {        
         res.render('storiesrenderer', {
             title: 'Consequences - User Stories',
             sortOrder: sortOrder,
             sortDirection: sortDir,
             page: page,
             totalPages: totalPages,
-            user: user,
-            stories: stories
+            user: dbUser.userId,
+            stories: fooStories
+        });
+    }
+    
+    var fooStories = [];
+    function getUser(stories) {       
+        fooStories = stories;
+        sql.getUser(user, renderStories, function() {
+            fooStories = [];
+            renderStories();
         });
     }
         
-    function getStoryPage(totalStories) {  
+    function getStoryPage(totalStories) {
         if (totalStories) {
             totalPages = totalStories && Math.ceil(totalStories/PAGE_SIZE);
             console.log('Get stories for user ' + user)
-            sql.getStories(user, page, PAGE_SIZE, sortOrder, sortDir, renderStories);        
+            sql.getStories(user, page, PAGE_SIZE, sortOrder, sortDir, getUser);        
         } else {
             renderStories([]);
-        }        
-    }    
+        }
+    }
     
     sql.getUserStoryCount(user, getStoryPage);
 }
