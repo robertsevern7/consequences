@@ -28,7 +28,7 @@ $(document).ready(function() {
                 content: entryBox.getValue()
             }, function(response) {
                 if (response.success) {
-                    window.location = '/stories/' + response.user + '/' + response.savedId;
+                    window.location = '/stories/' + response.savedId;
                 } else {
                     document.facebookWrapper.checkStatus();
                 }
