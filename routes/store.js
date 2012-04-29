@@ -1,5 +1,6 @@
 var facebookAuthenticate = require('facebookAuthenticate')
 var sql = require('sequelize_connector')
+var PAGE_SIZE = 2;
 
 exports.home = function(req, res) {
     if (typeof req.session.username == 'undefined') res.render('home', { title: 'Consequences'});
@@ -90,22 +91,30 @@ exports.userStories = function(req, res) {
     var page = req.params.page;
     var sortOrder = req.params.sortOrder; //Title alphabetical or popularity or date
     var sortDir = req.params.sortDir; //ASC or DESC
+    var totalPages = 0;
+        
+    function renderStories(stories) {
+        res.render('storiesrenderer', {
+            title: 'Consequences - User Stories',
+            sortOrder: sortOrder,
+            sortDirection: sortDir,
+            page: page,
+            totalPages: totalPages,
+            user: user,
+            stories: stories
+        });
+    }
+        
+    function getStoryPage(totalStories) {       
+        totalPages = totalStories && Math.ceil(totalStories/PAGE_SIZE);
+        console.log('Get stories for user ' + user)
+        console.log('Page ' + page)
+        console.log('Sort Order ' + sortOrder)
+        //TODO get the first section
+        sql.getUserStories(user, page, PAGE_SIZE, sortOrder, sortDir, renderStories);        
+    }    
     
-    //TODO need to calculate the totalpages
-    var totalPages = 3;
-    console.log('Get stories for user ' + user)
-    console.log('Page ' + page)
-    console.log('Sort Order ' + sortOrder)
-    //TODO get the stories, only return the first section though
-    res.render('storiesrenderer', {
-        title: 'Consequences - User Stories',
-        sortOrder: sortOrder,
-        sortDirection: sortDir,
-        page: page,
-        totalPages: totalPages,
-        user: user,
-        stories: userStories
-    });
+    var totalStories = sql.getStoryCount(user, getStoryPage);
 }
 
 exports.allStories = function(req, res) {
