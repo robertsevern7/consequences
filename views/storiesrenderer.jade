@@ -23,7 +23,7 @@ script(src='/javascripts/storyrenderer.js')
         div &nbsp
         if totalPages
             each story in stories
-                .storyholder(user='#{story.owner}', storyId='#{story.storyId}')
+                .storyholder(user='#{story.owner}', storyId='#{story.id}')
                     span(class='storytitle leftfloat')= story.title
                     .rightfloat
                         if story.completed
