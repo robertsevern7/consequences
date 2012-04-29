@@ -148,36 +148,40 @@ exports.friendsStories = function(req, res) {
 }
 
 exports.friendsRetrieval = function(req, res) {
-    console.log('Entered friendsRetrieval');
-    var friends = [{
-        userId: 36916554,
-        storyCount: 3
-    }, { 
-        userId: 36916555, 
-        storyCount: 5
-    }, {
-        userId: 36916556,
-        storyCount: 6
-    }, {
-        userId: 36916557, 
-        storyCount: 7
-    }, {
-        userId: 36916558,
-        storyCount: 8
-    }]
     console.log('Replying to getfriends')
     
-    facebookAuthenticate.getFriends(req, res, function(fail, response) {
+    facebookAuthenticate.getFriends(req, res, function(fail, friends) {
         if (fail) {
             res.send({
                 friends: []
             });
         } else {
-            //TODO intersect the facebook friends with our database of users
+            var friendIds = [];
+            for (var k = 0, len = friends.length; k < len; ++k) {
+                var friend = friends[k];
+                friendIds.push(friend.id);
+            }
             
-            res.send({
-                friends: response
-            });
+            function noFriends() {
+                res.send({
+                    friends: []
+                });
+            }
+            
+            function returnFriends(friendsFromDB) {            
+                var friendResponse = [];
+                for (var l = 0, len = friendsFromDB.length; l < len; ++l) {
+                    var friend = friendsFromDB[l];
+                    friendsResponse.push({
+                        id: friend.id,
+                        userId: friend.userId
+                    });
+                }
+                res.send({
+                    friends: friendResponse
+                });
+            }
+            sql.getFriends(friendIds, returnFriends, noFriends);              
         }
     })
 }
@@ -200,7 +204,7 @@ exports.topUserStories = function(req, res) {
         });
     }
         
-    var user = req.session.user;
+    var user = req.body.user;
     sql.getStories(user, 1, TOP_USER_STORIES, 'popularity', 'DESC', renderStories); 
 }
 
@@ -247,8 +251,7 @@ exports.story = function(req, res) {
         console.log('Contributed: ' + contributed);
         hasContributed = contributed;
         sql.getFullStory(storyId, renderStory, missingStory); 
-    }, missingStory);
-    
+    }, missingStory);  
 }
 
 exports.page = function(req, res) {
