@@ -88,7 +88,7 @@ exports.like_post_handler = function(req, res) {
 }
 
 exports.userStories = function(req, res) {
-    var user = req.session.user;
+    var user = req.query.user || req.session.user;
     var page = req.params.page;
     var sortOrder = req.params.sortOrder;
     var sortDir = req.params.sortDir;
@@ -106,10 +106,14 @@ exports.userStories = function(req, res) {
         });
     }
         
-    function getStoryPage(totalStories) {       
-        totalPages = totalStories && Math.ceil(totalStories/PAGE_SIZE);
-        console.log('Get stories for user ' + user)
-        sql.getStories(user, page, PAGE_SIZE, sortOrder, sortDir, renderStories);        
+    function getStoryPage(totalStories) {  
+        if (totalStories) {
+            totalPages = totalStories && Math.ceil(totalStories/PAGE_SIZE);
+            console.log('Get stories for user ' + user)
+            sql.getStories(user, page, PAGE_SIZE, sortOrder, sortDir, renderStories);        
+        } else {
+            renderStories([]);
+        }        
     }    
     
     sql.getUserStoryCount(user, getStoryPage);

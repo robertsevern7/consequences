@@ -18,7 +18,7 @@ function FriendsRenderer() {
                         for (var i = 0, len=response.friends.length; i < len; ++i) {
                             var friend = response.friends[i];
                             var userHtml = '<div class="useridentifier noby" userId=' + htmlEncode(friend.userId) + '/>' +
-                                           '<img class="userimage pointer" userId=' + htmlEncode(friend.userId) + ' clickId=' + htmlEncode(friend.id) + '/>' +
+                                           '<img class="userimage pointer" userId=' + htmlEncode(friend.userId) + ' clickId="' + htmlEncode(friend.id) + '"/>' +
                                            '<div>&nbsp</div>'
                             
                             $('#friends').append(userHtml);
@@ -69,8 +69,9 @@ function FriendsRenderer() {
                         document.storyRenderer.likeHandler();
                     }                    
                     
+                    var href = '/userstories/1/popularity/DESC?user=' + userId;
                     var seeMore = '<div class="rightfloat">' +
-                                      '<a href="/userstories/' + htmlEncode(story.owner) + '/1/popularity/DESC">See more</a>' +
+                                      '<a href="' + href + '">See More</a>' +
                                   '</div>' +
                                   '<div class="clearfloats"/>'
                     $('#storywindow').append(seeMore);
