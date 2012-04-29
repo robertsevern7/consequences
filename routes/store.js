@@ -1,6 +1,7 @@
 var facebookAuthenticate = require('facebookAuthenticate')
 var sql = require('sequelize_connector')
 var PAGE_SIZE = 2;
+var TOP_USER_STORIES = 3;
 
 exports.home = function(req, res) {
     if (typeof req.session.username == 'undefined') res.render('home', { title: 'Consequences'});
@@ -182,32 +183,25 @@ exports.friendsRetrieval = function(req, res) {
 }
 
 exports.topUserStories = function(req, res) {
-    var stories = [{
-        storyId: 1,
-        owner: 36916554,
-        title: 'Best Story Ever',
-        completed: true,
-        numlikes: 40,
-        firstSection: 'There once was a very short story'
-    },{
-        storyId: 2,
-        owner: 36916554,
-        title: '<script>alert(\'Injected!\');</script>',
-        completed: true,
-        numlikes: 30,
-        firstSection: 'Story 2'
-    },{
-        storyId: 3,
-        owner: 36916554,
-        title: 'Story 3',
-        completed: false,
-        numlikes: 20,
-        firstSection: 'Story 3'
-    }]
-    
-    res.send({
-        stories: stories
-    });
+    function renderStories(stories) {
+        var returnStories = [];
+        for (var i = 0, len = stories.length; i < len; ++i) {
+            var story = stories[i];
+            returnStories.push({
+                title: story.title,
+                id: story.id,
+                completed: story.completed,
+                numlikes: story.num_likes,
+                firstSection: story.sections[0].content
+            });
+        }
+        res.send({
+            stories: returnStories
+        });
+    }
+        
+    var user = req.session.user;
+    sql.getStories(user, 1, TOP_USER_STORIES, 'popularity', 'DESC', renderStories); 
 }
 
 exports.story = function(req, res) {
@@ -256,107 +250,6 @@ exports.story = function(req, res) {
     }, missingStory);
     
 }
-
-var userStories = [
-    {
-        storyId: 1,
-        owner: 36916554,
-        title: '<script>alert(\'Injected!\');</script>',
-        characters: 'Ringo and Macca',
-        storySections: 6,
-        completed: false,
-        numlikes: 40,
-        sections: [
-            {
-                sectionId: 1,
-                contributor: 36916554,
-                content: 'There once was a very short story'
-            },
-            {
-                sectionId: 2,
-                contributor: 36916555,
-                content: 'whose content was less important than it\'s purpose, which was to test the functionality.'
-            },
-            {
-                sectionId: 3,
-                contributor: 36916556,
-                content: 'Now normally I don\'t like to leave stories incomplete, but I going to have t...'
-            }
-        ]
-    },
-    {
-        storyId: 2,
-        owner: 36916554,
-        title: 'Second Best Story Ever',
-        characters: 'Hunky Jesus',
-        storySections: 5,
-        completed: true,
-        numlikes: 50,
-        sections: [
-            {
-                sectionId: 1,
-                contributor: 36916554,
-                content: 'There once was a slightly longer story'
-            },
-            {
-                sectionId: 2,
-                contributor: 36916558,
-                content: 'whose content was even less important than it\'s purpose, which was to test the functionality.'
-            },
-            {
-                sectionId: 3,
-                contributor: 36916551,
-                content: 'This story is going to be finished'
-            },
-            {
-                sectionId: 4,
-                contributor: 36916553,
-                content: 'Repeat until finished'
-            },
-            {
-                sectionId: 5,
-                contributor: 36916559,
-                content: 'Repeat until finished 2'
-            }
-        ]
-    },
-    {
-        storyId: 3,
-        owner: 36916554,
-        title: 'Third Best Story Ever',
-        characters: 'Hunky Jesus',
-        storySections: 5,
-        completed: true,
-        numlikes: 60,
-        sections: [
-            {
-                sectionId: 1,
-                contributor: 36916554,
-                content: 'There once was a slightly longer story'
-            },
-            {
-                sectionId: 2,
-                contributor: 36916558,
-                content: 'whose content was even less important than it\'s purpose, which was to test the functionality.'
-            },
-            {
-                sectionId: 3,
-                contributor: 36916551,
-                content: 'This story is going to be finished'
-            },
-            {
-                sectionId: 4,
-                contributor: 36916553,
-                content: 'Repeat until finished'
-            },
-            {
-                sectionId: 5,
-                contributor: 36916559,
-                content: 'Repeat until finished 2'
-            }
-        ]
-    }
-]
 
 exports.page = function(req, res) {
     var name = req.query.name;

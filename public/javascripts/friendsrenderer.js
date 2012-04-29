@@ -38,9 +38,10 @@ function FriendsRenderer() {
     
     function handlePhotoClick() {
         $('.userimage').click(function() {
-            var userName = $(this).attr('userName')
+            var userName = $(this).attr('userName');
+            var userId = $(this).attr('userId');
             $.post('/topuserstories', {
-                userId: $(this).attr('userId')
+                userId: userId
             }, function(response) {
                 $('#storywindow').empty();
                 
@@ -51,7 +52,7 @@ function FriendsRenderer() {
                         var title = story.title;
                         var completeText = story.completed ? 'Complete' : 'Incomplete';
                         var completeClass = story.completed ? 'storycomplete' : 'storyincomplete';
-                        var storyHtml = '<div class="storyholder" user=' + htmlEncode(story.owner) + ' storyId=' + htmlEncode(story.storyId) + '>' +
+                        var storyHtml = '<div class="storyholder" user=' + htmlEncode(userId) + ' storyId=' + htmlEncode(story.id) + '>' +
                                             '<span class="storytitle leftfloat">' + htmlEncode(story.title) + '</span>' +
                                             '<div class="rightfloat">' +
                                                 '<span class="' + completeClass + '">' + completeText + '</span>' +
@@ -60,7 +61,7 @@ function FriendsRenderer() {
                                             '<div>&nbsp</div>' +
                                             '<div class="storycontent">' + htmlEncode(story.firstSection) + '...</div>' +
                                             '<div>&nbsp</div>' +                                            
-                                            '<span class="like" storyId=' + htmlEncode(story.storyId) + '"> Like?</span>' + 
+                                            '<span class="like" storyId=' + htmlEncode(story.id) + '"> Like?</span>' + 
                                             '<span>' + htmlEncode(story.numlikes) + ' people like this story </span>' +                                            
                                         '</div>'
                         $('#storywindow').append(storyHtml);
