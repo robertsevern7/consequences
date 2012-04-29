@@ -17,8 +17,8 @@ function FriendsRenderer() {
                     if (response.friends.length) {
                         for (var i = 0, len=response.friends.length; i < len; ++i) {
                             var friend = response.friends[i];
-                            var userHtml = '<div class="useridentifier noby" userId=' + htmlEncode(friend.id) + '/>' +
-                                           '<img class="userimage pointer" userId="' + htmlEncode(friend.id) + '"/>' +
+                            var userHtml = '<div class="useridentifier noby" userId=' + htmlEncode(friend.userId) + '/>' +
+                                           '<img class="userimage pointer" userId=' + htmlEncode(friend.userId) + ' clickId=' + htmlEncode(friend.id) + '/>' +
                                            '<div>&nbsp</div>'
                             
                             $('#friends').append(userHtml);
@@ -39,9 +39,9 @@ function FriendsRenderer() {
     function handlePhotoClick() {
         $('.userimage').click(function() {
             var userName = $(this).attr('userName');
-            var userId = $(this).attr('userId');
+            var userId = $(this).attr('clickId');
             $.post('/topuserstories', {
-                userId: userId
+                user: userId
             }, function(response) {
                 $('#storywindow').empty();
                 
