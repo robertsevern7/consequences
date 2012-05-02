@@ -38,7 +38,7 @@ script(src='/javascripts/storyrenderer.js')
                     div &nbsp
                     .storycontent= story.sections[0].content + '...'
                     div &nbsp
-                    mixin likestemplate(story.numlikes, story.storyId)
+                    mixin likestemplate((story.numlikes || 0), story.storyId)
             div &nbsp
             table(class="centerhorizontal")
                 tr
