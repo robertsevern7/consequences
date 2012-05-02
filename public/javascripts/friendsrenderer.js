@@ -64,7 +64,7 @@ function FriendsRenderer() {
                                             '<div>&nbsp</div>' +
                                             '<div class="storycontent">' + htmlEncode(story.firstSection) + '...</div>' +
                                             '<div>&nbsp</div>' +                                            
-                                            '<span class="like" storyId=' + htmlEncode(story.id) + '"> Like?</span>' + 
+                                            '<span class="like" storyId=' + htmlEncode(story.id) + '> Like?</span>' + 
                                             '<span>' + htmlEncode(numlikes) + ' people like this story </span>' +                                            
                                         '</div>'
                         $('#storywindow').append(storyHtml);
