@@ -101,9 +101,12 @@ exports.contribute_post_handler = function(req, res) {
 }
 
 exports.like_post_handler = function(req, res) {
-    //TODO like the story
-    console.log('liking ' + req.body.storyId)
-    res.send();
+    sql.getStory(req.body.storyId, function(story) {
+        ++story.num_likes;
+        story.save();
+        res.send();
+    }, res.send)
+    console.log('liking ' + req.body.storyId);    
 }
 
 exports.userStories = function(req, res) {
