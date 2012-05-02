@@ -123,7 +123,7 @@ exports.userStories = function(req, res) {
             sortDirection: sortDir,
             page: page,
             totalPages: totalPages,
-            user: dbUser.userId,
+            user: user,
             stories: fooStories
         });
     }
