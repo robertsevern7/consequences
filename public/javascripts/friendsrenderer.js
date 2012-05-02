@@ -53,7 +53,8 @@ function FriendsRenderer() {
                         var story = response.stories[i];
                         var title = story.title;
                         var completeText = story.completed ? 'Complete' : 'Incomplete';
-                        var completeClass = story.completed ? 'storycomplete' : 'storyincomplete';
+                        var completeClass = story.completed ? 'storycomplete' : 'storyincomplete';                        
+                        var numlikes = story.numlikes + '';
                         var storyHtml = '<div class="storyholder" user=' + htmlEncode(userId) + ' storyId=' + htmlEncode(story.id) + '>' +
                                             '<span class="storytitle leftfloat">' + htmlEncode(story.title) + '</span>' +
                                             '<div class="rightfloat">' +
@@ -64,7 +65,7 @@ function FriendsRenderer() {
                                             '<div class="storycontent">' + htmlEncode(story.firstSection) + '...</div>' +
                                             '<div>&nbsp</div>' +                                            
                                             '<span class="like" storyId=' + htmlEncode(story.id) + '"> Like?</span>' + 
-                                            '<span>' + htmlEncode(story.numlikes) + ' people like this story </span>' +                                            
+                                            '<span>' + htmlEncode(numlikes) + ' people like this story </span>' +                                            
                                         '</div>'
                         $('#storywindow').append(storyHtml);
                         document.storyRenderer.storySummaryHandler();
