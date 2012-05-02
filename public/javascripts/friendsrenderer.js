@@ -8,30 +8,32 @@ function FriendsRenderer() {
         FB.getLoginStatus(function(response) {
             if (response.status === 'connected') {                
                 var accessToken = response.authResponse.accessToken;
-                
-                $.post('/getfriends', {
-                    accessToken: accessToken
-                }, function(response) {
-                    $('#friends').empty();
-                    
-                    if (response.friends.length) {
-                        for (var i = 0, len=response.friends.length; i < len; ++i) {
-                            var friend = response.friends[i];
-                            var userHtml = '<div class="useridentifier noby" userId=' + htmlEncode(friend.userId) + '/>' +
-                                           '<img class="userimage pointer" userId=' + htmlEncode(friend.userId) + ' clickId="' + htmlEncode(friend.id) + '"/>' +
-                                           '<div>&nbsp</div>'
-                            
-                            $('#friends').append(userHtml);
-                        }
+                FB.api({
+                    method: 'friends.getAppUsers',
+                    access_token: accessToken
+                }, function(users) {
+                    $.post('/getfriends', {
+                        users: users
+                    }, function(response) {
+                        $('#friends').empty();
                         
-                        handlePhotoClick();
-                        document.storyRenderer.getContributors();
-                    } else {
-                        $('#friends').append('None of your friends have stories here, tell them about Consequences!');
-                    }
-                })
-            } else {
-                document.facebookWrapper.checkStatus();
+                        if (response.friends.length) {
+                            for (var i = 0, len=response.friends.length; i < len; ++i) {
+                                var friend = response.friends[i];
+                                var userHtml = '<div class="useridentifier noby" userId=' + htmlEncode(friend.userId) + '/>' +
+                                               '<img class="userimage pointer" userId=' + htmlEncode(friend.userId) + ' clickId="' + htmlEncode(friend.id) + '"/>' +
+                                               '<div>&nbsp</div>'
+                                
+                                $('#friends').append(userHtml);
+                            }
+                            
+                            handlePhotoClick();
+                            document.storyRenderer.getContributors();
+                        } else {
+                            $('#friends').append('None of your friends have stories here, tell them about Consequences!');
+                        }
+                    });
+                });
             }
         });
     }

@@ -43,11 +43,10 @@ exports.create_post_handler = function(req, res) {
             });
         }
         
-        function sendSuccessResponse(userId, storyId) {
+        function sendSuccessResponse(storyId) {
             console.log('Saved it');
             res.send({
                 success: true,
-                user: userId,
                 savedId: storyId
             });
         }
@@ -58,26 +57,46 @@ exports.create_post_handler = function(req, res) {
 }
 
 exports.contribute_post_handler = function(req, res) {
-    if (!req.session.user) {
+    var storyId = req.body.storyId - 0;
+    var userDb;
+    function failureHandler() {
         res.send({
             success: false
         });
-    } else {
-        //TODO save the story
-        var storySectionToSave = {
-            user: req.session.user,
-            storyId: req.body.storyId,
-            content: req.body.content
-        };
+    }
+    
+    if (!req.session.user) {
+        failureHandler();
+    } else {  
+        function addSection(story, totalSections) {
+            sql.createSection(req.body.content, story, userDb, function() {
+                if (totalSections == (story.max_sections - 1)) {
+                    console.log('setting story ' + story.id + ' complete ' + story.max_sections + ', ' + totalSections);
+                    story.completed = true;
+                    story.save();
+                }
+                res.send({
+                    success: true,
+                    savedId: story.id
+                });
+            }, failureHandler)
+        }
         
-        console.dir(storySectionToSave)
+        function setStoryComplete(totalSections) {            
+            sql.getStory(storyId, function(story) {
+                console.log('there are ' + story.max_sections + ' sections allowed, and ' + totalSections + ' used');
+                if (totalSections < story.max_sections) {                    
+                    addSection(story, totalSections);
+                } else {
+                    failureHandler();
+                }                
+            }, failureHandler); 
+        }
         
-        var savedId = 1;
-        res.send({
-            success: true,
-            user: req.session.user,
-            savedId: savedId
-        });
+        sql.getUser(req.session.user, function(user) {
+            userDb = user;
+            sql.getSectionCount(storyId, setStoryComplete, failureHandler);
+        }, failureHandler);
     }
 }
 
@@ -162,41 +181,28 @@ exports.friendsStories = function(req, res) {
 
 exports.friendsRetrieval = function(req, res) {
     console.log('Replying to getfriends')
+    var friendIds = req.body.users;
     
-    facebookAuthenticate.getFriends(req, res, function(fail, friends) {
-        if (fail) {
-            res.send({
-                friends: []
+    function noFriends() {
+        res.send({
+            friends: []
+        });
+    }
+    
+    function returnFriends(friendsFromDB) {            
+        var friendsResponse = [];
+        for (var l = 0, len = friendsFromDB.length; l < len; ++l) {
+            var friend = friendsFromDB[l];
+            friendsResponse.push({
+                id: friend.id,
+                userId: friend.userId
             });
-        } else {
-            var friendIds = [];
-            for (var k = 0, len = friends.length; k < len; ++k) {
-                var friend = friends[k];
-                friendIds.push(friend.id);
-            }
-            
-            function noFriends() {
-                res.send({
-                    friends: []
-                });
-            }
-            
-            function returnFriends(friendsFromDB) {            
-                var friendsResponse = [];
-                for (var l = 0, len = friendsFromDB.length; l < len; ++l) {
-                    var friend = friendsFromDB[l];
-                    friendsResponse.push({
-                        id: friend.id,
-                        userId: friend.userId
-                    });
-                }
-                res.send({
-                    friends: friendsResponse
-                });
-            }
-            sql.getFriends(friendIds, returnFriends, noFriends);              
         }
-    })
+        res.send({
+            friends: friendsResponse
+        });
+    }
+    sql.getFriends(friendIds, returnFriends, noFriends);
 }
 
 exports.topUserStories = function(req, res) {
@@ -295,8 +301,7 @@ exports.logon = function(req, res) {
         console.log(success)
         if (success) {
             sql.createUser(req.body.user, 'FACEBOOK', function(user) {                                
-                req.session.user = user.id;
-                console.log(user.id);
+                req.session.user = user.id;         
                 res.send({
                     success: true                    
                 })
