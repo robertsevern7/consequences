@@ -9,12 +9,15 @@ function StoryRenderer() {
             $(this).addClass('likehover');
         }).mouseleave(function() {
             $(this).removeClass('likehover');
-        }).click(function(event) {
+        }).click(function(event) {        
             event.stopPropagation();
-            $(this).css('background-color', '#64e886');
+            if ($(this).hasClass('likeclicked')) {
+                return;
+            }
             $.post('/like', {
                 storyId: $(this).attr('storyId')
             })
+            $(this).addClass('likeclicked');  
         });
     }
     
