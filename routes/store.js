@@ -240,7 +240,16 @@ exports.story = function(req, res) {
     
     var renderStory = function(story) {
         if (story.completed) {
-            res.render('storyrenderer', story);
+            var storyInfo = {
+                storyId: story.id,
+                owner: story.user.userId,
+                numlikes: story.num_likes,
+                title: story.title,
+                characters: story.characters,
+                completed: !!story.completed,
+                sections: story.sections
+            };
+            res.render('storyrenderer', storyInfo);
         } else if (!hasContributed) {
             var sections = story.sections;            
             var lastSection = sections[sections.length - 1];
