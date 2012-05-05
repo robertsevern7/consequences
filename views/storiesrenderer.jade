@@ -9,13 +9,13 @@ script(src='/javascripts/storyrenderer.js')
                 tr
                     td
                         if sortDirection === 'ASC'                            
-                            div(class='orderindicatorup', currentSort='#{sortOrder}', user='#{user}')
+                            div(class='orderindicatorup', currentSort='#{sortOrder}', user='#{userId}')
                         else
-                            div(class='orderindicatordown', currentSort='#{sortOrder}', user='#{user}')
+                            div(class='orderindicatordown', currentSort='#{sortOrder}', user='#{userId}')
                     td
-                        mixin sortoption('Popularity', 'popularity', 'DESC', sortDirection, sortOrder, user)
-                        mixin sortoption('Date', 'date', 'DESC', sortDirection, sortOrder, user)
-                        mixin sortoption('Alphabetical', 'alphabetical', 'ASC', sortDirection, sortOrder, user)
+                        mixin sortoption('Popularity', 'popularity', 'DESC', sortDirection, sortOrder, userId)
+                        mixin sortoption('Date', 'date', 'DESC', sortDirection, sortOrder, userId)
+                        mixin sortoption('Alphabetical', 'alphabetical', 'ASC', sortDirection, sortOrder, userId)
         .clearfloats
         if user
             div(class='useridentifier', userId='#{user}')
@@ -43,13 +43,13 @@ script(src='/javascripts/storyrenderer.js')
             table(class="centerhorizontal")
                 tr
                     td                    
-                        div(class='firstButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', sortOrder='#{sortOrder}', currentDirection='#{sortDirection}', userId='#{user}')
+                        div(class='firstButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', sortOrder='#{sortOrder}', currentDirection='#{sortDirection}', userId='#{userId}')
                     td
-                        div(class='prevButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', sortOrder='#{sortOrder}', currentDirection='#{sortDirection}', userId='#{user}')
+                        div(class='prevButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', sortOrder='#{sortOrder}', currentDirection='#{sortDirection}', userId='#{userId}')
                     td
-                        div(class='nextButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', sortOrder='#{sortOrder}', currentDirection='#{sortDirection}', userId='#{user}')
+                        div(class='nextButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', sortOrder='#{sortOrder}', currentDirection='#{sortDirection}', userId='#{userId}')
                     td
-                        div(class='lastButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', sortOrder='#{sortOrder}', currentDirection='#{sortDirection}', userId='#{user}')
+                        div(class='lastButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', sortOrder='#{sortOrder}', currentDirection='#{sortDirection}', userId='#{userId}')
             .centerhorizontal Page #{page} of #{totalPages}
         else
             div Sorry, there are no stories here. Create one!

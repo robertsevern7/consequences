@@ -116,6 +116,10 @@ exports.userStories = function(req, res) {
     var sortDir = req.params.sortDir;
     var totalPages = 0;
         
+    function failureHandler() {
+        renderStories([]);
+    }
+        
     function renderStories(dbUser) {        
         res.render('storiesrenderer', {
             title: 'Consequences - User Stories',
@@ -124,6 +128,7 @@ exports.userStories = function(req, res) {
             page: page,
             totalPages: totalPages,
             user: dbUser.userId,
+            userId: dbUser.id,
             stories: fooStories
         });
     }
@@ -134,20 +139,20 @@ exports.userStories = function(req, res) {
         sql.getUser(user, renderStories, function() {
             fooStories = [];
             renderStories();
-        });
+        }, failureHandler);
     }
         
     function getStoryPage(totalStories) {
         if (totalStories) {
             totalPages = totalStories && Math.ceil(totalStories/PAGE_SIZE);
             console.log('Get stories for user ' + user)
-            sql.getStories(user, page, PAGE_SIZE, sortOrder, sortDir, getUser);        
+            sql.getStories(user, page, PAGE_SIZE, sortOrder, sortDir, getUser, failureHandler);
         } else {
             renderStories([]);
         }
     }
-    
-    sql.getUserStoryCount(user, getStoryPage);
+    console.log('Counting stories for user ' + user);
+    sql.getUserStoryCount(user, getStoryPage, failureHandler);
 }
 
 exports.allStories = function(req, res) {
