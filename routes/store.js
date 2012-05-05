@@ -168,6 +168,7 @@ exports.allStories = function(req, res) {
             page: page,
             totalPages: totalPages,
             user: '',
+            userId: '',
             stories: stories
         });
     }
