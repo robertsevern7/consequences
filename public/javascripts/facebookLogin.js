@@ -34,20 +34,13 @@ function FacebookWrapper() {
             query: 'SELECT name FROM user WHERE uid='+FB.getUserID()
         },
         function(response) {
-            if (response[0]) {
-                document.getElementById('loginbar').innerHTML = (
+            if (response[0]) {			    
+                document.getElementById('logoutbar').innerHTML = (
                     '<div>' +  response[0].name + '</div>' +
                     '<div class="button" button onclick="FB.logout(document.facebookWrapper.checkStatus)"  style="cursor: pointer;"> Logout</div>'
                 );
             }
         });
-    }
-
-    function showLoginButton() {
-        document.getElementById('loginbar').innerHTML = (
-            '<img onclick="FB.login()" style="cursor: pointer;"' +
-                'src="https://s-static.ak.fbcdn.net/rsrc.php/zB6N8/hash/4li2k73z.gif">'
-        );
     }
 
     function onStatus(response) {
@@ -67,8 +60,7 @@ function FacebookWrapper() {
                 }
             })
         } else {
-            $.post('/logout', {}, function(response) {            
-                showLoginButton();
+            $.post('/logout', {}, function(response) {                
                 $('.loggedon').hide();
                 $('.loggedout').show();                
             })
