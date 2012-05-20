@@ -37,7 +37,7 @@ function FacebookWrapper() {
             if (response[0]) {			    
                 document.getElementById('logoutbar').innerHTML = (
                     '<div>' +  response[0].name + '</div>' +
-                    '<div class="button" button onclick="FB.logout(document.facebookWrapper.checkStatus)"  style="cursor: pointer;"> Logout</div>'
+                    '<div class="button" button onclick="FB.logout()"  style="cursor: pointer;"> Logout</div>'
                 );
             }
         });
@@ -63,8 +63,7 @@ function FacebookWrapper() {
             $.post('/logout', {}, function(response) {                
                 $('.loggedon').hide();
                 $('.loggedout').show();                
-            })
-            
+            })            
         } 
     }
     
