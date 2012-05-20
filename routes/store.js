@@ -1,5 +1,6 @@
-var facebookAuthenticate = require('facebookAuthenticate')
-var sql = require('sequelize_connector')
+var facebookAuthenticate = require('facebookAuthenticate');
+var sql = require('sequelize_connector');
+var mailer = require('mailer_connector');
 var PAGE_SIZE = 2;
 var TOP_USER_STORIES = 3;
 
@@ -43,7 +44,7 @@ exports.create_post_handler = function(req, res) {
             });
         }
         
-        function sendSuccessResponse(storyId) {
+        function sendSuccessResponse(storyId) {            
             console.log('Saved it');
             res.send({
                 success: true,
@@ -54,6 +55,10 @@ exports.create_post_handler = function(req, res) {
             sql.createStory(story, user, req.body.content, sendSuccessResponse, failureHandler);
         }, failureHandler);        
     }
+}
+
+emailCompleteStory = function(storyId) {
+    sql.getFullStory(storyId, mailer.sendCompleteMessage);
 }
 
 exports.contribute_post_handler = function(req, res) {
@@ -69,11 +74,12 @@ exports.contribute_post_handler = function(req, res) {
         failureHandler();
     } else {  
         function addSection(story, totalSections) {
-            sql.createSection(req.body.content, story, userDb, function() {
+            sql.createSection(req.body.content, story, userDb, function() {                
                 if (totalSections == (story.max_sections - 1)) {
                     console.log('setting story ' + story.id + ' complete ' + story.max_sections + ', ' + totalSections);
                     story.completed = true;
-                    story.save();
+                    story.save();                    
+                    emailCompleteStory(storyId);                    
                 }
                 res.send({
                     success: true,
@@ -315,10 +321,10 @@ exports.logon = function(req, res) {
     }
     
     console.log('Logon called');
-    exports.authenticate(req, res, function(success) {
+    exports.authenticate(req, res, function(success, email) {        
         console.log(success)
         if (success) {
-            sql.createUser(req.body.user, 'FACEBOOK', function(user) {                                
+            sql.createUser(req.body.user, email, 'FACEBOOK', function(user) {                                
                 req.session.user = user.id;         
                 res.send({
                     success: true                    
@@ -343,7 +349,7 @@ exports.authenticate = function(req, res, callback) {
         } else {
             var authenticatedUser = response.id;
             var attemptedUser = req.body.user;
-            callback(authenticatedUser === attemptedUser);
+            callback(authenticatedUser === attemptedUser, response.email);
         }
     })
 }
