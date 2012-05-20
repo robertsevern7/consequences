@@ -5,7 +5,7 @@ var PAGE_SIZE = 2;
 var TOP_USER_STORIES = 3;
 
 exports.home = function(req, res) {
-    if (typeof req.session.username == 'undefined') res.render('home', { title: 'Consequences'});
+    if (typeof req.session.username == 'undefined') res.render('home', { title: 'Consequentials'});
     else res.redirect('/items');
 };
 
@@ -16,11 +16,11 @@ exports.home_post_handler = function(req, res) {
 };
 
 exports.howto = function(req, res) {
-    res.render('howto', { title: 'Consequences - How To'})
+    res.render('howto', { title: 'Consequentials - How To'})
 }
 
 exports.create = function(req, res) {
-    res.render('create', { title: 'Consequences - Create'})
+    res.render('create', { title: 'Consequentials - Create'})
 }
 
 exports.create_post_handler = function(req, res) {
@@ -128,7 +128,7 @@ exports.userStories = function(req, res) {
         
     function renderStories(dbUser) {        
         res.render('storiesrenderer', {
-            title: 'Consequences - User Stories',
+            title: 'Consequentials - User Stories',
             sortOrder: sortOrder,
             sortDirection: sortDir,
             page: page,
@@ -168,7 +168,7 @@ exports.allStories = function(req, res) {
     
     function renderStories(stories) {
         res.render('storiesrenderer', {
-            title: 'Consequences - Stories',
+            title: 'Consequentials - Stories',
             sortOrder: sortOrder,
             sortDirection: sortDir,
             page: page,
@@ -190,7 +190,7 @@ exports.allStories = function(req, res) {
 
 exports.friendsStories = function(req, res) {   
     res.render('friendsrenderer', {
-        title: 'Consequences - Friends\' Stories'        
+        title: 'Consequentials - Friends\' Stories'        
     });
 }
 
@@ -247,7 +247,7 @@ exports.story = function(req, res) {
     var hasContributed = false;
     
     var missingStory = function() {
-        res.render('nostory', {title: 'Consequences - Missing Story'});
+        res.render('nostory', {title: 'Consequentials - Missing Story'});
     }
     
     var renderStory = function(story) {
@@ -300,10 +300,10 @@ exports.story = function(req, res) {
 exports.page = function(req, res) {
     var name = req.query.name;
     var contents = {
-        about: 'Consequences is an online version of the classic children\'s game',
-        contact: 'You can contact me at robertsevern@gmail.com'
+        about: 'Consequentials is an online version of the classic children\'s game',
+        contact: 'You can contact us rob@consequentials.com'
     };
-    res.render('page', { title: 'Consequences - ' + name, content:contents[name] });
+    res.render('page', { title: 'Consequentials - ' + name, content:contents[name] });
 };
 
 exports.logout = function(req, res) {
