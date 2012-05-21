@@ -30,7 +30,7 @@ function FriendsRenderer() {
                             handlePhotoClick();
                             document.storyRenderer.getContributors();
                         } else {
-                            $('#friends').append('None of your friends have stories here, tell them about Consequences!');
+                            $('#friends').append('None of your friends have stories here, tell them about Consequentials!');
                         }
                     });
                 });
@@ -63,13 +63,13 @@ function FriendsRenderer() {
                                             '<div class="clearfloats"/>' +
                                             '<div>&nbsp</div>' +
                                             '<div class="storycontent">' + htmlEncode(story.firstSection) + '...</div>' +
-                                            '<div>&nbsp</div>' +                                            
-                                            '<span class="like" storyId=' + htmlEncode(story.id) + '> Like?</span>' + 
-                                            '<span>' + htmlEncode(numlikes) + ' people like this story </span>' +                                            
+                                            '<div>&nbsp</div>' +               
+                                            '<fb:like class="like" data-send="false" data-width="450" data-show-faces="false" href="http://localhost:3000/stories/' + story.id + '" storyId=' + story.id + '/>' +
                                         '</div>'
                         $('#storywindow').append(storyHtml);
-                        document.storyRenderer.storySummaryHandler();
-                        document.storyRenderer.likeHandler();
+                       
+                        FB.XFBML.parse(); 
+                        document.storyRenderer.storySummaryHandler();                                               
                     }                    
                     
                     var href = '/userstories/1/popularity/DESC?user=' + userId;

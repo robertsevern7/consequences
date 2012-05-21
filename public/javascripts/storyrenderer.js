@@ -4,23 +4,6 @@ $(document).live("facebook:ready", function() {
 function StoryRenderer() {
     that = this;
     
-    StoryRenderer.prototype.likeHandler = function() {
-        $('.like').mouseenter(function() {
-            $(this).addClass('likehover');
-        }).mouseleave(function() {
-            $(this).removeClass('likehover');
-        }).click(function(event) {        
-            event.stopPropagation();
-            if ($(this).hasClass('likeclicked')) {
-                return;
-            }
-            $.post('/like', {
-                storyId: $(this).attr('storyId')
-            })
-            $(this).addClass('likeclicked');  
-        });
-    }
-    
     function hoverButtonHandler() {
         $('.hoverbutton').mouseenter(function() {
             $(this).addClass('hovering');
@@ -167,7 +150,6 @@ function StoryRenderer() {
         });
     }
     
-    this.likeHandler();
     this.storySummaryHandler();
     sortingHandler();
     pagingHandler();
