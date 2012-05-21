@@ -19,4 +19,14 @@ $(document).ready(function(){
 $(document).live("facebook:ready", function(){
     document.facebookWrapper = new FacebookWrapper();
     document.facebookWrapper.startLoginListener();
+    
+    FB.Event.subscribe('edge.create',
+        function(response) {
+            var storyIdStart = response.lastIndexOf('/') + 1;
+            var storyId = response.substring(storyIdStart, response.length);
+            $.post('/like', {
+                storyId: storyId
+            })            
+        }
+    );
 });
