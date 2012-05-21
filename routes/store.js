@@ -1,8 +1,8 @@
 var facebookAuthenticate = require('facebookAuthenticate');
 var sql = require('sequelize_connector');
 var mailer = require('mailer_connector');
-var PAGE_SIZE = 2;
-var TOP_USER_STORIES = 3;
+var PAGE_SIZE = 5;
+var TOP_USER_STORIES = 5;
 
 exports.home = function(req, res) {
     if (typeof req.session.username == 'undefined') res.render('home', { title: 'Consequentials'});
