@@ -4,17 +4,6 @@ $(document).ready(function() {
 
 function CreatePanel() {
     that = this;
-    function setSliderValueText(event, ui) {
-        $("#slidervalue").text(ui.value)
-    }    
-    
-    $("#createslider").slider({
-        min: 5,
-        max: 20,
-        value: 5,
-        change: setSliderValueText,
-        slide: setSliderValueText
-    });
     
     function checkTitlePresent() {
         that._titlePresent = $('#createtitle')[0].value.length;
@@ -62,7 +51,6 @@ function CreatePanel() {
             $.post('/create', {                
                 title: $("#createtitle")[0].value,
                 characters: $("#createcharacters")[0].value,
-                storySections: $("#createslider").slider("option", "value"),
                 content: entryBox.getValue()
             }, function(response) {
                 if (response.success) {
