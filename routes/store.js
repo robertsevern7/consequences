@@ -33,7 +33,7 @@ exports.create_post_handler = function(req, res) {
         var story = {
             title: req.body.title,
             characters: req.body.characters,
-            max_sections: req.body.storySections
+            max_sections: 5
         };
         
         function failureHandler() {
