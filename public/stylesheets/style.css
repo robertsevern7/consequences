@@ -84,10 +84,11 @@ a {
 }
 #loginbar {
   float: right;
-  padding: 20px;
+  padding: 20px 0;
 }
 #logoutbar {
   float: right;
+  padding: 20px 0;
 }
 #navcontents {
   margin: auto;
