@@ -150,9 +150,38 @@ function StoryRenderer() {
         });
     }
     
+    function addCountdownTimer() {
+        var intervalId = -1;
+        $.each($('#countdown'), function() {
+            var twentyMinExpireTime = 1200000;
+            var lockDate = new Date($(this).attr('lockTime'));
+            var expireTime = lockDate.getTime() + twentyMinExpireTime;
+            var countDiv =  $(this)
+            getTimeHtml(expireTime, countDiv);
+            intervalId = setInterval(function() {
+                getTimeHtml(expireTime, countDiv);
+            }, 1000);
+        });
+
+        function getTimeHtml(expireTime, countdownDiv) {
+            var timeUntilLockRelease = (expireTime - new Date())/1000;
+            
+            if (timeUntilLockRelease < 0) {                
+                countdownDiv.html('0:00');
+                clearInterval(intervalId);
+                return;
+            }
+            var minutes = Math.floor(timeUntilLockRelease/60);
+            var seconds = Math.floor(timeUntilLockRelease%60);
+            var split = seconds < 10 ? ':0' : ':';
+            countdownDiv.html(minutes + split + seconds);
+        } 
+    }
+
     this.storySummaryHandler();
     sortingHandler();
     pagingHandler();
     hoverButtonHandler();
     this.getContributors();
+    addCountdownTimer();
 }

@@ -5,6 +5,14 @@ $(document).ready(function() {
 function CreatePanel() {
     that = this;
     
+    $.post('/seed', {               
+    }, function(response) {
+        that.seed = 'Characters: ' + response.nameOne + ' and ' + response.nameTwo + 'Location: ' + that.location;
+        $('#characterOne').text(response.nameOne);
+        $('#characterTwo').text(response.nameTwo);
+        $('#location').text(response.location);
+    })
+    
     function checkTitlePresent() {
         that._titlePresent = $('#createtitle')[0].value.length;
         var titlewarning = $('#titlewarning');
@@ -26,7 +34,7 @@ function CreatePanel() {
     
     function validateCreateButton() {
         var createButton = $('#contributebutton');
-        if (entryBox.isValid() && that._titlePresent) {
+        if (entryBox.isValid() && that._titlePresent && that.seed) {
             createButton.removeClass('disabled');
             return true;
         }
@@ -50,7 +58,7 @@ function CreatePanel() {
             
             $.post('/create', {                
                 title: $("#createtitle")[0].value,
-                characters: $("#createcharacters")[0].value,
+                characters: that.seed,
                 content: entryBox.getValue()
             }, function(response) {
                 if (response.success) {

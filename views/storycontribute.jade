@@ -7,6 +7,18 @@ script(src='/javascripts/contribute.js')
     #container 
         h2 #{title}
         div &nbsp
+        .lockwarning
+            if hasLock
+                div You currently have the lock on this story
+            else
+                div Someone else has the lock on this story        
+            div
+                if hasLock
+                    span Time to finish: 
+                else
+                    span Time until it is available:                 
+                span(id='countdown', lockTime='#{lockTime}')
+        div &nbsp
         div Starring: #{characters}
         div(class='useridentifier', userId='#{owner}')
         div &nbsp
@@ -18,15 +30,16 @@ script(src='/javascripts/contribute.js')
                     div(class='useridentifier', userId='#{snippet.contributor}')
                 td
                     img(class='userimage', userId='#{snippet.contributor}')
-        .optionholder
-            div
-                span(class='option') Your Contribution: (
-                span(id='charwarning')
-                span )
-            textarea(id='contribution', class='optioninput', rows='5')
-        div &nbsp
-        .loggedon
-            #contributebutton Contribute to this Story!
+        if hasLock
+            .optionholder
+                div
+                    span(class='option') Your Contribution: (
+                    span(id='charwarning')
+                    span )
+                textarea(id='contribution', class='optioninput', rows='5')
+            div &nbsp
+            .loggedon
+                #contributebutton Contribute to this Story!
         .loggedout
             .gonebad Looks like you're logged out! Please log in via Facebook to contribute
     .push

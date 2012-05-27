@@ -106,6 +106,18 @@ exports.contribute_post_handler = function(req, res) {
     }
 }
 
+exports.getSeedPostHandler = function(req, res) {    
+    sql.getRandomNames(function(name1, name2) {
+        sql.getRandomLocation(function(location) {
+            res.send({
+                nameOne: name1,
+                nameTwo: name2,
+                location: location
+            });
+        }, res.send);
+    }, res.send)
+}
+
 exports.like_post_handler = function(req, res) {
     sql.getStory(req.body.storyId, function(story) {
         ++story.num_likes;
@@ -245,6 +257,8 @@ exports.topUserStories = function(req, res) {
 exports.story = function(req, res) {
     var storyId = req.params.storyId;
     var hasContributed = false;
+    var hasLock = false;
+    var lockedTime = '';
     
     var missingStory = function() {
         res.render('nostory', {title: 'Consequentials - Missing Story'});
@@ -274,7 +288,9 @@ exports.story = function(req, res) {
                 snippet: {
                     content: '...' + lastContent.substring(Math.max(lastContent.length - 50, 0), lastContent.length),
                     contributor: lastSection.contributor
-                }
+                },
+                hasLock: hasLock,
+                lockTime: lockedTime
             };
             res.render('storycontribute', storyInfo);
         } else {
@@ -293,7 +309,15 @@ exports.story = function(req, res) {
     sql.hasContributed(storyId, req.session.user, function(contributed) {
         console.log('Contributed: ' + contributed);
         hasContributed = contributed;
-        sql.getFullStory(storyId, renderStory, missingStory); 
+        if (!hasContributed) {
+            sql.lockStory(storyId, req.session.user, function(haveLock, lockTime) {
+                hasLock = haveLock;
+                lockedTime = lockTime;
+                sql.getFullStory(storyId, renderStory, missingStory);
+            }, missingStory);
+        } else {
+            sql.getFullStory(storyId, renderStory, missingStory);
+        }       
     }, missingStory);  
 }
 

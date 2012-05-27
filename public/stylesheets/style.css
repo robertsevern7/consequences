@@ -169,6 +169,9 @@ a {
 .gonebad {
   color: #f00;
 }
+.lockwarning {
+  color: #f00;
+}
 .storysection {
   margin: 3px;
   border-radius: 5px;
