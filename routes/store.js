@@ -32,7 +32,7 @@ exports.create_post_handler = function(req, res) {
     } else {
         var story = {
             title: req.body.title,
-            characters: req.body.characters,
+            seedInfo: JSON.stringify(req.body.seedInfo),
             max_sections: 5
         };
         
@@ -265,13 +265,17 @@ exports.story = function(req, res) {
     }
     
     var renderStory = function(story) {
+        var seedInfo = JSON.parse(story.seedInfo);
+
         if (story.completed) {
             var storyInfo = {
                 storyId: story.id,
                 owner: story.user.userId,
                 numlikes: story.num_likes,
                 title: story.title,
-                characters: story.characters,
+                characterOne: seedInfo.character1,
+                characterTwo: seedInfo.character2,
+                location: seedInfo.location,
                 completed: !!story.completed,
                 sections: story.sections
             };
@@ -284,7 +288,9 @@ exports.story = function(req, res) {
                 storyId: story.id,
                 owner: story.user.userId,
                 title: story.title,
-                characters: story.characters,
+                characterOne: seedInfo.character1,
+                characterTwo: seedInfo.character2,
+                location: seedInfo.location,
                 snippet: {
                     content: '...' + lastContent.substring(Math.max(lastContent.length - 50, 0), lastContent.length),
                     contributor: lastSection.contributor
@@ -297,7 +303,9 @@ exports.story = function(req, res) {
             res.render('storyrenderer', {
                 owner: story.user.userId,
                 title: story.title,
-                characters: story.characters,
+                characterOne: seedInfo.character1,
+                characterTwo: seedInfo.character2,
+                location: seedInfo.location,
                 completed: !!story.completed,
                 numlikes: story.num_likes,
                 storyId: story.id,

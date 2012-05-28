@@ -6,7 +6,13 @@ script(src='/javascripts/storyrenderer.js')
         h2 #{title}
         div &nbsp
         div 
-            div Starring: #{characters}
+            .option Some ideas:
+            #seed
+                div Characters: 
+                    span #{characterOne} and 
+                    span #{characterTwo}
+                div Where?: 
+                    span #{location}
             span(class='useridentifier', userId='#{owner}')
         div &nbsp
         
