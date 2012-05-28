@@ -19,7 +19,13 @@ script(src='/javascripts/contribute.js')
                     span Time until it is available:                 
                 span(id='countdown', lockTime='#{lockTime}')
         div &nbsp
-        div Starring: #{characters}
+        .option Some ideas:
+        #seed
+            div Characters: 
+                span #{characterOne} and 
+                span #{characterTwo}
+            div Where?: 
+                span #{location}
         div(class='useridentifier', userId='#{owner}')
         div &nbsp
         div Continue from this...

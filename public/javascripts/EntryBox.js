@@ -4,6 +4,9 @@ function EntryBox() {
     this.entryBox = this.entryJQ[0];
     
     EntryBox.prototype.checkRemainingCharacters = function() {
+        if (!(this.value || that.entryBox)) {
+            return;
+        }
         var totalChars = (this.value || that.entryBox.value).length;
         var MAX_CHARS = 280;
         var remaining = MAX_CHARS - totalChars;

@@ -7,7 +7,11 @@ function CreatePanel() {
     
     $.post('/seed', {               
     }, function(response) {
-        that.seed = 'Characters: ' + response.nameOne + ' and ' + response.nameTwo + 'Location: ' + that.location;
+        that.seed = {
+            character1: response.nameOne,
+            character2: response.nameTwo,
+            location: response.location
+        }
         $('#characterOne').text(response.nameOne);
         $('#characterTwo').text(response.nameTwo);
         $('#location').text(response.location);
@@ -58,7 +62,7 @@ function CreatePanel() {
             
             $.post('/create', {                
                 title: $("#createtitle")[0].value,
-                characters: that.seed,
+                seedInfo: that.seed,
                 content: entryBox.getValue()
             }, function(response) {
                 if (response.success) {
