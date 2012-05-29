@@ -5,18 +5,42 @@ $(document).ready(function() {
 function CreatePanel() {
     that = this;
     
-    $.post('/seed', {               
-    }, function(response) {
-        that.seed = {
-            character1: response.nameOne,
-            character2: response.nameTwo,
-            location: response.location
-        }
-        $('#characterOne').text(response.nameOne);
-        $('#characterTwo').text(response.nameTwo);
-        $('#location').text(response.location);
-    })
+    function seedStory(replaceCharacters, replaceLocation) {
+        $.post('/seed', {               
+        }, function(response) {
+            that.seed = that.seed || {};
+
+            if (replaceCharacters) {
+                that.seed.character1 = response.nameOne;
+                that.seed.character2 = response.nameTwo;
+                
+                $('#characterOne').text(response.nameOne);
+                $('#characterTwo').text(response.nameTwo);
+                $('.characterHolder').fadeIn();
+            }
+
+            if (replaceLocation) {
+                that.seed.location = response.location;
+                $('#location').text(response.location);
+                $('.locationHolder').fadeIn();
+            }
+        })
+    }
+
+    seedStory(true, true);
+
+    $('#characterrefresh').click(function() {
+        $('.characterHolder').fadeOut(200, function() {
+            seedStory(true, false);
+        });
+    });
     
+    $('#locationrefresh').click(function() {
+        $('.locationHolder').fadeOut(200, function() {
+            seedStory(false, true);
+        });        
+    });
+
     function checkTitlePresent() {
         that._titlePresent = $('#createtitle')[0].value.length;
         var titlewarning = $('#titlewarning');

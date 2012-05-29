@@ -255,3 +255,9 @@ a {
   width: 16px;
   height: 16px;
 }
+.refresh {
+  cursor: pointer;
+  background-image: url("../images/refresh.png");
+  width: 16px;
+  height: 16px;
+}
