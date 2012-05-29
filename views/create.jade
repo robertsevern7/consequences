@@ -14,12 +14,27 @@ script(src='/javascripts/create.js')
         .optionholder
         .option Some ideas:
             #seed
-                div Characters: 
-                    span(id='characterOne')
-                    span &nbspand 
-                    span(id='characterTwo')
-                div Where?: 
-                    span(id='location')
+                table
+                    tr
+                        td 
+                            div &nbsp
+                        td(class='characterHolder')
+                            div Characters:
+                        td(class='characterHolder')
+                            span(id='characterOne')
+                            span &nbspand 
+                            span(id='characterTwo')
+                        td(class='characterHolder')
+                            div(id='characterrefresh', class='refresh')
+                    tr
+                        td
+                            div &nbsp
+                        td(class='locationHolder')
+                            div Where?: 
+                        td(class='locationHolder')
+                            span(id='location')
+                        td(class='locationHolder')
+                            div(id='locationrefresh', class='refresh')
         .optionholder
             div
                 span(class='option') Opening Paragraph: (
