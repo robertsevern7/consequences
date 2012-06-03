@@ -178,10 +178,21 @@ function StoryRenderer() {
         } 
     }
 
+    function addRequestHandler() {
+        $('#sendrequest').click(function() {
+            FB.ui({method: 'apprequests',
+                message: 'Come and finish my story!'
+            }, function(response) {
+                console.dir(response)
+            }); 
+        });
+    }
+
     this.storySummaryHandler();
     sortingHandler();
     pagingHandler();
     hoverButtonHandler();
     this.getContributors();
     addCountdownTimer();
+    //addRequestHandler();
 }

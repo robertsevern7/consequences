@@ -1,10 +1,11 @@
 $(document).ready(function(){
   function facebookReady(){
     FB.init({
-      appId  : '341867209202847',
-      status : true,
-      cookie : true,
-      xfbml  : true
+      appId: '341867209202847',
+      status: true, 
+      cookie: true,
+      xfbml: true,
+      oauth: true
     });
     $(document).trigger("facebook:ready");
   }

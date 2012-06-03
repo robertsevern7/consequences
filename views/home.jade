@@ -1,16 +1,22 @@
 .wrapper
     include navbar
     #container 
-        div Welcome to Consequentials. Build a story, just give it a title and share it on Facebook to get your friends to finish it.
+        div Welcome to TalePipe--a way to see just how good your friends are at spinning a story when they don't know all the facts.
         div &nbsp
-        div
-            span Click 
-            a(href='/howto') here
-            span &nbspfor a detailed 'How To'.
-        .biggertext.loggedout 
-            span Just 
-            span(class='pointer', onclick="FB.login()") login
-            span &nbspvia Facebook to create your own! We'll ask for your email address, but will only ever email you to let you know when your story is completed.
+        div Write the first few lines of a story and challenge others to continue the tale by adding their contributions. Sounds easy--except for the fact that they'll only be able to see the last few words of the previous section.
+        div &nbsp
+        div How to make a TalePipe:
+        div  
+            span 1. 
+            span(class='pointer', onclick="FB.login()") Log-in
+            span &nbspvia Facebook
+        div  2. Create a TalePipe by starting a story
+        div  3. Give it the title and first few lines of your choice
+        div  4. Share your story with friends via Facebook and challenge them to add to the TalePipe!
+        div &nbsp
+        div 
+            span Want to know more about how it works? 
+            a(href='/howto') Click here.
         div &nbsp
         div &nbsp
         .bigbutton.leftfloat.loggedon(onclick="location.href='/create'") Get Started!

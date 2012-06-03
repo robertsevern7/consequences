@@ -5,7 +5,7 @@ var PAGE_SIZE = 5;
 var TOP_USER_STORIES = 5;
 
 exports.home = function(req, res) {
-    if (typeof req.session.username == 'undefined') res.render('home', { title: 'Consequentials'});
+    if (typeof req.session.username == 'undefined') res.render('home', { title: 'TalePipe'});
     else res.redirect('/items');
 };
 
@@ -16,11 +16,11 @@ exports.home_post_handler = function(req, res) {
 };
 
 exports.howto = function(req, res) {
-    res.render('howto', { title: 'Consequentials - How To'})
+    res.render('howto', { title: 'TalePipe - How To'})
 }
 
 exports.create = function(req, res) {
-    res.render('create', { title: 'Consequentials - Create'})
+    res.render('create', { title: 'TalePipe - Create'})
 }
 
 exports.create_post_handler = function(req, res) {
@@ -140,7 +140,7 @@ exports.userStories = function(req, res) {
         
     function renderStories(dbUser) {        
         res.render('storiesrenderer', {
-            title: 'Consequentials - User Stories',
+            title: 'TalePipe - User Stories',
             sortOrder: sortOrder,
             sortDirection: sortDir,
             page: page,
@@ -180,7 +180,7 @@ exports.allStories = function(req, res) {
     
     function renderStories(stories) {
         res.render('storiesrenderer', {
-            title: 'Consequentials - Stories',
+            title: 'TalePipe - Stories',
             sortOrder: sortOrder,
             sortDirection: sortDir,
             page: page,
@@ -202,7 +202,7 @@ exports.allStories = function(req, res) {
 
 exports.friendsStories = function(req, res) {   
     res.render('friendsrenderer', {
-        title: 'Consequentials - Friends\' Stories'        
+        title: 'TalePipe - Friends\' Stories'        
     });
 }
 
@@ -261,7 +261,7 @@ exports.story = function(req, res) {
     var lockedTime = '';
     
     var missingStory = function() {
-        res.render('nostory', {title: 'Consequentials - Missing Story'});
+        res.render('nostory', {title: 'TalePipe - Missing Story'});
     }
     
     var renderStory = function(story) {
@@ -332,10 +332,10 @@ exports.story = function(req, res) {
 exports.page = function(req, res) {
     var name = req.query.name;
     var contents = {
-        about: 'Consequentials is an online version of the classic children\'s game',
+        about: 'TalePipe is an online version of the classic children\'s game',
         contact: 'You can contact us rob@consequentials.com'
     };
-    res.render('page', { title: 'Consequentials - ' + name, content:contents[name] });
+    res.render('page', { title: 'TalePipe - ' + name, content:contents[name] });
 };
 
 exports.logout = function(req, res) {

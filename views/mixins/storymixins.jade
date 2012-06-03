@@ -3,7 +3,7 @@ mixin storyholder(story)
         div #{story}.title
         
 mixin likestemplate(storyId)
-    div(class="fb-like like", data-send="false", data-width="450", data-show-faces="false", data-href="http://localhost:3000/stories/"+storyId, storyId=storyId)
+    div(class="fb-like like", data-send="true", data-width="450", data-show-faces="false", data-href="http://localhost:3000/stories/"+storyId, storyId=storyId)
     
 mixin sortoption(displayName, value, direction, currentDirection, currentSort, user)
     span(class='sortbutton', sort='#{value}', direction='#{direction}', currentDirection='#{currentDirection}', currentSort='#{currentSort}', user='#{user}') #{displayName}

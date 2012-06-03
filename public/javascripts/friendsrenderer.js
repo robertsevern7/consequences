@@ -30,7 +30,7 @@ function FriendsRenderer() {
                             handlePhotoClick();
                             document.storyRenderer.getContributors();
                         } else {
-                            $('#friends').append('None of your friends have stories here, tell them about Consequentials!');
+                            $('#friends').append('None of your friends have stories here, tell them about TalePipe!');
                         }
                     });
                 });
