@@ -25,7 +25,6 @@ app.configure('production', function(){
 });
 
 app.get('/', store.home);
-app.post('/', store.home_post_handler);
 app.get('/howto', store.howto);
 app.get('/create', store.create);
 app.post('/create', store.create_post_handler);
