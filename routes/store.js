@@ -5,14 +5,15 @@ var PAGE_SIZE = 5;
 var TOP_USER_STORIES = 5;
 
 exports.home = function(req, res) {
-    if (typeof req.session.username == 'undefined') res.render('home', { title: 'TalePipe'});
-    else res.redirect('/items');
-};
-
-exports.home_post_handler = function(req, res) {
-  var username = req.body.username || 'Anonymous';
-  req.session.username = username;
-  res.redirect('/');
+    var missingStory = function() {
+        res.render('home', { storyId: '', title: 'TalePipe'});
+    }
+    sql.getTopStory(function(story) {        
+        sql.getFullStory(story.id, function(story) {
+            story.completed = true;
+            renderStory(story, true, true, '', res, 'home', 'TalePipe');
+        }, missingStory);
+    }, missingStory);    
 };
 
 exports.howto = function(req, res) {
@@ -251,7 +252,7 @@ exports.topUserStories = function(req, res) {
     }
         
     var user = req.body.user;
-    sql.getStories(user, 1, TOP_USER_STORIES, 'popularity', 'DESC', renderStories); 
+    sql.getTopStory(user, 1, TOP_USER_STORIES, 'popularity', 'DESC', renderStories); 
 }
 
 exports.story = function(req, res) {
@@ -263,55 +264,9 @@ exports.story = function(req, res) {
     var missingStory = function() {
         res.render('nostory', {title: 'TalePipe - Missing Story'});
     }
-    
-    var renderStory = function(story) {
-        var seedInfo = JSON.parse(story.seedInfo);
 
-        if (story.completed) {
-            var storyInfo = {
-                storyId: story.id,
-                owner: story.user.userId,
-                numlikes: story.num_likes,
-                title: story.title,
-                characterOne: seedInfo.character1,
-                characterTwo: seedInfo.character2,
-                location: seedInfo.location,
-                completed: !!story.completed,
-                sections: story.sections
-            };
-            res.render('storyrenderer', storyInfo);
-        } else if (!hasContributed) {
-            var sections = story.sections;            
-            var lastSection = sections[sections.length - 1];
-            var lastContent = lastSection.content;                        
-            var storyInfo = {
-                storyId: story.id,
-                owner: story.user.userId,
-                title: story.title,
-                characterOne: seedInfo.character1,
-                characterTwo: seedInfo.character2,
-                location: seedInfo.location,
-                snippet: {
-                    content: '...' + lastContent.substring(Math.max(lastContent.length - 50, 0), lastContent.length),
-                    contributor: lastSection.contributor
-                },
-                hasLock: hasLock,
-                lockTime: lockedTime
-            };
-            res.render('storycontribute', storyInfo);
-        } else {
-            res.render('storyrenderer', {
-                owner: story.user.userId,
-                title: story.title,
-                characterOne: seedInfo.character1,
-                characterTwo: seedInfo.character2,
-                location: seedInfo.location,
-                completed: !!story.completed,
-                numlikes: story.num_likes,
-                storyId: story.id,
-                sections: story.sections
-            });            
-        }
+    var _renderStory = function(story) {
+        renderStory(story, hasContributed, hasLock, lockedTime, res);
     }
     
     sql.hasContributed(storyId, req.session.user, function(contributed) {
@@ -321,12 +276,66 @@ exports.story = function(req, res) {
             sql.lockStory(storyId, req.session.user, function(haveLock, lockTime) {
                 hasLock = haveLock;
                 lockedTime = lockTime;
-                sql.getFullStory(storyId, renderStory, missingStory);
+                sql.getFullStory(storyId, _renderStory, missingStory);
             }, missingStory);
         } else {
-            sql.getFullStory(storyId, renderStory, missingStory);
+            sql.getFullStory(storyId, _renderStory, missingStory);
         }       
     }, missingStory);  
+}
+
+var renderStory = function(story, hasContributed, hasLock, lockedTime, res, renderer, title) {
+    var seedInfo = JSON.parse(story.seedInfo);
+
+    if (story.completed) {
+        var storyInfo = {
+            storyId: story.id,
+            owner: story.user.userId,
+            numlikes: story.num_likes,
+            storyTitle: story.title,
+            title: title || story.title,
+            characterOne: seedInfo.character1,
+            characterTwo: seedInfo.character2,
+            location: seedInfo.location,
+            completed: !!story.completed,
+            sections: story.sections,
+            excludeBlurb: !!renderer
+        };
+        res.render(renderer || 'storyrenderer', storyInfo);
+    } else if (!hasContributed) {
+        var sections = story.sections;            
+        var lastSection = sections[sections.length - 1];
+        var lastContent = lastSection.content;                        
+        var storyInfo = {
+            storyId: story.id,
+            owner: story.user.userId,
+            storyTitle: story.title,
+            title: title || story.title,
+            characterOne: seedInfo.character1,
+            characterTwo: seedInfo.character2,
+            location: seedInfo.location,
+            snippet: {
+                content: '...' + lastContent.substring(Math.max(lastContent.length - 50, 0), lastContent.length),
+                contributor: lastSection.contributor
+            },
+            hasLock: hasLock,
+            lockTime: lockedTime
+        };
+        res.render(renderer || 'storycontribute', storyInfo);
+    } else {
+        res.render(renderer || 'storyrenderer', {
+            owner: story.user.userId,
+            storyTitle: story.title,
+            title: title || story.title,
+            characterOne: seedInfo.character1,
+            characterTwo: seedInfo.character2,
+            location: seedInfo.location,
+            completed: !!story.completed,
+            numlikes: story.num_likes,
+            storyId: story.id,
+            sections: story.sections
+        });            
+    }
 }
 
 exports.page = function(req, res) {

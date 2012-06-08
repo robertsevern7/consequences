@@ -101,7 +101,7 @@ a {
   height: 100%;
   position: relative;
 }
-#container {
+.container {
   margin: 20px auto;
   width: 70%;
   padding: 20px;

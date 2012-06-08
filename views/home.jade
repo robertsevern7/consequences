@@ -1,6 +1,8 @@
+include mixins/storymixins
+script(src='/javascripts/storyrenderer.js')
 .wrapper
     include navbar
-    #container 
+    .container 
         div Welcome to TalePipe--a way to see just how good your friends are at spinning a story when they don't know all the facts.
         div &nbsp
         div Write the first few lines of a story and challenge others to continue the tale by adding their contributions. Sounds easy--except for the fact that they'll only be able to see the last few words of the previous section.
@@ -22,5 +24,11 @@
         .bigbutton.leftfloat.loggedon(onclick="location.href='/create'") Get Started!
         .bigbutton.rightfloat(onclick="location.href='/allstories/1/popularity/DESC'") See Other Stories!
         .clearfloats
+        div &nbsp
+    - if (storyId)
+        .container
+            h2 Top Story
+        .container        
+            mixin storyrender(storyId, storyTitle, characterOne, characterTwo, location, owner, sections, completed, true)
     .push
 include footer
