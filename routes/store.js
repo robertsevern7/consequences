@@ -252,7 +252,7 @@ exports.topUserStories = function(req, res) {
     }
         
     var user = req.body.user;
-    sql.getTopStory(user, 1, TOP_USER_STORIES, 'popularity', 'DESC', renderStories); 
+    sql.getStories(user, 1, TOP_USER_STORIES, 'popularity', 'DESC', renderStories); 
 }
 
 exports.story = function(req, res) {
