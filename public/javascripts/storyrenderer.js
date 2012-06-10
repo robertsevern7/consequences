@@ -1,5 +1,5 @@
 $(document).live("facebook:ready", function() {
-    document.storyRenderer = new StoryRenderer();
+    document.storyRenderer = new StoryRenderer();    
 });
 function StoryRenderer() {
     that = this;
@@ -164,10 +164,14 @@ function StoryRenderer() {
         });
 
         function getTimeHtml(expireTime, countdownDiv) {
+            if (isNaN(expireTime)) {
+                countdownDiv.html('00:00');
+                return;
+            }
             var timeUntilLockRelease = (expireTime - new Date())/1000;
             
             if (timeUntilLockRelease < 0) {                
-                countdownDiv.html('0:00');
+                countdownDiv.html('00:00');
                 clearInterval(intervalId);
                 return;
             }

@@ -37,7 +37,6 @@ function FacebookWrapper() {
 
     function onStatus(response) {
         var loggedIn = response.status === 'connected';
-        
         if (loggedIn) {
             $.post('/logon', {
                 user: response.authResponse.userID,
@@ -49,12 +48,14 @@ function FacebookWrapper() {
                     showAccountInfo();
                     $('.loggedon').show();
                     $('.loggedout').hide();
+                    $(document).trigger('loggedin', [loggedIn])
                 }
             })
         } else {
             $.post('/logout', {}, function(response) {                
                 $('.loggedon').hide();
-                $('.loggedout').show();                
+                $('.loggedout').show();
+                $(document).trigger('loggedin', [loggedIn])
             })            
         } 
     }
@@ -66,10 +67,6 @@ function FacebookWrapper() {
         
         $('#friendsStoriesTab').click(function() {
             window.location = '/friendsstories';
-        })
-        
-        $('#otherStoriesTab').click(function() {
-            window.location = '/allstories/1/popularity/DESC';
         })
     }
 }

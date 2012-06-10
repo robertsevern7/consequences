@@ -7,7 +7,7 @@ script(src='/javascripts/contribute.js')
     .container 
         h2 #{title}
         div &nbsp
-        .lockwarning
+        div(class="lockwarning loggedon")
             if hasLock
                 div You currently have the lock on this story
             else
@@ -18,7 +18,7 @@ script(src='/javascripts/contribute.js')
                 else
                     span Time until it is available:                 
                 span(id='countdown', lockTime='#{lockTime}')
-        div &nbsp
+            div &nbsp
         .option Some ideas:
             #seed
                 div &nbsp&nbsp&nbsp Characters: 
@@ -37,15 +37,16 @@ script(src='/javascripts/contribute.js')
                 td
                     img(class='userimage', userId='#{snippet.contributor}')
         if hasLock
-            .optionholder
-                div
-                    span(class='option') Your Contribution
-                    span(class='gonebad') *
-                    span :(
-                    span(id='charwarning')
-                    span )
-                textarea(id='contribution', class='optioninput', rows='5')
-            div &nbsp
+            .loggedon
+                .optionholder
+                    div
+                        span(class='option') Your Contribution
+                        span(class='gonebad') *
+                        span :(
+                        span(id='charwarning')
+                        span )
+                    textarea(id='contribution', class='optioninput', rows='5')
+                div &nbsp
             .loggedon
                 #contributebutton Contribute to this Story!
         .loggedout

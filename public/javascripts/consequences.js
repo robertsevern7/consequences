@@ -15,6 +15,10 @@ $(document).ready(function(){
   } else {
     window.fbAsyncInit = facebookReady;
   }
+
+  $('#otherStoriesTab').click(function() {
+      window.location = '/allstories/1/popularity/DESC';
+  })
 });
 
 $(document).live("facebook:ready", function(){
