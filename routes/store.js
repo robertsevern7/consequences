@@ -269,19 +269,23 @@ exports.story = function(req, res) {
         renderStory(story, hasContributed, hasLock, lockedTime, res);
     }
     
-    sql.hasContributed(storyId, req.session.user, function(contributed) {
-        console.log('Contributed: ' + contributed);
-        hasContributed = contributed;
-        if (!hasContributed) {
-            sql.lockStory(storyId, req.session.user, function(haveLock, lockTime) {
-                hasLock = haveLock;
-                lockedTime = lockTime;
+    if (!req.session.user) {
+        sql.getFullStory(storyId, _renderStory, missingStory);
+    } else {
+        sql.hasContributed(storyId, req.session.user, function(contributed) {
+            console.log('Contributed: ' + contributed);
+            hasContributed = contributed;
+            if (!hasContributed) {
+                sql.lockStory(storyId, req.session.user, function(haveLock, lockTime) {
+                    hasLock = haveLock;
+                    lockedTime = lockTime;
+                    sql.getFullStory(storyId, _renderStory, missingStory);
+                }, missingStory);
+            } else {
                 sql.getFullStory(storyId, _renderStory, missingStory);
-            }, missingStory);
-        } else {
-            sql.getFullStory(storyId, _renderStory, missingStory);
-        }       
-    }, missingStory);  
+            }       
+        }, missingStory);
+    }
 }
 
 var renderStory = function(story, hasContributed, hasLock, lockedTime, res, renderer, title) {
