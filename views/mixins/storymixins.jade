@@ -12,7 +12,7 @@ mixin storyrender(storyId, title, characterOne, characterTwo, location, owner, s
     h2 #{title}
     - if (!excludeBlurb) 
         div         
-            .option Some ideas:
+            div(class='option ideasgroup') Some ideas:
             #seed
                 div &nbsp&nbsp&nbsp Characters: 
                     span #{characterOne} and 

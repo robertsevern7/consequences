@@ -6,6 +6,7 @@ script(src='/javascripts/contribute.js')
     include navbar
     .container 
         h2 #{title}
+        div(class='useridentifier', userId='#{owner}')
         div &nbsp
         div(class="lockwarning loggedon")
             if hasLock
@@ -16,14 +17,13 @@ script(src='/javascripts/contribute.js')
                 span Time left: 
                 span(id='countdown', lockTime='#{lockTime}')
             div &nbsp
-        .option Some ideas:
+        div(class='option ideasgroup') Some ideas:
             #seed
                 div &nbsp&nbsp&nbsp Characters: 
                     span #{characterOne} and 
                     span #{characterTwo}
                 div &nbsp&nbsp&nbsp Where: 
                     span #{location}
-        div(class='useridentifier', userId='#{owner}')
         div &nbsp
         div Continue from this...
             table
