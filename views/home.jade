@@ -27,8 +27,8 @@ script(src='/javascripts/storyrenderer.js')
         div &nbsp
     - if (storyId)
         .container
-            h2 Top Story
-        .container        
+            h1 Top Story
+            div &nbsp
             mixin storyrender(storyId, storyTitle, characterOne, characterTwo, location, owner, sections, completed, true)
     .push
 include footer
