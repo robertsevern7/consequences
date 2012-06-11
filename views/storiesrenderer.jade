@@ -24,7 +24,7 @@ script(src='/javascripts/storyrenderer.js')
         if totalPages
             each story in stories
                 .storyholder(user='#{story.owner}', storyId='#{story.id}')
-                    span(class='storytitle leftfloat')= story.title
+                    span(class='storytitle leftfloat')= story.title                    
                     .rightfloat
                         if story.completed
                             span(class='storycomplete') Complete
@@ -38,6 +38,7 @@ script(src='/javascripts/storyrenderer.js')
                     div &nbsp
                     .storycontent= story.sections[0].content + '...'
                     div &nbsp
+                    div(class='seemore', storyId='#{story.id}') See More
                     mixin likestemplate(story.id)
             div &nbsp
             table(class="centerhorizontal")

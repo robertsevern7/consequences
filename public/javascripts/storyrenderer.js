@@ -105,7 +105,7 @@ function StoryRenderer() {
     }
     
     StoryRenderer.prototype.storySummaryHandler = function() {
-        $('.storyholder').click(function(event) {
+        $('.seemore').click(function(event) {
             event.stopPropagation();
             window.location = '/stories/' + $(this).attr('storyId');
         });
