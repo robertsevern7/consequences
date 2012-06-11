@@ -68,7 +68,7 @@ module.exports = (function() {
       var showTablesSql = self.QueryGenerator.showTablesQuery()
       self.sequelize.query(showTablesSql, null, { raw: true }).success(function(tableNames) {
         self.emit('showAllTables', null)
-        emitter.emit('success', Sequelize.Utils._.flatten(tableNames))
+        emitter.emit('success', Utils._.flatten(tableNames))
       }).error(function(err) {
         self.emit('showAllTables', err)
         emitter.emit('failure', err)
@@ -80,7 +80,13 @@ module.exports = (function() {
     var self = this
 
     return new Utils.CustomEventEmitter(function(emitter) {
-      self.sequelize.query('DESCRIBE `' + tableName + '`;', null, { raw: true }).success(function(data) {
+      var sql;
+      if (self.QueryGenerator.describeTableQuery) {
+        sql = self.QueryGenerator.describeTableQuery(tableName)
+      } else {
+        sql = 'DESCRIBE `' + tableName + '`;'
+      }
+      self.sequelize.query(sql, null, { raw: true }).success(function(data) {
         emitter.emit('success', data)
       }).error(function(err) {
         emitter.emit('failure', err)
