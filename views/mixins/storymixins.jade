@@ -17,7 +17,7 @@ mixin storyrender(storyId, title, characterOne, characterTwo, location, owner, s
                 div &nbsp&nbsp&nbsp Characters: 
                     span #{characterOne} and 
                     span #{characterTwo}
-                div &nbsp&nbsp&nbsp Where?: 
+                div &nbsp&nbsp&nbsp Where: 
                     span #{location}
         span(class='useridentifier', userId='#{owner}')
         div &nbsp
@@ -34,8 +34,8 @@ mixin storyrender(storyId, title, characterOne, characterTwo, location, owner, s
                     img(class='userimage', userId='#{section.contributor}')
     div &nbsp
     - if (completed && !excludeBlurb) 
-        div This story is finished - Share it with your friends!
+        div This TalePipe is finished! Now show it to your friends via Facebook:
     - else if (!excludeBlurb)
-        div This story isn't finished, help finish it by sharing it with your friends!
+        div This TalePipe isn't finished, so share it with your friends!
     div &nbsp
     mixin likestemplate(storyId)

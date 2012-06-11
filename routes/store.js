@@ -8,16 +8,17 @@ exports.home = function(req, res) {
     var missingStory = function() {
         res.render('home', { storyId: '', title: 'TalePipe'});
     }
+    
     sql.getTopStory(function(story) {        
-        sql.getFullStory(story.id, function(story) {
-            story.completed = true;
-            renderStory(story, true, true, '', res, 'home', 'TalePipe');
+        sql.getFullStory(story.id, function(fullStory) {
+            fullStory.completed = true;
+            renderStory(fullStory, true, true, '', res, 'home', 'TalePipe');
         }, missingStory);
     }, missingStory);    
 };
 
 exports.howto = function(req, res) {
-    res.render('howto', { title: 'TalePipe - How To'})
+    res.render('howto', { title: 'TalePipe - FAQs'})
 }
 
 exports.create = function(req, res) {
@@ -345,8 +346,7 @@ var renderStory = function(story, hasContributed, hasLock, lockedTime, res, rend
 exports.page = function(req, res) {
     var name = req.query.name;
     var contents = {
-        about: 'TalePipe is an online version of the classic children\'s game',
-        contact: 'You can contact us rob@consequentials.com'
+        contact: 'Questions or comments? Contact us at rob@thetalepipe.com'
     };
     res.render('page', { title: 'TalePipe - ' + name, content:contents[name] });
 };

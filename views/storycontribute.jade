@@ -9,14 +9,11 @@ script(src='/javascripts/contribute.js')
         div &nbsp
         div(class="lockwarning loggedon")
             if hasLock
-                div You currently have the lock on this story
+                div It's your turn to tell the story!
             else
-                div Someone else has the lock on this story        
+                div Looks like someone else is adding to this story right now!
             div
-                if hasLock
-                    span Time to finish: 
-                else
-                    span Time until it is available:                 
+                span Time left: 
                 span(id='countdown', lockTime='#{lockTime}')
             div &nbsp
         .option Some ideas:
@@ -24,7 +21,7 @@ script(src='/javascripts/contribute.js')
                 div &nbsp&nbsp&nbsp Characters: 
                     span #{characterOne} and 
                     span #{characterTwo}
-                div &nbsp&nbsp&nbsp Where?: 
+                div &nbsp&nbsp&nbsp Where: 
                     span #{location}
         div(class='useridentifier', userId='#{owner}')
         div &nbsp
