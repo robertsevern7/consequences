@@ -9,11 +9,15 @@ exports.home = function(req, res) {
         res.render('home', { storyId: '', title: 'TalePipe'});
     }
     
-    sql.getTopStory(function(story) {        
-        sql.getFullStory(story.id, function(fullStory) {
-            fullStory.completed = true;
-            renderStory(fullStory, true, true, '', res, 'home', 'TalePipe');
-        }, missingStory);
+    sql.getTopStory(function(story) {
+        if (!story) {
+            missingStory();
+        } else {
+            sql.getFullStory(story.id, function(fullStory) {
+                fullStory.completed = true;
+                renderStory(fullStory, true, true, '', res, 'home', 'TalePipe');
+            }, missingStory);
+        }
     }, missingStory);    
 };
 
