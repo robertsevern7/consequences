@@ -167,9 +167,10 @@ exports.userStories = function(req, res) {
     }
         
     function getStoryPage(totalStories) {
+        console.log('There are ' + totalStories + ' stories');
         if (totalStories) {
             totalPages = totalStories && Math.ceil(totalStories/PAGE_SIZE);
-            console.log('Get stories for user ' + user)
+            console.log('Get stories for user ' + user + ' totalPages = ' + totalPages)
             sql.getStories(user, page, PAGE_SIZE, sortOrder, sortDir, getUser, failureHandler);
         } else {
             renderStories([]);
