@@ -141,11 +141,12 @@ a {
   bottom: 0;
   right: 0;
 }
-.tab {
+.tabstyle {
   padding: 5px;
   background-color: #525252;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
+  border-left: 1px solid #333;
 }
 .biggertext {
   font-size: 18px;
