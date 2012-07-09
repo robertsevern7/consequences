@@ -16,15 +16,15 @@ mixin nonATab(text, id, extraclass)
             #logoutbar(class="loggedon")
             table.tabtable
                 tr
-                    td
+                    td.tabstyle
                         mixin tab('Home', '/', '')
-                    td
+                    td.tabstyle
                         mixin tab('Create a Story', '/create')
-                    td
+                    td.tabstyle
                         mixin nonATab('See My Stories', 'myStoriesTab', 'loggedon')
-                    td
+                    td.tabstyle
                         mixin nonATab('See Friends\' Stories', 'friendsStoriesTab', 'loggedon')
-                    td
+                    td.tabstyle
                         mixin nonATab('See Other Stories', 'otherStoriesTab', '')
-                    td
+                    td.tabstyle
                         mixin tab('FAQs', '/howto', '')
