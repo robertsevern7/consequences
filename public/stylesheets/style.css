@@ -38,8 +38,11 @@ a {
   bottom: 0;
   right: 0;
 }
-.fb_ltr {
-  height: 150px !important;
+.fb_send_button_form_widget.fb_edge_comment_widget {
+  margin-top: -250px;
+}
+.fb_edge_comment_widget {
+  margin-top: -160px;
 }
 #navbar {
   font-family: 'Berkshire Swash', cursive;
