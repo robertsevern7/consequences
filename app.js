@@ -1,6 +1,8 @@
 var express = require('express')
+var cluster = require('cluster');
+var numCPUs = require('os').cpus().length;
 var store = require('./routes/store');
-
+console.log(numCPUs + ' people can use this');
 var app = module.exports = express.createServer();
 app.use(express.cookieParser());
 app.use(express.session({ secret: "keyboard cat" }));
@@ -41,5 +43,14 @@ app.post('/topuserstories', store.topUserStories);
 app.post('/logon', store.logon);
 app.post('/logout', store.logout);
 
-app.listen(80);
-console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+if (cluster.isMaster) {
+    for (var i = 0; i < numCPUs; i++) {
+      cluster.fork();
+    }
+
+    cluster.on('death', function(worker) {
+        console.log('worker ' + worker.pid + ' died');
+    });
+} else {
+    app.listen(3000);
+}
