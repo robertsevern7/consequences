@@ -17,6 +17,10 @@ script(src='/javascripts/contribute.js')
                 span Time left: 
                 span(id='countdown', lockTime='#{lockTime}')
             div &nbsp
+
+        div Next section is #{nextSection} out of #{totalSections}
+        - if (nextSection === totalSections)
+            div Time to finish off the story!
         div(class='option ideasgroup') Some ideas:
             #seed
                 div &nbsp&nbsp&nbsp Characters: 

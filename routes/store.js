@@ -315,7 +315,7 @@ var renderStory = function(story, hasContributed, hasLock, lockedTime, res, rend
     } else if (!hasContributed) {
         var sections = story.sections;            
         var lastSection = sections[sections.length - 1];
-        var lastContent = lastSection.content;                        
+        var lastContent = lastSection.content;                       
         var storyInfo = {
             storyId: story.id,
             owner: story.user.userId,
@@ -323,6 +323,8 @@ var renderStory = function(story, hasContributed, hasLock, lockedTime, res, rend
             title: title || story.title,
             characterOne: seedInfo.character1,
             characterTwo: seedInfo.character2,
+            nextSection: sections.length + 1,
+            totalSections: story.max_sections,
             location: seedInfo.location,
             snippet: {
                 content: '...' + lastContent.substring(Math.max(lastContent.length - 50, 0), lastContent.length),
