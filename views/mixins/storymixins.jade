@@ -34,8 +34,8 @@ mixin storyrender(storyId, title, characterOne, characterTwo, location, owner, s
                     img(class='userimage', userId='#{section.contributor}')
     div &nbsp
     - if (completed && !excludeBlurb) 
-        div This TalePipe is finished! Now show it to your friends via Facebook:
+        div This TalePipe is finished! Now 'Like' it to share it with your friends via Facebook:
     - else if (!excludeBlurb)
-        div This TalePipe isn't finished, so share it with your friends!
+        div This TalePipe isn't finished, click 'Send' to share it with your friends!
     div &nbsp
     mixin likestemplate(storyId)
