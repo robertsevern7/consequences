@@ -3,9 +3,12 @@ var cluster = require('cluster');
 var numCPUs = require('os').cpus().length;
 var store = require('./routes/store');
 console.log(numCPUs + ' people can use this');
-var app = module.exports = express.createServer();
+var app = module.exports = express.createServer(
+  express.favicon('./public/images/favicon.ico', { maxAge: 2592000000 })
+);
 app.use(express.cookieParser());
 app.use(express.session({ secret: "keyboard cat" }));
+
 
 app.configure(function(){
   app.set('views', __dirname + '/views');
