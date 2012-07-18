@@ -12,10 +12,8 @@ function CreatePanel() {
 
             if (replaceCharacters) {
                 that.seed.character1 = response.nameOne;
-                that.seed.character2 = response.nameTwo;
                 
                 $('#characterOne').text(response.nameOne);
-                $('#characterTwo').text(response.nameTwo);
                 $('.characterHolder').fadeIn();
             }
 

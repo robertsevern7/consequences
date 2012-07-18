@@ -8,15 +8,14 @@ mixin likestemplate(storyId)
 mixin sortoption(displayName, value, direction, currentDirection, currentSort, user)
     span(class='sortbutton', sort='#{value}', direction='#{direction}', currentDirection='#{currentDirection}', currentSort='#{currentSort}', user='#{user}') #{displayName}
 
-mixin storyrender(storyId, title, characterOne, characterTwo, location, owner, sections, completed, excludeBlurb)
+mixin storyrender(storyId, title, characterOne, location, owner, sections, completed, excludeBlurb)
     h2 #{title}
     - if (!excludeBlurb) 
         div         
             div(class='option ideasgroup') Some ideas:
             #seed
-                div &nbsp&nbsp&nbsp Characters: 
-                    span #{characterOne} and 
-                    span #{characterTwo}
+                div &nbsp&nbsp&nbsp Character: 
+                    span #{characterOne}
                 div &nbsp&nbsp&nbsp Where: 
                     span #{location}
         span(class='useridentifier', userId='#{owner}')
