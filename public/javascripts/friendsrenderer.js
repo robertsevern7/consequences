@@ -65,7 +65,7 @@ function FriendsRenderer() {
                                             '<div class="storycontent">' + htmlEncode(story.firstSection) + '...</div>' +
                                             '<div>&nbsp</div>' +
                                             '<div class="seemore" storyId=' + htmlEncode(story.id) + '>See More</div>' +
-                                            '<fb:like class="like" data-send="false" data-width="450" data-show-faces="false" href="http://thetalepipe.com/stories/' + story.id + '" storyId=' + story.id + '/>' +
+                                            '<fb:like class="like" data-send="true" data-width="450" data-show-faces="false" href="http://thetalepipe.com/stories/' + story.id + '" storyId=' + story.id + '/>' +
                                         '</div>'
                         $('#storywindow').append(storyHtml);
                        
