@@ -10,7 +10,9 @@ function EntryBox() {
         var totalChars = (this.value || that.entryBox.value).length;
         var MAX_CHARS = 280;
         var remaining = MAX_CHARS - totalChars;
-        
+                
+        $('#visibleText').text('...' + that.entryBox.value.substring(Math.max(that.entryBox.value.length - 50, 0), that.entryBox.value.length));
+
         var charWarning = $("#charwarning");
         if (remaining >= 0) {
             charWarning.removeClass('gonebad');
