@@ -49,6 +49,10 @@ function FacebookWrapper() {
                     $('.loggedon').show();
                     $('.loggedout').hide();
                     $(document).trigger('loggedin', [loggedIn])
+                    
+                    if (response.newLogin) {
+                        window.location.reload();
+                    }
                 }
             })
         } else {
