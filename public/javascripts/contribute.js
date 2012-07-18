@@ -1,16 +1,6 @@
 $(document).ready(function() {
     var entryBox = new EntryBox();
     entryBox.bind('validate', validateCreateButton);
-    
-    var that = this;
-    $(document).bind('loggedin', function(){
-        if (that.clicked) {
-            window.location.reload()
-        }
-        $('.fb_button').click(function() {
-            that.clicked = true;            
-        })
-    });
 
     function validateCreateButton() {
         var contributeButton = $('#contributebutton');

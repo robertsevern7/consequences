@@ -379,6 +379,7 @@ exports.logon = function(req, res) {
             sql.createUser(req.body.user, email, 'FACEBOOK', function(user) {                                
                 req.session.user = user.id;         
                 res.send({
+                    newLogin: true,
                     success: true                    
                 })
             });
