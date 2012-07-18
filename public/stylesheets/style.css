@@ -282,3 +282,6 @@ a {
   width: 16px;
   height: 16px;
 }
+#visibleText {
+  color: #008000;
+}
