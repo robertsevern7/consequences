@@ -3,6 +3,8 @@ var cluster = require('cluster');
 var numCPUs = require('os').cpus().length;
 var store = require('./routes/store');
 console.log(numCPUs + ' people can use this');
+var RedisStore = require('connect-redis')(express);
+
 var app = module.exports = express.createServer(
   express.favicon('./public/images/favicon.ico', { maxAge: 2592000000 })
 );
@@ -18,7 +20,10 @@ app.configure(function(){
   app.use(require('stylus').middleware({ src: __dirname + '/public' }));
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
-  app.use(express.session({secret: 'youaintneverguessingthisbitches'}));
+  app.use(express.session({
+    store: new RedisStore(),
+    secret: 'youaintneverguessingthisbitches'}
+  ));
 });
 
 app.configure('development', function(){
