@@ -30,12 +30,14 @@ exports.create = function(req, res) {
 }
 
 exports.create_post_handler = function(req, res) {
-    if (!req.session.user) {
+    var failureHandler1 = function() {
         console.log('Not logged in, can\'t save story');
         res.send({
             success: false
         });
-    } else {
+    }
+
+    exports.isLoggedIn(req, res, function(facebookId, authToken) {
         var story = {
             title: req.body.title,
             seedInfo: JSON.stringify(req.body.seedInfo),
@@ -57,10 +59,10 @@ exports.create_post_handler = function(req, res) {
                 savedId: storyId
             });
         }
-        sql.getUser(req.session.user, function(user) {
+        sql.getUser(req.cookies.login_id, function(user) {
             sql.createStory(story, user, req.body.content, sendSuccessResponse, failureHandler);
-        }, failureHandler);        
-    }
+        }, failureHandler);
+    }, failureHandler1);
 }
 
 emailCompleteStory = function(storyId) {
@@ -75,10 +77,8 @@ exports.contribute_post_handler = function(req, res) {
             success: false
         });
     }
-    
-    if (!req.session.user) {
-        failureHandler();
-    } else {  
+
+    exports.isLoggedIn(req, res, function(facebookId, authToken) {
         function addSection(story, totalSections) {
             sql.createSection(req.body.content, story, userDb, function() {                
                 if (totalSections == (story.max_sections - 1)) {
@@ -105,11 +105,11 @@ exports.contribute_post_handler = function(req, res) {
             }, failureHandler); 
         }
         
-        sql.getUser(req.session.user, function(user) {
+        sql.getUser(req.cookies.login_id, function(user) {
             userDb = user;
             sql.getSectionCount(storyId, setStoryComplete, failureHandler);
         }, failureHandler);
-    }
+    }, failureHandler);
 }
 
 exports.getSeedPostHandler = function(req, res) {    
@@ -133,17 +133,13 @@ exports.like_post_handler = function(req, res) {
     console.log('liking ' + req.body.storyId);    
 }
 
-exports.userStories = function(req, res) {
-    var user = req.query.user || req.session.user;
+exports.userStories = function(req, res) {    
     var page = req.params.page;
     var sortOrder = req.params.sortOrder;
     var sortDir = req.params.sortDir;
     var totalPages = 0;
-        
-    function failureHandler() {
-        renderStories([]);
-    }
-        
+    var fooStories = [];
+
     function renderStories(dbUser) {        
         res.render('storiesrenderer', {
             title: 'TalePipe - User Stories',
@@ -156,28 +152,36 @@ exports.userStories = function(req, res) {
             stories: fooStories
         });
     }
-    
-    var fooStories = [];
-    function getUser(stories) {       
-        fooStories = stories;
-        sql.getUser(user, renderStories, function() {
-            fooStories = [];
-            renderStories();
-        }, failureHandler);
+
+    function failureHandler() {
+        renderStories([]);
     }
+
+    exports.isLoggedIn(req, res, function(facebookId, authToken) {
+        var user = req.query.user || req.cookies.login_id;
         
-    function getStoryPage(totalStories) {
-        console.log('There are ' + totalStories + ' stories');
-        if (totalStories) {
-            totalPages = totalStories && Math.ceil(totalStories/PAGE_SIZE);
-            console.log('Get stories for user ' + user + ' totalPages = ' + totalPages)
-            sql.getStories(user, page, PAGE_SIZE, sortOrder, sortDir, getUser, failureHandler);
-        } else {
-            renderStories([]);
+        function getUser(stories) {       
+            fooStories = stories;
+            sql.getUser(user, renderStories, function() {
+                fooStories = [];
+                renderStories();
+            }, failureHandler);
         }
-    }
-    console.log('Counting stories for user ' + user);
-    sql.getUserStoryCount(user, getStoryPage, failureHandler);
+            
+        function getStoryPage(totalStories) {
+            console.log('There are ' + totalStories + ' stories');
+            if (totalStories) {
+                totalPages = totalStories && Math.ceil(totalStories/PAGE_SIZE);
+                console.log('Get stories for user ' + user + ' totalPages = ' + totalPages)
+                sql.getStories(user, page, PAGE_SIZE, sortOrder, sortDir, getUser, failureHandler);
+            } else {
+                renderStories([]);
+            }
+        }
+        console.log('Counting stories for user ' + user);
+        sql.getUserStoryCount(user, getStoryPage, failureHandler);        
+    }, failureHandler);
+    
 }
 
 exports.allStories = function(req, res) {
@@ -274,15 +278,17 @@ exports.story = function(req, res) {
     var _renderStory = function(story) {
         renderStory(story, hasContributed, hasLock, lockedTime, res);
     }
-    
-    if (!req.session.user) {
+
+    var failureHandler = function() {
         sql.getFullStory(storyId, _renderStory, missingStory);
-    } else {
-        sql.hasContributed(storyId, req.session.user, function(contributed) {
+    }
+    
+    exports.isLoggedIn(req, res, function(facebookId, authToken) {
+        sql.hasContributed(storyId, req.cookies.login_id, function(contributed) {
             console.log('Contributed: ' + contributed);
             hasContributed = contributed;
             if (!hasContributed) {
-                sql.lockStory(storyId, req.session.user, function(haveLock, lockTime) {
+                sql.lockStory(storyId, req.cookies.login_id, function(haveLock, lockTime) {
                     hasLock = haveLock;
                     lockedTime = lockTime;
                     sql.getFullStory(storyId, _renderStory, missingStory);
@@ -291,7 +297,7 @@ exports.story = function(req, res) {
                 sql.getFullStory(storyId, _renderStory, missingStory);
             }       
         }, missingStory);
-    }
+    }, failureHandler);
 }
 
 var renderStory = function(story, hasContributed, hasLock, lockedTime, res, renderer, title) {
@@ -355,39 +361,78 @@ exports.page = function(req, res) {
     res.render('page', { title: 'TalePipe - ' + name, content:contents[name] });
 };
 
+
+var that = this;
+
+exports.setRedis = function(redis) {
+    that.redis = redis;  
+}
+
+exports.isLoggedIn = function(req, res, successCallback, failureCallback) {
+    that.redis.hget('facebookmap', req.cookies.login_id, function(err, facebookId) {
+        if (facebookId) {
+            that.redis.get(facebookId, function(err, authToken) {
+                if (req.cookies.login_token === authToken) {
+                    successCallback(facebookId, authToken);
+                } else {
+                    that.redis.del(facebookId);
+                    res.clearCookie('login_id');
+                    res.clearCookie('login_token');
+                    failureCallback && failureCallback();
+                }
+            });
+        } else {
+            res.clearCookie('login_id');
+            res.clearCookie('login_token');
+            failureCallback && failureCallback();
+        }
+    })
+}
+
 exports.logout = function(req, res) {
-    delete req.session.user;
-    res.send()
+    exports.isLoggedIn(req, res, function(facebookId, authToken) {
+        that.redis.del(facebookId);
+        res.clearCookie('login_id');
+        res.clearCookie('login_token');
+
+        res.send();
+    });
 }
 
 exports.logon = function(req, res) {
-    if (req.session.user) {
-        console.log('Already logged');
-        res.send({
-            success: true                    
-        })
-        return;
-    }
-    
-    console.log('Logon called');
-    exports.authenticate(req, res, function(success, email) {        
-        console.log(success)
-        if (success) {
-            sql.createUser(req.body.user, email, 'FACEBOOK', function(user) {                                
-                req.session.user = user.id;         
-                res.send({
-                    newLogin: true,
-                    success: true                    
-                })
-            });
-        } else {
+    that.redis.get(req.body.user, function(err, token) {
+        if (token === req.body.accessToken) {
+            console.log('Already logged');
             res.send({
-                success: false                    
+                success: true                    
             })
+            return;
         }
-    }, function() {
-        res.send({
-            success: false
+        
+        console.log('Logon called');
+        exports.authenticate(req, res, function(success, email) {        
+            console.log(success)
+            if (success) {
+                sql.createUser(req.body.user, email, 'FACEBOOK', function(user) {                  
+                    that.redis.set(req.body.user, req.body.accessToken);
+                    that.redis.hset('facebookmap', user.id, req.body.user);
+                    that.redis.expire(req.body.user, 1800)
+                    res.cookie('login_id', user.id, { maxAge: 3600000, path: '/' });
+                    res.cookie('login_token', req.body.accessToken, { maxAge: 3600000, path: '/' });
+                    res.send({
+                        newLogin: true,
+                        success: true                    
+                    })
+                });
+            } else {
+                res.send({
+                    success: false                    
+                })
+            }
+        }, function() {
+            res.send({
+                success: false
+            })
         })
     })
 }

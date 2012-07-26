@@ -3,14 +3,15 @@ var cluster = require('cluster');
 var numCPUs = require('os').cpus().length;
 var store = require('./routes/store');
 console.log(numCPUs + ' people can use this');
-var RedisStore = require('connect-redis')(express);
+var redis = require("redis"),
+        client = redis.createClient();
+
+store.setRedis(client);
 
 var app = module.exports = express.createServer(
   express.favicon('./public/images/favicon.ico', { maxAge: 2592000000 })
 );
 app.use(express.cookieParser());
-app.use(express.session({ secret: "keyboard cat" }));
-
 
 app.configure(function(){
   app.set('views', __dirname + '/views');
@@ -21,9 +22,10 @@ app.configure(function(){
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
   app.use(express.session({
-    store: new RedisStore(),
     secret: 'youaintneverguessingthisbitches'}
   ));
+  app.use(express.bodyParser());
+  app.use(express.cookieParser());
 });
 
 app.configure('development', function(){
