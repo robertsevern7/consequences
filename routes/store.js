@@ -87,6 +87,8 @@ exports.contribute_post_handler = function(req, res) {
                     story.save();                    
                     emailCompleteStory(storyId);                    
                 }
+                that.redis.select(1);
+                that.redis.del(storyId);
                 res.send({
                     success: true,
                     savedId: story.id
@@ -288,11 +290,26 @@ exports.story = function(req, res) {
             console.log('Contributed: ' + contributed);
             hasContributed = contributed;
             if (!hasContributed) {
-                sql.lockStory(storyId, req.cookies.login_id, function(haveLock, lockTime) {
-                    hasLock = haveLock;
-                    lockedTime = lockTime;
+                that.redis.select(1);
+                console.log('getting story ' + storyId)
+                that.redis.get(storyId, function(err, storyLock) {
+                    storyLock = storyLock && JSON.parse(storyLock);
+                    hasLock = !(storyLock && storyLock.userId !== req.cookies.login_id);
+                    if (hasLock) {
+                        lockedTime = (new Date()).getTime();
+                        console.log('Setting lock ' + storyId)
+                        that.redis.set(storyId, JSON.stringify({
+                            lockTime: lockedTime,
+                            userId: req.cookies.login_id
+                        }));
+
+                        that.redis.expire(storyId, 1200);
+                    } else {
+                        lockedTime = storyLock.lockTime;
+                    }
+
                     sql.getFullStory(storyId, _renderStory, missingStory);
-                }, missingStory);
+                })
             } else {
                 sql.getFullStory(storyId, _renderStory, missingStory);
             }       
@@ -369,6 +386,7 @@ exports.setRedis = function(redis) {
 }
 
 exports.isLoggedIn = function(req, res, successCallback, failureCallback) {
+    that.redis.select(0);
     that.redis.hget('facebookmap', req.cookies.login_id, function(err, facebookId) {
         if (facebookId) {
             that.redis.get(facebookId, function(err, authToken) {
@@ -390,6 +408,7 @@ exports.isLoggedIn = function(req, res, successCallback, failureCallback) {
 }
 
 exports.logout = function(req, res) {
+    that.redis.select(0);
     exports.isLoggedIn(req, res, function(facebookId, authToken) {
         that.redis.del(facebookId);
         res.clearCookie('login_id');
@@ -400,6 +419,7 @@ exports.logout = function(req, res) {
 }
 
 exports.logon = function(req, res) {
+    that.redis.select(0);
     that.redis.get(req.body.user, function(err, token) {
         if (token === req.body.accessToken) {
             console.log('Already logged');
