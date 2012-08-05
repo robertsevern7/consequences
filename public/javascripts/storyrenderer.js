@@ -154,7 +154,8 @@ function StoryRenderer() {
         var intervalId = -1;
         $.each($('#countdown'), function() {
             var twentyMinExpireTime = 1200000;
-            var lockDate = new Date($(this).attr('lockTime'));
+            var lockDate = new Date();
+            lockDate.setTime($(this).attr('lockTime'));
             var expireTime = lockDate.getTime() + twentyMinExpireTime;
             var countDiv =  $(this)
             getTimeHtml(expireTime, countDiv);
