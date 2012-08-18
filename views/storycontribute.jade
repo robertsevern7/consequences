@@ -6,7 +6,8 @@ script(src='/javascripts/contribute.js')
     include navbar
     .container 
         h2 #{title}
-        div(class='useridentifier', userId='#{owner}')
+        - if (owner)
+            div(class='useridentifier', userId='#{owner}')
         div &nbsp
         div(class="lockwarning loggedon")
             if hasLock
@@ -18,16 +19,19 @@ script(src='/javascripts/contribute.js')
                 span(id='countdown', lockTime='#{lockTime}')
             div &nbsp
 
-        div You are writing section #{nextSection} out of #{totalSections}
+        - if (totalSections)
+             div You are writing section #{nextSection} out of #{totalSections}
+
         - if (nextSection === totalSections)
             div Time to finish off the story!
-        div(class='option ideasgroup') Some ideas:
-            #seed
-                div &nbsp&nbsp&nbsp Character: 
-                    span #{characterOne}
-                div &nbsp&nbsp&nbsp Where: 
-                    span #{location}
-        div &nbsp
+        - if (characterOne && location)
+            div(class='option ideasgroup') Some ideas:
+                #seed
+                    div &nbsp&nbsp&nbsp Character: 
+                        span #{characterOne}
+                    div &nbsp&nbsp&nbsp Where: 
+                        span #{location}
+            div &nbsp
         div Continue from this...
             table
                 td
