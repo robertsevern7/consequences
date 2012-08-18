@@ -10,7 +10,7 @@ mixin sortoption(displayName, value, direction, currentDirection, currentSort, u
 
 mixin storyrender(storyId, title, characterOne, location, owner, sections, completed, excludeBlurb)
     h2 #{title}
-    - if (!excludeBlurb) 
+    - if (!excludeBlurb && characterOne)
         div         
             div(class='option ideasgroup') Some ideas:
             #seed
@@ -31,6 +31,18 @@ mixin storyrender(storyId, title, characterOne, location, owner, sections, compl
                     div(class='useridentifier', userId='#{section.contributor}')
                 td
                     img(class='userimage', userId='#{section.contributor}')
+    -if (totalPages)
+        table(class="centerhorizontal")
+            tr
+                td                    
+                    div(class='firstButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', neverending='true')
+                td
+                    div(class='prevButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', neverending='true')
+                td
+                    div(class='nextButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', neverending='true')
+                td
+                    div(class='lastButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', neverending='true')
+        .centerhorizontal Page #{page} of #{totalPages}
     div &nbsp
     - if (completed && !excludeBlurb) 
         div This TalePipe is finished! Now 'Like' it to share it with your friends via Facebook:

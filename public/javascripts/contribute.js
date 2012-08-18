@@ -28,7 +28,11 @@ $(document).ready(function() {
                 content: entryBox.getValue()
             }, function(response) {
                 if (response.success) {
-                    window.location = '/stories/' + response.savedId;
+                    if (response.savedId === -1) {
+                        window.location = '/neverending/end';
+                    } else {
+                        window.location = '/stories/' + response.savedId;
+                    }
                 } else {
                     document.facebookWrapper.checkStatus();
                 }

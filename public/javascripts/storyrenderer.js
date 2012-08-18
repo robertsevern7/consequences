@@ -69,10 +69,13 @@ function StoryRenderer() {
     function pagingHandler() {
         function goToPage(element, page) {
             var user = element.attr('userId');
+            var neverending = element.attr('neverending');
             var sortOrder = element.attr('sortOrder');
             var sortDirection = element.attr('currentDirection');
            
-            if (user) {
+            if (neverending) {
+                window.location = '/neverending/' + page;
+            } else if (user) {
                 window.location = '/userstories/' + page + '/' +sortOrder + '/' + sortDirection + '?user=' + user;
             } else {
                 window.location = '/allstories/' + page + '/' + sortOrder + '/' + sortDirection;

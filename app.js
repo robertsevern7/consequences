@@ -41,6 +41,8 @@ app.get('/howto', store.howto);
 app.get('/create', store.create);
 app.post('/create', store.create_post_handler);
 app.post('/contribute', store.contribute_post_handler);
+app.get('/neverending', store.getNeverendingStory);
+app.get('/neverending/:page', store.getNeverendingStory);
 app.post('/like', store.like_post_handler);
 app.post('/seed', store.getSeedPostHandler);
 app.get('/userstories/:page/:sortOrder/:sortDir', store.userStories);
