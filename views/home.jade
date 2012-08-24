@@ -22,12 +22,12 @@ script(src='/javascripts/storyrenderer.js')
         div &nbsp
         div &nbsp
         .bigbutton.leftfloat.loggedon(onclick="location.href='/create'") Get Started!
-        .bigbutton.rightfloat(onclick="location.href='/allstories/1/popularity/DESC'") See Other Stories!
+        .bigbutton.rightfloat(onclick="location.href='/allstories/1/popularity/DESC'") See Other TalePipes!
         .clearfloats
         div &nbsp
     - if (storyId)
         .container
-            h1 Top Story
+            h1 Top TalePipe
             div &nbsp
             mixin storyrender(storyId, storyTitle, characterOne, location, owner, sections, completed, true)
     .push

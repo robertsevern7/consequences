@@ -152,7 +152,7 @@ exports.userStories = function(req, res) {
 
     function renderStories(dbUser) {        
         res.render('storiesrenderer', {
-            title: 'TalePipe - User Stories',
+            title: 'TalePipe - User TalePipes',
             sortOrder: sortOrder,
             sortDirection: sortDir,
             page: page,
@@ -201,7 +201,7 @@ exports.allStories = function(req, res) {
     
     function renderStories(stories) {
         res.render('storiesrenderer', {
-            title: 'TalePipe - Stories',
+            title: 'TalePipes',
             sortOrder: sortOrder,
             sortDirection: sortDir,
             page: page,
@@ -223,7 +223,7 @@ exports.allStories = function(req, res) {
 
 exports.friendsStories = function(req, res) {   
     res.render('friendsrenderer', {
-        title: 'TalePipe - Friends\' Stories'        
+        title: 'TalePipe - Friends\' TalePipes'        
     });
 }
 
@@ -289,7 +289,7 @@ exports.story = function(req, res) {
     var lockedTime = '';
     
     var missingStory = function() {
-        res.render('nostory', {title: 'TalePipe - Missing Story'});
+        res.render('nostory', {title: 'TalePipe - Missing'});
     }
 
     var _renderStory = function(story) {
