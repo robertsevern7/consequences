@@ -32,14 +32,15 @@ script(src='/javascripts/contribute.js')
                     div &nbsp&nbsp&nbsp Where: 
                         span #{location}
             div &nbsp
-        div Continue from this...
-            table
-                td
-                    div(class='storysection') #{snippet.content}
-                td
-                    div(class='useridentifier', userId='#{snippet.contributor}')
-                td
-                    img(class='userimage', userId='#{snippet.contributor}')
+        - if (snippet.contributor)
+            div Continue from this...
+                table
+                    td
+                        div(class='storysection') #{snippet.content}
+                    td
+                        div(class='useridentifier', userId='#{snippet.contributor}')
+                    td
+                        img(class='userimage', userId='#{snippet.contributor}')
         if hasLock
             .loggedon
                 .optionholder
