@@ -137,6 +137,12 @@ a {
   color: #d9d9d9;
   text-decoration: none;
 }
+.bottomtabtable {
+  border-spacing: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
 .tabtable {
   border-spacing: 0;
   position: absolute;
@@ -146,8 +152,7 @@ a {
 .tabstyle {
   padding: 5px;
   background-color: #525252;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
+  border-radius: 5px;
   border-left: 1px solid #333;
 }
 .biggertext {

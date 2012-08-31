@@ -21,8 +21,15 @@ script(src='/javascripts/storyrenderer.js')
             a(href='/howto') Click here.
         div &nbsp
         div &nbsp
-        .bigbutton.leftfloat.loggedon(onclick="location.href='/create'") Get Started!
-        .bigbutton.rightfloat(onclick="location.href='/allstories/1/popularity/DESC'") See Other TalePipes!
+        .leftfloat.bigbutton
+            .loggedon(onclick="location.href='/userstories/1/popularity/DESC'") My TalePipes
+            .loggedout(onclick="FB.login()") Logon to view your TalePipes!
+        .rightfloat.bigbutton
+            .loggedon(onclick="location.href='/friendsstories'") My TalePipes
+            .loggedout(onclick="FB.login()") Logon to view friends' TalePipes!
+        .clearfloats
+        .bigbutton.leftfloat(onclick="location.href='/allstories/1/popularity/DESC'") See Other TalePipes!
+        .bigbutton.rightfloat(onclick="location.href='/neverending'") The Neverending TalePipe
         .clearfloats
         div &nbsp
     - if (storyId)

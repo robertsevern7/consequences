@@ -44,7 +44,6 @@ function FacebookWrapper() {
                 accessToken: response.authResponse.accessToken
             }, function(response) {
                 if (response.success) {
-                    setupClickHandlers();
                     showAccountInfo();
                     $('.loggedon').show();
                     $('.loggedout').hide();
@@ -62,15 +61,5 @@ function FacebookWrapper() {
                 $(document).trigger('loggedin', [loggedIn])
             })            
         } 
-    }
-    
-    function setupClickHandlers() {
-        $('#myStoriesTab').click(function() {
-            window.location = '/userstories/1/popularity/DESC';            
-        })
-        
-        $('#friendsStoriesTab').click(function() {
-            window.location = '/friendsstories';
-        })
     }
 }
