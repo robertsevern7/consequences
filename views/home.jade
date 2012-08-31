@@ -12,26 +12,24 @@ script(src='/javascripts/storyrenderer.js')
             span 1. 
             span(class='pointer', onclick="FB.login()") Log-in
             span &nbspvia Facebook
-        div  2. Create a TalePipe by starting a story
+        div  2. Click Create
         div  3. Give it the title and first few lines of your choice
         div  4. Share your story with friends via Facebook and challenge them to add to the TalePipe!
-        div &nbsp
-        div 
-            span Want to know more about how it works? 
-            a(href='/howto') Click here.
-        div &nbsp
         div &nbsp
         .leftfloat.bigbutton
             .loggedon(onclick="location.href='/userstories/1/popularity/DESC'") My TalePipes
             .loggedout(onclick="FB.login()") Logon to view your TalePipes!
         .rightfloat.bigbutton
-            .loggedon(onclick="location.href='/friendsstories'") My TalePipes
+            .loggedon(onclick="location.href='/friendsstories'") Friends' TalePipes
             .loggedout(onclick="FB.login()") Logon to view friends' TalePipes!
         .clearfloats
         .bigbutton.leftfloat(onclick="location.href='/allstories/1/popularity/DESC'") See Other TalePipes!
         .bigbutton.rightfloat(onclick="location.href='/neverending'") The Neverending TalePipe
         .clearfloats
         div &nbsp
+        div 
+            span Want to know more about how it works? 
+            a(href='/howto') Click here.
     - if (storyId)
         .container
             h1 Top TalePipe
