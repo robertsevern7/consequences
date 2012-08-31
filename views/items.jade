@@ -1,9 +1,0 @@
-.wrapper
-    include navbar
-    .container
-        -for (var id in items)
-            - var item = items[id]
-            div
-                a(href='/item/#{id}') #{item.name} - $#{item.price}
-    .push
-include footer

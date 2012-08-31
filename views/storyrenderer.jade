@@ -1,7 +1,9 @@
 include mixins/storymixins
+include mixins/locationWidget
 script(src='/javascripts/storyrenderer.js')
 .wrapper
     include navbar
+    mixin locationWidget('read')
     .container
         mixin storyrender(storyId, storyTitle, characterOne, location, owner, sections, completed)
     .push

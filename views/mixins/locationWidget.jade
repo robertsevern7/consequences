@@ -1,0 +1,16 @@
+mixin locationWidget(location)
+    .locationWidget.container
+        - if (location === 'create')
+            .highlightedsection Create
+        - else
+            div Create
+        br
+        - if (location === 'contribute')
+            .highlightedsection Contribute
+        - else
+            div Contribute
+        br
+        - if (location === 'read')
+            .highlightedsection Read
+        - else
+            div Read
