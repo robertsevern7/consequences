@@ -28,8 +28,8 @@ function FacebookWrapper() {
         function(response) {
             if (response[0]) {			    
                 document.getElementById('logoutbar').innerHTML = (
-                    '<div>' +  response[0].name + '</div>' +
-                    '<div class="button" button onclick="FB.logout()"  style="cursor: pointer;"> Logout</div>'
+                    '<div class="button" button onclick="FB.logout()"  style="cursor: pointer;"> Logout</div>' + 
+                    '<div>' +  response[0].name + '</div>'
                 );
             }
         });
