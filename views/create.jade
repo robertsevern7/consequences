@@ -1,7 +1,9 @@
 script(src='/javascripts/EntryBox.js')
 script(src='/javascripts/create.js')
+include mixins/locationWidget
 .wrapper
     include navbar
+    mixin locationWidget('create')
     .container
         h2 Create a New TalePipe!
         div &nbsp

@@ -1,9 +1,11 @@
 script(src='/javascripts/storyrenderer.js')
 script(src='/javascripts/EntryBox.js')
 script(src='/javascripts/contribute.js')
+include mixins/locationWidget
 #storyId(storyId='#{storyId}')
 .wrapper
     include navbar
+    mixin locationWidget('contribute')
     .container 
         h2 #{title}
         - if (owner)
