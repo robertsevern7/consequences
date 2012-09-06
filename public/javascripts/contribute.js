@@ -25,6 +25,7 @@ $(document).ready(function() {
                 accessToken: authResponse.accessToken,
                 user: authResponse.userID,
                 storyId: $('#storyId').attr('storyId'),
+                previousSectionId: $('#contributebutton').attr('#contributebutton'),
                 content: entryBox.getValue()
             }, function(response) {
                 if (response.success) {
