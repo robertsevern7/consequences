@@ -3,14 +3,14 @@ mixin locationWidget(location)
         - if (location === 'create')
             .highlightedsection Create
         - else
-            div Create
-        br
+            a(class="nohighlight", href="/create") Create
+            br
         - if (location === 'contribute')
             .highlightedsection Contribute
         - else
-            div Contribute
-        br
+            a(class="nohighlight", href="/") Contribute
+            br
         - if (location === 'read')
             .highlightedsection Read
         - else
-            div Read
+            a(class="nohighlight", href="/") Read
