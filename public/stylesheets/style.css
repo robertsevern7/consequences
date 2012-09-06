@@ -63,15 +63,16 @@ a {
   background-color: #eef2e3;
   border-radius: 5px;
   width: 40%;
-  border: dotted;
+  border: solid;
   cursor: pointer;
 }
 #contributebutton {
   padding: 5px;
   border-radius: 5px;
+  border-width: 1px;
   width: 100px;
   background-color: #eef2e3;
-  border: dotted;
+  border-style: solid;
   cursor: pointer;
 }
 .disabled {
@@ -221,9 +222,10 @@ a {
 .storyholder {
   background-color: #fafafa;
   border-radius: 5px;
+  border-width: 2px;
   padding: 5px;
   margin: 5px;
-  border: dotted;
+  border-style: solid;
 }
 .seemore {
   cursor: pointer;
