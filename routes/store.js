@@ -15,7 +15,7 @@ exports.home = function(req, res) {
         } else {
             sql.getFullStory(story.id, -1, function(fullStory) {
                 fullStory.completed = true;
-                renderStory(fullStory, true, true, '', res, 'home', 'TalePipe');
+                renderStory(fullStory, true, true, '', res, 'home', 'TalePipe', true);
             }, missingStory);
         }
     }, missingStory);    
@@ -287,16 +287,20 @@ exports.story = function(req, res) {
     var hasContributed = false;
     var hasLock = false;
     var lockedTime = '';
+    var loggedIn = true;
     
     var missingStory = function() {
         res.render('nostory', {title: 'TalePipe - Missing'});
     }
 
     var _renderStory = function(story) {
-        renderStory(story, hasContributed, hasLock, lockedTime, res);
+        console.log('Rendering hasContributed: ' + hasContributed + ', hasLock ' + hasLock)
+        renderStory(story, hasContributed, hasLock, lockedTime, res, undefined, undefined, loggedIn);
     }
 
     var failureHandler = function() {
+        console.log('Not logged in')
+        loggedIn = false;
         sql.getFullStory(storyId, page, _renderStory, missingStory);
     }
     
@@ -304,6 +308,7 @@ exports.story = function(req, res) {
         sql.hasContributed(storyId, req.cookies.login_id, function(contributed) {
             console.log('Contributed: ' + contributed);
             hasContributed = contributed;
+            console.log('hasContributed set ' + hasContributed)
             if (!hasContributed) {
                 that.redis.select(1);
                 console.log('getting story ' + storyId)
@@ -332,7 +337,7 @@ exports.story = function(req, res) {
     }, failureHandler);
 }
 
-var renderStory = function(story, hasContributed, hasLock, lockedTime, res, renderer, title) {
+var renderStory = function(story, hasContributed, hasLock, lockedTime, res, renderer, title, loggedIn) {
     var seedInfo = story.seedInfo && JSON.parse(story.seedInfo);
     var page = story.page;
     var totalPages = story.totalPages;
@@ -350,7 +355,8 @@ var renderStory = function(story, hasContributed, hasLock, lockedTime, res, rend
             sections: story.sections,
             excludeBlurb: !!renderer,
             page: page,
-            totalPages: totalPages
+            totalPages: totalPages,
+            loggedIn: loggedIn
         };
         res.render(renderer || 'storyrenderer', storyInfo);
     } else if (!hasContributed) {
@@ -371,7 +377,8 @@ var renderStory = function(story, hasContributed, hasLock, lockedTime, res, rend
                 contributor: lastSection && lastSection.contributor
             },
             hasLock: hasLock,
-            lockTime: lockedTime
+            lockTime: lockedTime,
+            loggedIn: loggedIn
         };
         res.render(renderer || 'storycontribute', storyInfo);
     } else {
@@ -386,7 +393,8 @@ var renderStory = function(story, hasContributed, hasLock, lockedTime, res, rend
             storyId: story.id,
             sections: story.sections,
             page: page,
-            totalPages: totalPages
+            totalPages: totalPages,
+            loggedIn: loggedIn
         });
     }
 }
@@ -407,10 +415,13 @@ exports.setRedis = function(redis) {
 }
 
 exports.isLoggedIn = function(req, res, successCallback, failureCallback) {
+    console.log('Checking logged in status: accessToken ' + req.body.accessToken + ', ' + req.body.user)
     that.redis.select(0);
     that.redis.hget('facebookmap', req.cookies.login_id, function(err, facebookId) {
         if (facebookId) {
             that.redis.get(facebookId, function(err, authToken) {
+                console.log('cookies: ' + req.cookies.login_token)
+                console.log('authToken: ' + authToken)
                 if (req.cookies.login_token === authToken) {
                     successCallback(facebookId, authToken);
                 } else {
@@ -421,6 +432,7 @@ exports.isLoggedIn = function(req, res, successCallback, failureCallback) {
                 }
             });
         } else {
+            console.log('No facebook id');
             res.clearCookie('login_id');
             res.clearCookie('login_token');
             failureCallback && failureCallback();

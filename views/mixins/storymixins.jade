@@ -23,7 +23,7 @@ mixin storyrender(storyId, title, characterOne, location, owner, sections, compl
     
     table(style="width:90%")
         -for (var id in sections)
-            tr
+            tr(class="storysectionrow")
                 - var section = sections[id]
                 td
                     div(class='storysection') #{section.content}
