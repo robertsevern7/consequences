@@ -4,6 +4,16 @@ $(document).live("facebook:ready", function() {
 function StoryRenderer() {
     that = this;
     
+    function ensureLoggedOnMatches() {
+        if (!$('#loggedOnServerSide').length) {
+            return;
+        }
+
+        if ($('#loggedOnServerSide').attr('isLoggedOn') === 'false') {
+            document.facebookWrapper.checkStatus();
+        }
+    }
+
     function hoverButtonHandler() {
         $('.hoverbutton').mouseenter(function() {
             $(this).addClass('hovering');
@@ -186,21 +196,28 @@ function StoryRenderer() {
         } 
     }
 
-    function addRequestHandler() {
-        $('#sendrequest').click(function() {
-            FB.ui({method: 'apprequests',
-                message: 'Come and finish my story!'
-            }, function(response) {
-                console.dir(response)
-            }); 
-        });
+    function bringInSections() {
+        var sections = $('.storysectionrow');
+
+        var i = 0;
+        var len = sections.length;
+        function showSection() {
+            if (i < len) {
+                ++i;
+                $(sections[i - 1]).slideDown('slow', function() {
+                    setTimeout(showSection, 2000);
+                })
+            }
+        }
+        showSection();
     }
 
+    ensureLoggedOnMatches();
     this.storySummaryHandler();
     sortingHandler();
     pagingHandler();
     hoverButtonHandler();
     this.getContributors();
     addCountdownTimer();
-    //addRequestHandler();
+    //bringInSections();
 }

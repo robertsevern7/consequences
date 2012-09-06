@@ -3,6 +3,7 @@ script(src='/javascripts/EntryBox.js')
 script(src='/javascripts/contribute.js')
 include mixins/locationWidget
 #storyId(storyId='#{storyId}')
+#loggedOnServerSide(isLoggedOn='#{loggedIn}')
 .wrapper
     include navbar
     mixin locationWidget('contribute')
@@ -15,10 +16,11 @@ include mixins/locationWidget
             if hasLock
                 div It's your turn to tell the story!
             else
-                div Looks like someone else is adding to this story right now!
-            div
-                span Time left: 
-                span(id='countdown', lockTime='#{lockTime}')
+                div Looks like someone else is adding to this story right now! Please try later
+                - if (lockTime)
+                    div
+                        span Time left: 
+                        span(id='countdown', lockTime='#{lockTime}')
             div &nbsp
 
         - if (totalSections)
