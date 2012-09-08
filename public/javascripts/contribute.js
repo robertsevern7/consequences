@@ -13,7 +13,8 @@ $(document).ready(function() {
         return false;
     }
     
-    $('#contributebutton').click(function() {
+    var contButton = $('#contributebutton')
+    contButton.click(function() {
         var authResponse = FB.getAuthResponse()
         if (entryBox.checkRemainingCharacters()) {
             if (!authResponse || !authResponse.accessToken) {
@@ -25,7 +26,8 @@ $(document).ready(function() {
                 accessToken: authResponse.accessToken,
                 user: authResponse.userID,
                 storyId: $('#storyId').attr('storyId'),
-                content: entryBox.getValue()
+                content: entryBox.getValue(),
+                lastSectionId: contButton.attr('lastSectionId')
             }, function(response) {
                 if (response.success) {
                     if (response.savedId === -1) {
