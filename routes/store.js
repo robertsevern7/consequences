@@ -80,7 +80,7 @@ exports.contribute_post_handler = function(req, res) {
 
     exports.isLoggedIn(req, res, function(facebookId, authToken) {
         function addSection(story, totalSections) {
-            sql.createSection(req.body.content, story, userDb, function() {                
+            sql.createSection(req.body.content, req.body.lastSectionId, story, userDb, function() {                
                 if (totalSections == (story.max_sections - 1)) {
                     console.log('setting story ' + story.id + ' complete ' + story.max_sections + ', ' + totalSections);
                     story.completed = true;
@@ -369,6 +369,7 @@ var renderStory = function(story, hasContributed, hasLock, lockedTime, res, rend
             storyTitle: story.title,
             title: title || story.title,
             characterOne: seedInfo && seedInfo.character1,
+            lastSectionId: lastSection.id,
             nextSection: sections.length + 1,
             totalSections: story.max_sections,
             location: seedInfo && seedInfo.location,
