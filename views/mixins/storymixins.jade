@@ -19,18 +19,24 @@ mixin storyrender(storyId, title, characterOne, location, owner, sections, compl
                 div &nbsp&nbsp&nbsp Where: 
                     span #{location}
         span(class='useridentifier', userId='#{owner}')
-        div &nbsp
-    
-    table(style="width:90%")
-        -for (var id in sections)
-            tr(class="storysectionrow")
-                - var section = sections[id]
-                td
-                    div(class='storysection') #{section.content}
-                td
-                    div(class='useridentifier', userId='#{section.contributor}')
-                td
-                    img(class='userimage', userId='#{section.contributor}')
+        br
+        br
+        each section, id in sections
+            table(style="width:90%")
+                tr(class="storysectionrow")
+                    - if (id % 2 == 1)
+                        td(style="width:40%")
+                        td
+                            div(class='storysection rightstyle') #{section.content}
+                    - else
+                        td
+                            div(class='storysection leftstyle') #{section.content}
+                    td
+                        div(class='useridentifier', userId='#{section.contributor}')
+                    td
+                        img(class='userimage', userId='#{section.contributor}')
+                    - if (id % 2 == 0)
+                        td(style="width:40%")
     -if (totalPages)
         table(class="centerhorizontal")
             tr
@@ -43,12 +49,13 @@ mixin storyrender(storyId, title, characterOne, location, owner, sections, compl
                 td
                     div(class='lastButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', neverending='true')
         .centerhorizontal Page #{page} of #{totalPages}
-    div &nbsp
+    br
+    br
     - if (completed && !excludeBlurb) 
         div This TalePipe is finished! Now 'Like' it to share it with your friends via Facebook:
     - else if (!excludeBlurb)
         div This TalePipe isn't finished, click 'Send' to share it with your friends!
-    div &nbsp
+    br
     mixin likestemplate(storyId)
-    div &nbsp
+    br
     a(href="/create") Now create your own TalePipe!
