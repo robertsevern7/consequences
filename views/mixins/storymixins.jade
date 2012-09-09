@@ -24,28 +24,28 @@ mixin storyrender(storyId, title, characterOne, location, owner, sections, compl
     h2 #{title}
     - if (!excludeBlurb && characterOne)
         span(class='useridentifier', userId='#{owner}')
-        br
-        br
-        br
-        each section, id in sections
-            table(style="width:100%")
-                tr(class="storysectionrow")
-                    - if (id % 2 == 1)
-                        td(style="width:30%")
-                        td
-                            div(class='storysection rightstyle') #{section.content}
-                    - else
-                        td(style="width:5%")
-                    td(style='width:50px')
-                        div(class='useridentifier', userId='#{section.contributor}')
-                    td(style='width:50px')
-                        img(class='userimage', userId='#{section.contributor}')
-                    - if (id % 2 == 1)
-                        td(style="width:5%")
-                    - else
-                        td
-                            div(class='storysection leftstyle') #{section.content}
-                        td(style="width:30%")
+    br
+    br
+    br
+    each section, id in sections
+        table(style="width:100%")
+            tr(class="storysectionrow")
+                - if (id % 2 == 1)
+                    td(style="width:30%")
+                    td
+                        div(class='storysection rightstyle') #{section.content}
+                - else
+                    td(style="width:5%")
+                td(style='width:50px')
+                    div(class='useridentifier', userId='#{section.contributor}')
+                td(style='width:50px')
+                    img(class='userimage', userId='#{section.contributor}')
+                - if (id % 2 == 1)
+                    td(style="width:5%")
+                - else
+                    td
+                        div(class='storysection leftstyle') #{section.content}
+                    td(style="width:30%")
             div
     -if (totalPages)
         table(class="centerhorizontal")

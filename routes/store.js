@@ -369,7 +369,7 @@ var renderStory = function(story, hasContributed, hasLock, lockedTime, res, rend
             storyTitle: story.title,
             title: title || story.title,
             characterOne: seedInfo && seedInfo.character1,
-            lastSectionId: lastSection.id,
+            lastSectionId: lastSection && lastSection.id,
             nextSection: sections.length + 1,
             totalSections: story.max_sections,
             location: seedInfo && seedInfo.location,
