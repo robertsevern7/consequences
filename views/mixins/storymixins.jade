@@ -23,26 +23,30 @@ mixin storyOptions(characterOne, location)
 mixin storyrender(storyId, title, characterOne, location, owner, sections, completed, excludeBlurb)
     h2 #{title}
     - if (!excludeBlurb && characterOne)
-        mixin storyOptions(characterOne, location)
         span(class='useridentifier', userId='#{owner}')
+        br
         br
         br
         each section, id in sections
             table(style="width:100%")
                 tr(class="storysectionrow")
                     - if (id % 2 == 1)
-                        td(style="width:40%")
+                        td(style="width:30%")
                         td
                             div(class='storysection rightstyle') #{section.content}
                     - else
+                        td(style="width:5%")
+                    td(style='width:50px')
+                        div(class='useridentifier', userId='#{section.contributor}')
+                    td(style='width:50px')
+                        img(class='userimage', userId='#{section.contributor}')
+                    - if (id % 2 == 1)
+                        td(style="width:5%")
+                    - else
                         td
                             div(class='storysection leftstyle') #{section.content}
-                    td
-                        div(class='useridentifier', userId='#{section.contributor}')
-                    td
-                        img(class='userimage', userId='#{section.contributor}')
-                    - if (id % 2 == 0)
-                        td(style="width:40%")
+                        td(style="width:30%")
+            div
     -if (totalPages)
         table(class="centerhorizontal")
             tr
@@ -55,6 +59,7 @@ mixin storyrender(storyId, title, characterOne, location, owner, sections, compl
                 td
                     div(class='lastButton hoverbutton', currentPage='#{page}', totalPages='#{totalPages}', neverending='true')
         .centerhorizontal Page #{page} of #{totalPages}
+    br
     br
     br
     - if (completed && !excludeBlurb) 
