@@ -6,18 +6,17 @@ script(src='/javascripts/storyrenderer.js')
     mixin locationWidget('read')
     .container 
         div Welcome to TalePipe--a way to see just how good your friends are at spinning a story when they don't know all the facts.
-        div &nbsp
+        br
         div Write the first few lines of a story and challenge others to continue the tale by adding their contributions. Sounds easy--except for the fact that they'll only be able to see the last few words of the previous section.
-        div &nbsp
+        br
         div How to make a TalePipe:
         div  
             span 1. 
-            span(class='pointer', onclick="FB.login()") Log-in
-            span &nbspvia Facebook
+            span(class='pointer', onclick="FB.login()") Log-in via Facebook
         div  2. Click Create
         div  3. Give it the title and first few lines of your choice
         div  4. Share your story with friends via Facebook and challenge them to add to the TalePipe!
-        div &nbsp
+        br
         .leftfloat.bigbutton
             .loggedon(onclick="location.href='/userstories/1/popularity/DESC'") My TalePipes
             .loggedout(onclick="FB.login()") Logon to view your TalePipes!
@@ -28,14 +27,14 @@ script(src='/javascripts/storyrenderer.js')
         .bigbutton.leftfloat(onclick="location.href='/allstories/1/popularity/DESC'") See Other TalePipes!
         .bigbutton.rightfloat(onclick="location.href='/neverending'") The Neverending TalePipe
         .clearfloats
-        div &nbsp
+        br
         div 
             span Want to know more about how it works? 
             a(href='/howto') Click here.
     - if (storyId)
         .container
             h1 Top TalePipe
-            div &nbsp
+            br
             mixin storyrender(storyId, storyTitle, characterOne, location, owner, sections, completed, true)
     .push
 include footer

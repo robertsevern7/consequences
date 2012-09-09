@@ -2,6 +2,7 @@ script(src='/javascripts/storyrenderer.js')
 script(src='/javascripts/EntryBox.js')
 script(src='/javascripts/contribute.js')
 include mixins/locationWidget
+include mixins/storymixins
 #storyId(storyId='#{storyId}')
 #loggedOnServerSide(isLoggedOn='#{loggedIn}')
 .wrapper
@@ -11,7 +12,7 @@ include mixins/locationWidget
         h2 #{title}
         - if (owner)
             div(class='useridentifier', userId='#{owner}')
-        div &nbsp
+        br
         div(class="lockwarning loggedon")
             if hasLock
                 div It's your turn to tell the story!
@@ -21,7 +22,7 @@ include mixins/locationWidget
                     div
                         span Time left: 
                         span(id='countdown', lockTime='#{lockTime}')
-            div &nbsp
+            br
 
         - if (totalSections)
              div You are writing section #{nextSection} out of #{totalSections}
@@ -29,13 +30,8 @@ include mixins/locationWidget
         - if (nextSection === totalSections)
             div Time to finish off the story!
         - if (characterOne && location)
-            div(class='option ideasgroup') Some ideas:
-                #seed
-                    div &nbsp&nbsp&nbsp Character: 
-                        span #{characterOne}
-                    div &nbsp&nbsp&nbsp Where: 
-                        span #{location}
-            div &nbsp
+            mixin storyOptions(characterOne, location)
+            br
         - if (snippet.contributor)
             div Continue from this...
                 table
@@ -57,7 +53,7 @@ include mixins/locationWidget
                     textarea(id='contribution', class='optioninput', rows='5')
                 div The next person will only see this:
                 #visibleText
-                div &nbsp
+                br
             .loggedon
                 #contributebutton(lastSectionId="#{lastSectionId}") Contribute to this TalePipe!
         .loggedout

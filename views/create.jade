@@ -6,7 +6,7 @@ include mixins/locationWidget
     mixin locationWidget('create')
     .container
         h2 Create a New TalePipe!
-        div &nbsp
+        br
         .optionholder
             div
                 span(class='option') Title
@@ -19,7 +19,7 @@ include mixins/locationWidget
                 table
                     tr
                         td 
-                            div &nbsp
+                            br
                         td(class='characterHolder')
                             div Character:
                         td(class='characterHolder')
@@ -28,7 +28,7 @@ include mixins/locationWidget
                             div(id='characterrefresh', class='refresh')
                     tr
                         td
-                            div &nbsp
+                            br
                         td(class='locationHolder')
                             div Where: 
                         td(class='locationHolder')
@@ -43,7 +43,7 @@ include mixins/locationWidget
                 span(id='charwarning')
                 span )
             textarea(id='contribution', class='optioninput', rows='5')
-        div &nbsp
+        br
         div The next person will only see this:
         #visibleText
         .loggedon

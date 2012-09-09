@@ -22,7 +22,7 @@ function FriendsRenderer() {
                                 var friend = response.friends[i];
                                 var userHtml = '<div class="useridentifier noby" userId=' + htmlEncode(friend.userId) + '/>' +
                                                '<img class="userimage pointer" userId=' + htmlEncode(friend.userId) + ' clickId="' + htmlEncode(friend.id) + '"/>' +
-                                               '<div>&nbsp</div>'
+                                               '<br>'
                                 
                                 $('#friends').append(userHtml);
                             }
@@ -61,9 +61,9 @@ function FriendsRenderer() {
                                                 '<span class="' + completeClass + '">' + completeText + '</span>' +
                                             '</div>' +
                                             '<div class="clearfloats"/>' +
-                                            '<div>&nbsp</div>' +
+                                            '<br>' +
                                             '<div class="storycontent">' + htmlEncode(story.firstSection) + '...</div>' +
-                                            '<div>&nbsp</div>' +
+                                            '<br>' +
                                             '<div class="seemore" storyId=' + htmlEncode(story.id) + '>See More</div>' +
                                             '<fb:like class="like" data-send="true" data-width="450" data-show-faces="false" href="http://thetalepipe.com/stories/' + story.id + '" storyId=' + story.id + '/>' +
                                         '</div>'

@@ -8,21 +8,27 @@ mixin likestemplate(storyId)
 mixin sortoption(displayName, value, direction, currentDirection, currentSort, user)
     span(class='sortbutton', sort='#{value}', direction='#{direction}', currentDirection='#{currentDirection}', currentSort='#{currentSort}', user='#{user}') #{displayName}
 
+mixin storyOptions(characterOne, location)
+    div
+        div(class='option ideasgroup') 
+            div Some ideas:
+            #seed
+                .indent
+                    div Character: 
+                        span #{characterOne}
+                    div Where: 
+                        span #{location}
+
+
 mixin storyrender(storyId, title, characterOne, location, owner, sections, completed, excludeBlurb)
     h2 #{title}
     - if (!excludeBlurb && characterOne)
-        div         
-            div(class='option ideasgroup') Some ideas:
-            #seed
-                div &nbsp&nbsp&nbsp Character: 
-                    span #{characterOne}
-                div &nbsp&nbsp&nbsp Where: 
-                    span #{location}
+        mixin storyOptions(characterOne, location)
         span(class='useridentifier', userId='#{owner}')
         br
         br
         each section, id in sections
-            table(style="width:90%")
+            table(style="width:100%")
                 tr(class="storysectionrow")
                     - if (id % 2 == 1)
                         td(style="width:40%")
