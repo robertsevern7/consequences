@@ -13,7 +13,7 @@ exports.home = function(req, res) {
         if (!story) {
             missingStory();
         } else {
-            sql.getFullStory(story.id, -1, function(fullStory) {
+            sql.getFullStory(story.id, -1, false, function(fullStory) {
                 fullStory.completed = true;
                 renderStory(fullStory, true, true, '', res, 'home', 'TalePipe', true);
             }, missingStory);
@@ -66,7 +66,7 @@ exports.create_post_handler = function(req, res) {
 }
 
 emailCompleteStory = function(storyId) {
-    sql.getFullStory(storyId, -1, mailer.sendCompleteMessage);
+    sql.getFullStory(storyId, -1, true, mailer.sendCompleteMessage);
 }
 
 exports.contribute_post_handler = function(req, res) {
@@ -301,7 +301,7 @@ exports.story = function(req, res) {
     var failureHandler = function() {
         console.log('Not logged in')
         loggedIn = false;
-        sql.getFullStory(storyId, page, _renderStory, missingStory);
+        sql.getFullStory(storyId, page, false, _renderStory, missingStory);
     }
     
     exports.isLoggedIn(req, res, function(facebookId, authToken) {
@@ -328,10 +328,10 @@ exports.story = function(req, res) {
                         lockedTime = storyLock.lockTime;
                     }
 
-                    sql.getFullStory(storyId, page, _renderStory, missingStory);
+                    sql.getFullStory(storyId, page, false, _renderStory, missingStory);
                 })
             } else {
-                sql.getFullStory(storyId, page, _renderStory, missingStory);
+                sql.getFullStory(storyId, page, false, _renderStory, missingStory);
             }       
         }, missingStory);
     }, failureHandler);
@@ -381,6 +381,7 @@ var renderStory = function(story, hasContributed, hasLock, lockedTime, res, rend
             lockTime: lockedTime,
             loggedIn: loggedIn
         };
+
         res.render(renderer || 'storycontribute', storyInfo);
     } else {
         res.render(renderer || 'storyrenderer', {
