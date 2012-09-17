@@ -21,6 +21,17 @@ mixin storyOptions(characterOne, location)
 
 
 mixin storyrender(storyId, title, characterOne, location, owner, sections, completed, excludeBlurb)
+    div
+        table.centerer.imagepane
+            tr
+                - if (completed)
+                    td.picturetext Finished!
+                    td
+                        img(height="60", width="60", src='/images/Page_Finished.png')
+                - else
+                    td.picturetext Send it on!
+                    td
+                        img(height="60", width="60", src='/images/Page_Send.png')
     h2 #{title}
     - if (!excludeBlurb && characterOne)
         span(class='useridentifier', userId='#{owner}')
