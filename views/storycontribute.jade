@@ -9,6 +9,12 @@ include mixins/storymixins
     include navbar
     mixin locationWidget('contribute')
     .container 
+        div
+            table.centerer.imagepane
+                tr
+                    td.picturetext Get Writing!
+                    td
+                        img(height="60", width="60", src='/images/Page_Edit_White.png')
         h2 #{title}
         - if (owner)
             div(class='useridentifier', userId='#{owner}')
