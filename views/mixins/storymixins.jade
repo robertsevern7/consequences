@@ -22,7 +22,7 @@ mixin storyOptions(characterOne, location)
 
 mixin storyrender(storyId, title, characterOne, location, owner, sections, completed, excludeBlurb)
     div
-        table.centerer.imagepane
+        table.centerer.imagepane.sendstory(storyId='#{storyId}')
             tr
                 - if (completed)
                     td.picturetext Finished!
