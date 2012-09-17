@@ -75,6 +75,17 @@ function StoryRenderer() {
             }
         });
     }
+
+    function sendHandler() {
+        var sendStory = $('.sendstory');
+        sendStory.click(function() {
+            FB.ui({
+                method: 'send',
+                name: 'TalePipe - Send it on',
+                link: 'http://thetalepipe.com/stories/' + sendStory.attr("storyId")
+            });
+        })
+    }
     
     function pagingHandler() {
         function goToPage(element, page) {
@@ -215,6 +226,7 @@ function StoryRenderer() {
     ensureLoggedOnMatches();
     this.storySummaryHandler();
     sortingHandler();
+    sendHandler();
     pagingHandler();
     hoverButtonHandler();
     this.getContributors();
