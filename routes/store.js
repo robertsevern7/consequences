@@ -417,7 +417,7 @@ exports.setRedis = function(redis) {
 }
 
 exports.isLoggedIn = function(req, res, successCallback, failureCallback) {
-    console.log('Checking logged in status: accessToken ' + req.body.accessToken + ', ' + req.body.user)
+    console.log('Checking logged in status: accessToken ' + req.cookies.login_token + ', ' + req.cookies.login_id)
     that.redis.select(0);
     that.redis.hget('facebookmap', req.cookies.login_id, function(err, facebookId) {
         if (facebookId) {
