@@ -64,5 +64,5 @@ if (cluster.isMaster) {
         console.log('worker ' + worker.pid + ' died');
     });
 } else {
-    app.listen(80);
+    app.listen(3000);
 }
