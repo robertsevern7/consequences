@@ -474,6 +474,8 @@ exports.logon = function(req, res) {
                     that.redis.set(req.body.user, req.body.accessToken);
                     that.redis.hset('facebookmap', user.id, req.body.user);
                     that.redis.expire(req.body.user, 1800)
+                    console.log('Adding to session login_id: ' + user.id);
+                    console.log('Adding to session login_token: ' + req.body.accessToken);
                     res.cookie('login_id', user.id, { maxAge: 3600000, path: '/' });
                     res.cookie('login_token', req.body.accessToken, { maxAge: 3600000, path: '/' });
                     res.send({
