@@ -1,6 +1,6 @@
 var express = require('express')
 var cluster = require('cluster');
-var numCPUs = require('os').cpus().length;
+var numCPUs = 4;//require('os').cpus().length;
 var store = require('./routes/store');
 console.log(numCPUs + ' people can use this');
 var redis = require("redis"),
