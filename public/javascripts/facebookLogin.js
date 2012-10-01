@@ -50,7 +50,7 @@ function FacebookWrapper() {
 
                     $(document).trigger('loggedin', [loggedIn]);
 
-                    if (response.newLogin && document._requiresReload) {
+                    if (response.newLogin && $('#forceRefresh').length) {
                         window.location.reload();
                     }
                 }
