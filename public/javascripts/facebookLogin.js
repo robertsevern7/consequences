@@ -47,9 +47,10 @@ function FacebookWrapper() {
                     showAccountInfo();
                     $('.loggedon').show();
                     $('.loggedout').hide();
-                    $(document).trigger('loggedin', [loggedIn])
-                    
-                    if (response.newLogin) {
+
+                    $(document).trigger('loggedin', [loggedIn]);
+
+                    if (response.newLogin && document._requiresReload) {
                         window.location.reload();
                     }
                 }
