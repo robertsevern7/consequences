@@ -8,6 +8,22 @@ var redis = require("redis"),
 
 store.setRedis(client);
 
+var log4js = require('log4js');
+log4js.configure({
+  "appenders": [
+    {
+      "type": "file",
+      "filename": "logs/talepipe.log",
+      "maxLogSize": 1024000,
+      "backups": 5
+    }
+  ]
+})
+log4js.replaceConsole();
+var logger = log4js.getLogger();
+store.setLogger(logger);
+
+logger.info("Started the app");
 var app = module.exports = express.createServer(
   express.favicon('./public/images/favicon.ico', { maxAge: 2592000000 })
 );
