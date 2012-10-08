@@ -152,7 +152,7 @@ exports.userStories = function(req, res) {
 
     function renderStories(dbUser) {        
         res.render('storiesrenderer', {
-            title: 'TalePipe - User TalePipes',
+            title: 'TalePipe - User Tales',
             sortOrder: sortOrder,
             sortDirection: sortDir,
             page: page,
@@ -223,7 +223,7 @@ exports.allStories = function(req, res) {
 
 exports.friendsStories = function(req, res) {   
     res.render('friendsrenderer', {
-        title: 'TalePipe - Friends\' TalePipes'        
+        title: 'TalePipe - Friends\' Tales'        
     });
 }
 
