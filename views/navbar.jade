@@ -1,3 +1,4 @@
+include mixins/locationWidget
 mixin tab(text, link, extraclass)
     .tab(class="bigtab")
         a.nohighlight(href="#{link}") #{text}
@@ -23,3 +24,4 @@ mixin nonATab(text, id, extraclass)
                             #loginbar(class="fb-login-button loggedout", perms="email") Login
                             #logoutbar(class="loggedon")
             .clearfloats
+            mixin locationWidget()

@@ -1,14 +1,18 @@
-mixin locationWidget(location)
-    .locationWidget.container
-        - if (location === 'create')
-            .highlightedsection Create
-        - else
-            a(class="nohighlight", href="/create") Create
-        - if (location === 'contribute')
-            .highlightedsection Contribute
-        - else
-            .nohighlight Contribute
-        - if (location === 'read')
-            .highlightedsection Read
-        - else
-            a(class="nohighlight", href="/") Read
+mixin locationWidget()
+    .locationWidget
+        table.centerer2
+            tr
+                td.widgetSection(valign="bottom", align="center")
+                    img#create.widgetImage(height="60", width="60", src='/images/Page_Edit_White.png')
+                td.widgetSection(valign="bottom", align="center")
+                    img#contribute.widgetImage(height="60", width="60", src='/images/Page_Send.png')
+                td.widgetSection(valign="bottom", align="center")
+                    img#read.widgetImage(height="60", width="60", src='/images/Page_Finished.png')    
+            tr
+                td(valign="top", align="center")
+                    a#createText(class="nohighlight", href="/create") Create a tale
+                td(valign="top", align="center")
+                    span#contributeText.nohighlight Add to this tale
+                td(valign="top", align="center")
+                    a#readText(class="nohighlight", href="/") Explore the tales
+    .clearfloats

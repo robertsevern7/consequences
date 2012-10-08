@@ -120,22 +120,22 @@ a {
   overflow: visible;
 }
 .locationWidget {
-  box-shadow: 1px 3px 3px #333;
-  position: fixed;
-  padding: 20px 0 20px 0;
-  top: 200px;
-  width: 13%;
-  margin: 0px auto;
-  margin-left: 3px;
-  background-color: #333;
-  color: #d9d9d9;
-  font-size: 20px;
-  word-wrap: break-word;
-}
-.highlightedsection {
-  font-weight: bold;
-  text-align: center;
+  font-size: 15px;
   width: 100%;
+  padding: 20px;
+}
+.widgetSection {
+  align: center;
+  valign: bottom;
+  height: 100px;
+  width: 150px;
+}
+.activeArea {
+  font-size: 20px;
+}
+.nohighlight {
+  color: #d9d9d9;
+  text-decoration: none;
 }
 .leftfloat {
   float: left;
@@ -157,13 +157,6 @@ a {
   margin: 5px;
   padding: 3px;
   border-radius: 5px;
-}
-.nohighlight {
-  color: #d9d9d9;
-  text-decoration: none;
-  text-align: center;
-  width: 100%;
-  display: block;
 }
 .bottomtabtable {
   border-spacing: 0;
@@ -345,6 +338,10 @@ a {
   margin-left: auto;
   margin-right: auto;
   position: relative;
+}
+.centerer2 {
+  margin-left: auto;
+  margin-right: auto;
 }
 .picturetext {
   font-size: 20px;

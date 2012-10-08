@@ -31,7 +31,7 @@ exports.create = function(req, res) {
 
 exports.create_post_handler = function(req, res) {
     var failureHandler1 = function() {
-        console.log('Not logged in, can\'t save story');
+        that.logger.info('Not logged in, can\'t save story');
         res.send({
             success: false
         });
@@ -45,7 +45,7 @@ exports.create_post_handler = function(req, res) {
         };
         
         function failureHandler() {
-            console.log('calling the failure handler');
+            that.logger.info('calling the failure handler');
             res.send({
                 success: false,
                 user: story.user
@@ -53,7 +53,7 @@ exports.create_post_handler = function(req, res) {
         }
         
         function sendSuccessResponse(storyId) {            
-            console.log('Saved it');
+            that.logger.info('Saved it');
             res.send({
                 success: true,
                 savedId: storyId
@@ -82,7 +82,7 @@ exports.contribute_post_handler = function(req, res) {
         function addSection(story, totalSections) {
             sql.createSection(req.body.content, req.body.lastSectionId, story, userDb, function() {                
                 if (totalSections == (story.max_sections - 1)) {
-                    console.log('setting story ' + story.id + ' complete ' + story.max_sections + ', ' + totalSections);
+                    that.logger.info('setting story ' + story.id + ' complete ' + story.max_sections + ', ' + totalSections);
                     story.completed = true;
                     story.save();                    
                     emailCompleteStory(storyId);                    
@@ -98,7 +98,7 @@ exports.contribute_post_handler = function(req, res) {
         
         function setStoryComplete(totalSections) {            
             sql.getStory(storyId, function(story) {
-                console.log('there are ' + story.max_sections + ' sections allowed, and ' + totalSections + ' used');
+                that.logger.info('there are ' + story.max_sections + ' sections allowed, and ' + totalSections + ' used');
                 if (totalSections < story.max_sections) {                    
                     addSection(story, totalSections);
                 } else {
@@ -140,7 +140,7 @@ exports.like_post_handler = function(req, res) {
         story.save();
         res.send();
     }, res.send)
-    console.log('liking ' + req.body.storyId);    
+    that.logger.info('liking ' + req.body.storyId);    
 }
 
 exports.userStories = function(req, res) {    
@@ -179,16 +179,16 @@ exports.userStories = function(req, res) {
         }
             
         function getStoryPage(totalStories) {
-            console.log('There are ' + totalStories + ' stories');
+            that.logger.info('There are ' + totalStories + ' stories');
             if (totalStories) {
                 totalPages = totalStories && Math.ceil(totalStories/PAGE_SIZE);
-                console.log('Get stories for user ' + user + ' totalPages = ' + totalPages)
+                that.logger.info('Get stories for user ' + user + ' totalPages = ' + totalPages)
                 sql.getStories(user, page, PAGE_SIZE, sortOrder, sortDir, getUser, failureHandler);
             } else {
                 renderStories([]);
             }
         }
-        console.log('Counting stories for user ' + user);
+        that.logger.info('Counting stories for user ' + user);
         sql.getUserStoryCount(user, getStoryPage, failureHandler);        
     }, failureHandler);
     
@@ -214,7 +214,7 @@ exports.allStories = function(req, res) {
         
     function getStoryPage(totalStories) {       
         totalPages = totalStories && Math.ceil(totalStories/PAGE_SIZE);
-        console.log('Get all stories page')
+        that.logger.info('Get all stories page')
         sql.getStories('', page, PAGE_SIZE, sortOrder, sortDir, renderStories);
     }    
     
@@ -228,7 +228,7 @@ exports.friendsStories = function(req, res) {
 }
 
 exports.friendsRetrieval = function(req, res) {
-    console.log('Replying to getfriends')
+    that.logger.info('Replying to getfriends')
     var friendIds = req.body.users;
     
     function noFriends() {
@@ -294,30 +294,30 @@ exports.story = function(req, res) {
     }
 
     var _renderStory = function(story) {
-        console.log('Rendering hasContributed: ' + hasContributed + ', hasLock ' + hasLock)
+        that.logger.info('Rendering hasContributed: ' + hasContributed + ', hasLock ' + hasLock)
         renderStory(story, hasContributed, hasLock, lockedTime, res, undefined, undefined, loggedIn);
     }
 
     var failureHandler = function() {
-        console.log('Not logged in')
+        that.logger.info('Not logged in')
         loggedIn = false;
         sql.getFullStory(storyId, page, false, _renderStory, missingStory);
     }
     
     exports.isLoggedIn(req, res, function(facebookId, authToken) {
         sql.hasContributed(storyId, req.cookies.login_id, function(contributed) {
-            console.log('Contributed: ' + contributed);
+            that.logger.info('Contributed: ' + contributed);
             hasContributed = contributed;
-            console.log('hasContributed set ' + hasContributed)
+            that.logger.info('hasContributed set ' + hasContributed)
             if (!hasContributed) {
                 that.redis.select(1);
-                console.log('getting story ' + storyId)
+                that.logger.info('getting story ' + storyId)
                 that.redis.get(storyId, function(err, storyLock) {
                     storyLock = storyLock && JSON.parse(storyLock);
                     hasLock = !(storyLock && storyLock.userId !== req.cookies.login_id);
                     if (hasLock) {
                         lockedTime = (new Date()).getTime();
-                        console.log('Setting lock ' + storyId)
+                        that.logger.info('Setting lock ' + storyId)
                         that.redis.set(storyId, JSON.stringify({
                             lockTime: lockedTime,
                             userId: req.cookies.login_id
@@ -416,14 +416,18 @@ exports.setRedis = function(redis) {
     that.redis = redis;  
 }
 
+exports.setLogger = function(logger) {
+    that.logger = logger;
+}
+
 exports.isLoggedIn = function(req, res, successCallback, failureCallback) {
-    console.log('Checking logged in status: accessToken ' + req.cookies.login_token + ', ' + req.cookies.login_id)
+    that.logger.info('Checking logged in status: accessToken ' + req.cookies.login_token + ', ' + req.cookies.login_id)
     that.redis.select(0);
     that.redis.hget('facebookmap', req.cookies.login_id, function(err, facebookId) {
         if (facebookId) {
             that.redis.get(facebookId, function(err, authToken) {
-                console.log('cookies: ' + req.cookies.login_token)
-                console.log('authToken: ' + authToken)
+                that.logger.info('cookies: ' + req.cookies.login_token)
+                that.logger.info('authToken: ' + authToken)
                 if (req.cookies.login_token === authToken) {
                     successCallback(facebookId, authToken);
                 } else {
@@ -434,7 +438,7 @@ exports.isLoggedIn = function(req, res, successCallback, failureCallback) {
                 }
             });
         } else {
-            console.log('No facebook id');
+            that.logger.info('No facebook id');
             res.clearCookie('login_id');
             res.clearCookie('login_token');
             failureCallback && failureCallback();
@@ -459,23 +463,23 @@ exports.logon = function(req, res) {
     that.redis.select(0);
     that.redis.get(req.body.user, function(err, token) {
         if (token === req.body.accessToken) {
-            console.log('Already logged');
+            that.logger.info('Already logged');
             res.send({
                 success: true                    
             })
             return;
         }
         
-        console.log('Logon called');
+        that.logger.info('Logon called');
         exports.authenticate(req, res, function(success, email) {        
-            console.log(success)
+            that.logger.info(success)
             if (success) {
                 sql.createUser(req.body.user, email, 'FACEBOOK', function(user) {                  
                     that.redis.set(req.body.user, req.body.accessToken);
                     that.redis.hset('facebookmap', user.id, req.body.user);
                     that.redis.expire(req.body.user, 1800)
-                    console.log('Adding to session login_id: ' + user.id);
-                    console.log('Adding to session login_token: ' + req.body.accessToken);
+                    that.logger.info('Adding to session login_id: ' + user.id);
+                    that.logger.info('Adding to session login_token: ' + req.body.accessToken);
                     var exdate=new Date();
                     exdate.setDate(exdate.getDate() + 1);
 
