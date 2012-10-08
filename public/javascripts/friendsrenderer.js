@@ -48,7 +48,7 @@ function FriendsRenderer() {
                 $('#storywindow').empty();
                 
                 if (response.stories.length) {
-                    $('#storywindow').append('<h3>' + htmlEncode(userName) + '\'s TalePipes<h3>');
+                    $('#storywindow').append('<h3>' + htmlEncode(userName) + '\'s Tales<h3>');
                     for (var i = 0, len=response.stories.length; i < len; ++i) {
                         var story = response.stories[i];
                         var title = story.title;
