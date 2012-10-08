@@ -11,4 +11,12 @@ $(document).ready(function() {
 	} else {
 		addActive('read', 'readText');
 	}
+
+	$('#create').click(function() {
+		document.location = '/create';
+	});
+
+	$('#read').click(function() {
+		document.location = '/';
+	});
 });
