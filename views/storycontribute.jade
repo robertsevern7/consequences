@@ -14,15 +14,16 @@ include mixins/storymixins
             div(class='useridentifier', userId='#{owner}')
         br
         div(class="lockwarning loggedon")
-            if hasLock
+            - if (hasLock)
                 div It's your turn to tell the story!
-            else
+                br
+            - else if (!notLoggedOnRetrieval)
                 div Looks like someone else is adding to this story right now! Please try later
                 - if (lockTime)
                     div
                         span Time left: 
                         span(id='countdown', lockTime='#{lockTime}')
-            br
+                br
         - if (totalSections)
              div You are writing section #{nextSection} out of #{totalSections}
 
@@ -40,7 +41,7 @@ include mixins/storymixins
                         div(class='useridentifier', userId='#{snippet.contributor}')
                     td
                         img(class='userimage', userId='#{snippet.contributor}')
-        if hasLock
+        - if (hasLock)
             .loggedon
                 .optionholder
                     div
@@ -55,7 +56,10 @@ include mixins/storymixins
                 br
             .loggedon
                 #contributebutton(lastSectionId="#{lastSectionId}") Contribute to this Tale!
-        .loggedout
+        - if (notLoggedOnRetrieval)
             .gonebad Looks like you're logged out! Please log in via Facebook to contribute
+        - else 
+            .loggedout
+                .gonebad Looks like you're logged out! Please log in via Facebook to contribute
     .push
 include footer
