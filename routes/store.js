@@ -295,7 +295,7 @@ exports.story = function(req, res) {
 
     var _renderStory = function(story) {
         that.logger.info('Rendering hasContributed: ' + hasContributed + ', hasLock ' + hasLock)
-        renderStory(story, hasContributed, hasLock, lockedTime, res, undefined, undefined, loggedIn);
+        renderStory(story, hasContributed, hasLock, lockedTime, res, undefined, undefined, loggedIn, req);
     }
 
     var failureHandler = function() {
@@ -337,7 +337,7 @@ exports.story = function(req, res) {
     }, failureHandler);
 }
 
-var renderStory = function(story, hasContributed, hasLock, lockedTime, res, renderer, title, loggedIn) {
+var renderStory = function(story, hasContributed, hasLock, lockedTime, res, renderer, title, loggedIn, req) {
     var seedInfo = story.seedInfo && JSON.parse(story.seedInfo);
     var page = story.page;
     var totalPages = story.totalPages;
@@ -363,6 +363,7 @@ var renderStory = function(story, hasContributed, hasLock, lockedTime, res, rend
         var sections = story.sections;            
         var lastSection = sections[sections.length - 1];
         var lastContent = lastSection && lastSection.content || '';
+        
         var storyInfo = {
             storyId: story.id,
             owner: story.user && story.user.userId,
@@ -379,7 +380,8 @@ var renderStory = function(story, hasContributed, hasLock, lockedTime, res, rend
             },
             hasLock: hasLock,
             lockTime: lockedTime,
-            loggedIn: loggedIn
+            loggedIn: loggedIn,
+            notLoggedOnRetrieval: !(req && req.cookies.login_id)
         };
 
         res.render(renderer || 'storycontribute', storyInfo);
