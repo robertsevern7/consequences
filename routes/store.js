@@ -69,6 +69,10 @@ emailCompleteStory = function(storyId) {
     sql.getFullStory(storyId, -1, true, mailer.sendCompleteMessage);
 }
 
+emailUnfinishedStory = function(storyId) {
+    sql.getFullStory(storyId, -1, true, mailer.sendUnfinishedMessage);
+}
+
 exports.contribute_post_handler = function(req, res) {
     var storyId = req.body.storyId - 0;
     var userDb;
@@ -86,6 +90,8 @@ exports.contribute_post_handler = function(req, res) {
                     story.completed = true;
                     story.save();                    
                     emailCompleteStory(storyId);                    
+                } else if (storyId != -1 && story.max_sections) {
+                    emailUnfinishedStory(storyId);
                 }
                 that.redis.select(1);
                 that.redis.del(storyId);
